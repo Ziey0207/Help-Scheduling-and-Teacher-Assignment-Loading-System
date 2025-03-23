@@ -190,7 +190,7 @@
 
         }
 
-        #endregion
+        #endregion Component Designer generated code
 
         private ReaLTaiizor.Controls.Panel panel1;
         private System.Windows.Forms.Label label1;
