@@ -38,14 +38,43 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void LoadData(string searchText = "")
         {
-            string tableName, query;
+            string query;
             if (isFaculty)
             {
-                query = $"SELECT * FROM faculty WHERE last_name LIKE @searchText";
+                if (string.IsNullOrEmpty(searchText))
+                {
+                    query = $@"
+                SELECT
+                    id,
+                    id_no,
+                    CONCAT(last_name, ', ', first_name, ' ', middle_name) AS name,
+                    email,
+                    contact_number
+                FROM faculty";
+                }
+                else
+                {
+                    query = $@"
+                SELECT
+                    id,
+                    id_no,
+                    CONCAT(last_name, ', ', first_name, ' ', middle_name) AS name,
+                    email,
+                    contact_number
+                FROM faculty
+                WHERE last_name LIKE @searchText or first_name LIKE @searchText OR middle_name LIKE @searchText";
+                }
             }
             else if (isAdmin)
             {
-                query = $"SELECT * FROM admins WHERE username LIKE @searchText";
+                if (string.IsNullOrEmpty(searchText))
+                {
+                    query = $"SELECT * FROM admins";
+                }
+                else
+                {
+                    query = $"SELECT * FROM admins WHERE username LIKE @searchText OR email LIKE @searchText";
+                }
             }
             else
             {
@@ -58,34 +87,107 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             {
                 DataTable dt = new DataTable();
                 dt.Load(reader);
-                poisonDataGridView1.DataSource = dt;
+
+                // Disable auto-generated columns
+                dataGridView1.AutoGenerateColumns = false;
+
+                // Clear existing columns
+                dataGridView1.Columns.Clear();
+
+                // Bind the DataTable to the DataGridView
+                dataGridView1.DataSource = dt;
+
+                // Adjust columns based on the view
                 AdjustColumns();
             }
         }
 
         private void AdjustColumns()
         {
-            poisonDataGridView1.Columns.Clear();
+            dataGridView1.Columns.Clear();
 
             if (isFaculty)
             {
-                poisonDataGridView1.Columns.Add("id", "ID");
-                poisonDataGridView1.Columns.Add("id_no", "ID No");
-                poisonDataGridView1.Columns.Add("name", "Name");
-                poisonDataGridView1.Columns.Add("email", "Email");
-                poisonDataGridView1.Columns.Add("contact", "Contact");
-                poisonDataGridView1.Columns.Add("action", "Action");
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "id",
+                    HeaderText = "ID",
+                    DataPropertyName = "id" // Bind to the "id" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "id_no",
+                    HeaderText = "ID No",
+                    DataPropertyName = "id_no" // Bind to the "id_no" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "name",
+                    HeaderText = "Name",
+                    DataPropertyName = "name" // Bind to the "name" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "email",
+                    HeaderText = "Email",
+                    DataPropertyName = "email" // Bind to the "email" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "contact",
+                    HeaderText = "Contact",
+                    DataPropertyName = "contact_number" // Bind to the "contact_number" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewButtonColumn
+                {
+                    Name = "action",
+                    HeaderText = "Action",
+                    Text = "Edit",
+                    UseColumnTextForButtonValue = true
+                });
             }
             else if (isAdmin)
             {
-                poisonDataGridView1.Columns.Add("id", "ID");
-                poisonDataGridView1.Columns.Add("username", "Username");
-                poisonDataGridView1.Columns.Add("email", "Email");
-                poisonDataGridView1.Columns.Add("contact_number", "Contact Number");
-                poisonDataGridView1.Columns.Add("password", "Password");
-            }
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "id",
+                    HeaderText = "ID",
+                    DataPropertyName = "id" // Bind to the "id" column in the DataTable
+                });
 
-            poisonDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "username",
+                    HeaderText = "Username",
+                    DataPropertyName = "username" // Bind to the "username" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "email",
+                    HeaderText = "Email",
+                    DataPropertyName = "email" // Bind to the "email" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "contact_number",
+                    HeaderText = "Contact Number",
+                    DataPropertyName = "contact_number" // Bind to the "contact_number" column in the DataTable
+                });
+
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "password",
+                    HeaderText = "Password",
+                    DataPropertyName = "password" // Bind to the "password" column in the DataTable
+                });
+            }
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
