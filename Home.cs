@@ -121,6 +121,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private void ForgotPassword_Click(object sender, EventArgs e)
         {
             // is ricky na dito
+  
+
+            Forgot fr = new Forgot();
+            fr.Show();
+
         }
 
         private void txtLoginPass_KeyDown(object sender, KeyEventArgs e)
