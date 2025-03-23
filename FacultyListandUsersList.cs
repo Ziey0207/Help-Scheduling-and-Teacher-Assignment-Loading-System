@@ -33,6 +33,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     txtHeaderMain.Text = "Users List";
                     break;
             }
+
+            btnDelete.Visible = false;
+            btnEdit.Visible = false;
+            btnView.Visible = false;
+
             LoadData();
         }
 
@@ -44,25 +49,27 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 if (string.IsNullOrEmpty(searchText))
                 {
                     query = $@"
-                SELECT
-                    id,
-                    id_no,
-                    CONCAT(last_name, ', ', first_name, ' ', middle_name) AS name,
-                    email,
-                    contact_number
-                FROM faculty";
+                        SELECT
+                            id,
+                            id_no,
+                            CONCAT(last_name, ', ', first_name, ' ', middle_name) AS name,
+                            email,
+                            contact_number,
+                            is_active
+                        FROM faculty";
                 }
                 else
                 {
                     query = $@"
-                SELECT
-                    id,
-                    id_no,
-                    CONCAT(last_name, ', ', first_name, ' ', middle_name) AS name,
-                    email,
-                    contact_number
-                FROM faculty
-                WHERE last_name LIKE @searchText or first_name LIKE @searchText OR middle_name LIKE @searchText";
+                        SELECT
+                            id,
+                            id_no,
+                            CONCAT(last_name, ', ', first_name, ' ', middle_name) AS name,
+                            email,
+                            contact_number,
+                            is_active
+                        FROM faculty
+                        WHERE last_name LIKE @searchText OR first_name LIKE @searchText OR middle_name LIKE @searchText";
                 }
             }
             else if (isAdmin)
@@ -80,6 +87,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             {
                 return;
             }
+
             using (MySqlDataReader reader = DatabaseHelper.ExecuteReader(query, new MySqlParameter[]
             {
                 new MySqlParameter("@searchText", $"%{searchText}%")
@@ -143,12 +151,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     DataPropertyName = "contact_number" // Bind to the "contact_number" column in the DataTable
                 });
 
-                dataGridView1.Columns.Add(new DataGridViewButtonColumn
+                dataGridView1.Columns.Add(new DataGridViewCheckBoxColumn
                 {
-                    Name = "action",
-                    HeaderText = "Action",
-                    Text = "Edit",
-                    UseColumnTextForButtonValue = true
+                    Name = "is_active",
+                    HeaderText = "Active",
+                    DataPropertyName = "is_active",
+                    ReadOnly = true
                 });
             }
             else if (isAdmin)
@@ -193,6 +201,117 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             LoadData(txtSearch.Text);
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            bool isRowSelected = dataGridView1.SelectedRows.Count > 0;
+
+            // Show Edit and Delete buttons if a row is selected
+            btnEdit.Visible = isRowSelected;
+            btnDelete.Visible = isRowSelected;
+
+            // Show View button only for faculty and if a row is selected
+            btnView.Visible = isFaculty && isRowSelected;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (isFaculty)
+            {
+                OpenEditAddForm(0, -1);
+            }
+            else if (isAdmin)
+            {
+                OpenEditAddForm(1, -1);
+            }
+
+            LoadData();
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value);
+                if (isFaculty)
+                {
+                    OpenEditAddForm(0, recordId: id);
+                }
+                else if (isAdmin)
+                {
+                    OpenEditAddForm(1, recordId: id);
+                }
+                LoadData();
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value);
+                DeleteRecord(id);
+            }
+        }
+
+        private void btnView_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value);
+                OpenViewForm(id);
+            }
+        }
+
+        private void OpenEditAddForm(int state, int recordId = -1)
+        {
+            EdiitAddFacultyAndAdmins editAddForm = new EdiitAddFacultyAndAdmins(state, recordId);
+            editAddForm.Show();
+            // Refresh the DataGridView after the form is closed
+            LoadData();
+        }
+
+        private void OpenViewForm(int id)
+        {
+            ViewFaculty viewForm = new ViewFaculty(id)
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
+            viewForm.ShowDialog();
+        }
+
+        private void DeleteRecord(int id)
+        {
+            string tableName = "";
+            if (isFaculty)
+            {
+                tableName = "faculty";
+            }
+            else if (isAdmin)
+            {
+                tableName = "admins";
+            }
+            string query = $"DELETE FROM {tableName} WHERE id = @id";
+
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this record?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                int rowsAffected = DatabaseHelper.ExecuteNonQuery(query, new MySqlParameter[]
+                {
+                    new MySqlParameter("@id", id)
+                });
+
+                if (rowsAffected > 0)
+                {
+                    MessageBox.Show("Record deleted successfully!");
+                    LoadData(); // Refresh the DataGridView
+                }
+                else
+                {
+                    MessageBox.Show("Failed to delete record.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void FacultyListandUsersList_Load(object sender, EventArgs e)
