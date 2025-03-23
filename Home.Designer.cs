@@ -67,7 +67,7 @@
             this.airForm1.Name = "airForm1";
             this.airForm1.NoRounding = false;
             this.airForm1.Sizable = true;
-            this.airForm1.Size = new System.Drawing.Size(1439, 842);
+            this.airForm1.Size = new System.Drawing.Size(1366, 768);
             this.airForm1.SmartBounds = true;
             this.airForm1.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.airForm1.TabIndex = 0;
@@ -84,7 +84,7 @@
             this.metroControlBox1.DefaultLocation = ReaLTaiizor.Enum.Metro.LocationType.Edge;
             this.metroControlBox1.DisabledForeColor = System.Drawing.Color.DimGray;
             this.metroControlBox1.IsDerivedStyle = true;
-            this.metroControlBox1.Location = new System.Drawing.Point(1339, 0);
+            this.metroControlBox1.Location = new System.Drawing.Point(1266, 0);
             this.metroControlBox1.MaximizeBox = true;
             this.metroControlBox1.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.metroControlBox1.MaximizeHoverForeColor = System.Drawing.Color.Gray;
@@ -112,7 +112,7 @@
             this.panel1.ForeColor = System.Drawing.Color.White;
             this.panel1.Location = new System.Drawing.Point(3, 31);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1433, 808);
+            this.panel1.Size = new System.Drawing.Size(1360, 734);
             this.panel1.TabIndex = 0;
             // 
             // pictureBox1
@@ -125,7 +125,7 @@
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pictureBox1.Location = new System.Drawing.Point(630, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(800, 802);
+            this.pictureBox1.Size = new System.Drawing.Size(727, 728);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
@@ -146,7 +146,7 @@
             this.LoginPanel.Controls.Add(this.txtLoginUser);
             this.LoginPanel.Location = new System.Drawing.Point(0, 0);
             this.LoginPanel.Name = "LoginPanel";
-            this.LoginPanel.Size = new System.Drawing.Size(624, 808);
+            this.LoginPanel.Size = new System.Drawing.Size(624, 734);
             this.LoginPanel.TabIndex = 1;
             // 
             // txtLoginError
@@ -322,7 +322,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.ClientSize = new System.Drawing.Size(1439, 842);
+            this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.airForm1);
             this.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

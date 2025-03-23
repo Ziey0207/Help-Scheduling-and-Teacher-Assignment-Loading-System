@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ReShowPass = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.Login = new System.Windows.Forms.Label();
             this.btnConfirm = new ReaLTaiizor.Controls.HopeButton();
@@ -43,7 +44,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtUsername = new ReaLTaiizor.Controls.HopeTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ReShowPass = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ReShowPass)).BeginInit();
             this.SuspendLayout();
@@ -72,6 +72,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(624, 808);
             this.panel1.TabIndex = 0;
+            // 
+            // ReShowPass
+            // 
+            this.ReShowPass.Image = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.eye_slash_solid;
+            this.ReShowPass.Location = new System.Drawing.Point(559, 441);
+            this.ReShowPass.Name = "ReShowPass";
+            this.ReShowPass.Size = new System.Drawing.Size(40, 35);
+            this.ReShowPass.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.ReShowPass.TabIndex = 23;
+            this.ReShowPass.TabStop = false;
+            this.ReShowPass.Click += new System.EventHandler(this.ReShowPass_Click);
             // 
             // label6
             // 
@@ -326,17 +337,6 @@
             this.label1.Text = "Username";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // ReShowPass
-            // 
-            this.ReShowPass.Image = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.eye_slash_solid;
-            this.ReShowPass.Location = new System.Drawing.Point(559, 441);
-            this.ReShowPass.Name = "ReShowPass";
-            this.ReShowPass.Size = new System.Drawing.Size(40, 35);
-            this.ReShowPass.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ReShowPass.TabIndex = 23;
-            this.ReShowPass.TabStop = false;
-            this.ReShowPass.Click += new System.EventHandler(this.ReShowPass_Click);
-            // 
             // SignUpPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -347,7 +347,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SignUpPanel";
-            this.Size = new System.Drawing.Size(624, 808);
+            this.Size = new System.Drawing.Size(624, 734);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ReShowPass)).EndInit();

@@ -36,8 +36,8 @@
             this.btnCourse = new ReaLTaiizor.Controls.ParrotButton();
             this.btnSubject = new ReaLTaiizor.Controls.ParrotButton();
             this.btnFaculty = new ReaLTaiizor.Controls.ParrotButton();
-            this.btnSchedule = new ReaLTaiizor.Controls.ParrotButton();
             this.btnUsers = new ReaLTaiizor.Controls.ParrotButton();
+            this.btnSchedule = new ReaLTaiizor.Controls.ParrotButton();
             this.airForm1.SuspendLayout();
             this.Area.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -60,7 +60,7 @@
             this.airForm1.Name = "airForm1";
             this.airForm1.NoRounding = false;
             this.airForm1.Sizable = true;
-            this.airForm1.Size = new System.Drawing.Size(1487, 845);
+            this.airForm1.Size = new System.Drawing.Size(1366, 768);
             this.airForm1.SmartBounds = true;
             this.airForm1.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.airForm1.TabIndex = 1;
@@ -78,7 +78,7 @@
             this.metroControlBox1.DefaultLocation = ReaLTaiizor.Enum.Metro.LocationType.Edge;
             this.metroControlBox1.DisabledForeColor = System.Drawing.Color.DimGray;
             this.metroControlBox1.IsDerivedStyle = true;
-            this.metroControlBox1.Location = new System.Drawing.Point(1387, 0);
+            this.metroControlBox1.Location = new System.Drawing.Point(1266, 0);
             this.metroControlBox1.MaximizeBox = true;
             this.metroControlBox1.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
             this.metroControlBox1.MaximizeHoverForeColor = System.Drawing.Color.Gray;
@@ -105,7 +105,7 @@
             this.Area.Controls.Add(this.flowLayoutPanel2);
             this.Area.Location = new System.Drawing.Point(12, 37);
             this.Area.Name = "Area";
-            this.Area.Size = new System.Drawing.Size(1463, 796);
+            this.Area.Size = new System.Drawing.Size(1342, 719);
             this.Area.TabIndex = 4;
             // 
             // flowLayoutPanel2
@@ -232,32 +232,6 @@
             this.btnFaculty.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.btnFaculty.Click += new System.EventHandler(this.btnFaculty_Click);
             // 
-            // btnSchedule
-            // 
-            this.btnSchedule.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
-            this.btnSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSchedule.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.calendar_month_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
-            this.btnSchedule.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
-            this.btnSchedule.ButtonText = "Schedule";
-            this.btnSchedule.ClickBackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnSchedule.ClickTextColor = System.Drawing.Color.Black;
-            this.btnSchedule.CornerRadius = 10;
-            this.btnSchedule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSchedule.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSchedule.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
-            this.btnSchedule.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
-            this.btnSchedule.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
-            this.btnSchedule.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnSchedule.Location = new System.Drawing.Point(5, 275);
-            this.btnSchedule.Name = "btnSchedule";
-            this.btnSchedule.Padding = new System.Windows.Forms.Padding(5);
-            this.btnSchedule.Size = new System.Drawing.Size(135, 48);
-            this.btnSchedule.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.btnSchedule.TabIndex = 3;
-            this.btnSchedule.TextColor = System.Drawing.Color.White;
-            this.btnSchedule.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.btnSchedule.Vertical_Alignment = System.Drawing.StringAlignment.Center;
-            // 
             // btnUsers
             // 
             this.btnUsers.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
@@ -285,11 +259,37 @@
             this.btnUsers.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click);
             // 
+            // btnSchedule
+            // 
+            this.btnSchedule.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            this.btnSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSchedule.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.calendar_month_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
+            this.btnSchedule.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.btnSchedule.ButtonText = "Schedule";
+            this.btnSchedule.ClickBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnSchedule.ClickTextColor = System.Drawing.Color.Black;
+            this.btnSchedule.CornerRadius = 10;
+            this.btnSchedule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSchedule.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSchedule.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnSchedule.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.btnSchedule.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
+            this.btnSchedule.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.btnSchedule.Location = new System.Drawing.Point(5, 275);
+            this.btnSchedule.Name = "btnSchedule";
+            this.btnSchedule.Padding = new System.Windows.Forms.Padding(5);
+            this.btnSchedule.Size = new System.Drawing.Size(135, 48);
+            this.btnSchedule.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.btnSchedule.TabIndex = 3;
+            this.btnSchedule.TextColor = System.Drawing.Color.White;
+            this.btnSchedule.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.btnSchedule.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            // 
             // AdminDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1487, 845);
+            this.ClientSize = new System.Drawing.Size(1366, 768);
             this.Controls.Add(this.airForm1);
             this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
