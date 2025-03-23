@@ -17,10 +17,13 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         string connString = "server=localhost;database=school_management;uid=root;pwd=;";
 
         public static string static_day;
+        private DateTime currentDate;
 
-        public UserControlDays()
+
+        public UserControlDays(DateTime date)
         {
             InitializeComponent();
+            currentDate = date;
         }
 
         private void UserControlDays_Load(object sender, EventArgs e)
@@ -30,7 +33,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         public void days(int numday)
         {
-            lbdays.Text = numday + "";
+            lbdays.Text = numday.ToString();
+            displayEvent();
         }
 
         private void lbdays_Click(object sender, EventArgs e)
@@ -40,11 +44,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void UserControlDays_Click(object sender, EventArgs e)
         {
-            timer1.Start();
-            string selectedDate = ScheduleCalendar.static_year + "-" + ScheduleCalendar.static_month.ToString("D2") + "-" + lbdays.Text.PadLeft(2, '0');
 
-            addschedule sched = new addschedule(selectedDate); // Ipadala ang buong date
-            sched.Show();
+            string selectedDate = currentDate.ToString("yyyy-MM-dd");
+
+            addschedule sched = new addschedule(selectedDate);
+            sched.ShowDialog();  // Use ShowDialog instead of Show to prevent duplicate instances
+            displayEvent();
         }
 
         private void lblSchedule_Click(object sender, EventArgs e)
@@ -54,38 +59,41 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         public void displayEvent()
         {
-            lbevent.Text = ""; // Clear previous event before loading new one
+            lbevent.Text = ""; // Clear previous events before loading new ones.
 
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
                 conn.Open();
 
-                // Construct the full date using the selected year, month, and day
-                string fullDate = $"{ScheduleCalendar.static_year}-{ScheduleCalendar.static_month:00}-{lbdays.Text.PadLeft(2, '0')}";
+                string fullDate = currentDate.ToString("yyyy-MM-dd"); // Gamitin ang tamang petsa
 
-                // Query to fetch events for the specific date
-                string sql = "SELECT subject, teacher, time, room FROM tbl_calendar WHERE date = @date";
+                string sql = "SELECT subject, teacher, time, room FROM schedules WHERE date = @date";
                 using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@date", fullDate); // Use the full date as a parameter
+                    cmd.Parameters.AddWithValue("@date", fullDate);
+
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        if (reader.HasRows)
                         {
-                            // Display the event details
-                            lbevent.Text = $"Subject: {reader["subject"]}\n" +
-                                           $"Teacher: {reader["teacher"]}\n" +
-                                           $"Time: {reader["time"]}\n" +
-                                           $"Room: {reader["room"]}";
+                            StringBuilder eventDetails = new StringBuilder();
+                            while (reader.Read())
+                            {
+                                eventDetails.AppendLine($"{reader["subject"]}");
+                                eventDetails.AppendLine($"{reader["teacher"]}");
+                                eventDetails.AppendLine($"{reader["time"]}");
+                                eventDetails.AppendLine($"{reader["room"]}");
+                                eventDetails.AppendLine("---------------------------");
+                            }
+                            lbevent.Text = eventDetails.ToString();
                         }
-                        else
-                        {
-                            lbevent.Text = "No events scheduled."; // Display if no events are found
-                        }
+                            
                     }
                 }
             }
         }
+
+
 
 
         private void timer1_Tick(object sender, EventArgs e)

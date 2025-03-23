@@ -47,10 +47,10 @@
             // lbevent
             // 
             this.lbevent.AutoSize = true;
-            this.lbevent.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbevent.Location = new System.Drawing.Point(5, 13);
+            this.lbevent.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbevent.Location = new System.Drawing.Point(5, 19);
             this.lbevent.Name = "lbevent";
-            this.lbevent.Size = new System.Drawing.Size(15, 16);
+            this.lbevent.Size = new System.Drawing.Size(14, 15);
             this.lbevent.TabIndex = 1;
             this.lbevent.Text = "?";
             this.lbevent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
