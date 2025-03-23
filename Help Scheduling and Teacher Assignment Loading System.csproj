@@ -103,6 +103,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="addschedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="addschedule.Designer.cs">
+      <DependentUpon>addschedule.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdminDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,21 @@
     <Compile Include="FacultyListandUsersList.Designer.cs">
       <DependentUpon>FacultyListandUsersList.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControlBlank.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlBlank.Designer.cs">
+      <DependentUpon>UserControlBlank.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlDays.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlDays.Designer.cs">
+      <DependentUpon>UserControlDays.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="addschedule.resx">
+      <DependentUpon>addschedule.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="ViewFaculty.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +250,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SignUpPanel.resx">
       <DependentUpon>SignUpPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlBlank.resx">
+      <DependentUpon>UserControlBlank.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlDays.resx">
+      <DependentUpon>UserControlDays.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewFaculty.resx">
       <DependentUpon>ViewFaculty.cs</DependentUpon>
