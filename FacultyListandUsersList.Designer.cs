@@ -28,18 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.SwitchArea = new ReaLTaiizor.Controls.Panel();
-            this.ListFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.poisonDataGridView1 = new ReaLTaiizor.Controls.PoisonDataGridView();
+            this.HeaderPanel = new System.Windows.Forms.Panel();
             this.txtHeaderMain = new System.Windows.Forms.Label();
             this.panel1 = new ReaLTaiizor.Controls.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtCourseSearch = new ReaLTaiizor.Controls.HopeTextBox();
-            this.Header = new ReaLTaiizor.Controls.Panel();
-            this.HeaderFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.txtSearch = new ReaLTaiizor.Controls.HopeTextBox();
             this.SwitchArea.SuspendLayout();
-            this.ListFlow.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.poisonDataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
-            this.Header.SuspendLayout();
             this.SuspendLayout();
             // 
             // SwitchArea
@@ -48,7 +49,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SwitchArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.SwitchArea.Controls.Add(this.ListFlow);
+            this.SwitchArea.Controls.Add(this.poisonDataGridView1);
+            this.SwitchArea.Controls.Add(this.HeaderPanel);
             this.SwitchArea.Controls.Add(this.txtHeaderMain);
             this.SwitchArea.Controls.Add(this.panel1);
             this.SwitchArea.EdgeColor = System.Drawing.Color.Black;
@@ -56,26 +58,65 @@
             this.SwitchArea.Margin = new System.Windows.Forms.Padding(2);
             this.SwitchArea.Name = "SwitchArea";
             this.SwitchArea.Padding = new System.Windows.Forms.Padding(5);
-            this.SwitchArea.Size = new System.Drawing.Size(1304, 785);
+            this.SwitchArea.Size = new System.Drawing.Size(1176, 716);
             this.SwitchArea.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.SwitchArea.TabIndex = 3;
             this.SwitchArea.Text = "panel2";
             // 
-            // ListFlow
+            // poisonDataGridView1
             // 
-            this.ListFlow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.poisonDataGridView1.AllowUserToResizeRows = false;
+            this.poisonDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListFlow.AutoScroll = true;
-            this.ListFlow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
-            this.ListFlow.Controls.Add(this.Header);
-            this.ListFlow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.ListFlow.Location = new System.Drawing.Point(10, 124);
-            this.ListFlow.Name = "ListFlow";
-            this.ListFlow.Padding = new System.Windows.Forms.Padding(10);
-            this.ListFlow.Size = new System.Drawing.Size(1286, 652);
-            this.ListFlow.TabIndex = 11;
-            this.ListFlow.WrapContents = false;
+            this.poisonDataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.poisonDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.poisonDataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.poisonDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.poisonDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.poisonDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.poisonDataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            this.poisonDataGridView1.EnableHeadersVisualStyles = false;
+            this.poisonDataGridView1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.poisonDataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.poisonDataGridView1.Location = new System.Drawing.Point(8, 162);
+            this.poisonDataGridView1.Name = "poisonDataGridView1";
+            this.poisonDataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.poisonDataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.poisonDataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.poisonDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.poisonDataGridView1.Size = new System.Drawing.Size(1160, 546);
+            this.poisonDataGridView1.TabIndex = 11;
+            // 
+            // HeaderPanel
+            // 
+            this.HeaderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.HeaderPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.HeaderPanel.Location = new System.Drawing.Point(8, 126);
+            this.HeaderPanel.Name = "HeaderPanel";
+            this.HeaderPanel.Size = new System.Drawing.Size(1160, 30);
+            this.HeaderPanel.TabIndex = 0;
             // 
             // txtHeaderMain
             // 
@@ -94,11 +135,12 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.txtCourseSearch);
+            this.panel1.Controls.Add(this.txtSearch);
             this.panel1.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(41)))), ((int)(((byte)(50)))));
-            this.panel1.Location = new System.Drawing.Point(904, 20);
+            this.panel1.Location = new System.Drawing.Point(776, 20);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(5);
             this.panel1.Size = new System.Drawing.Size(392, 98);
@@ -121,53 +163,30 @@
             this.label8.Text = "Search";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtCourseSearch
+            // txtSearch
             // 
-            this.txtCourseSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCourseSearch.BackColor = System.Drawing.Color.White;
-            this.txtCourseSearch.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
-            this.txtCourseSearch.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.txtCourseSearch.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
-            this.txtCourseSearch.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCourseSearch.ForeColor = System.Drawing.Color.Black;
-            this.txtCourseSearch.Hint = "";
-            this.txtCourseSearch.Location = new System.Drawing.Point(19, 46);
-            this.txtCourseSearch.MaxLength = 32767;
-            this.txtCourseSearch.Multiline = false;
-            this.txtCourseSearch.Name = "txtCourseSearch";
-            this.txtCourseSearch.PasswordChar = '\0';
-            this.txtCourseSearch.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtCourseSearch.SelectedText = "";
-            this.txtCourseSearch.SelectionLength = 0;
-            this.txtCourseSearch.SelectionStart = 0;
-            this.txtCourseSearch.Size = new System.Drawing.Size(354, 35);
-            this.txtCourseSearch.TabIndex = 20;
-            this.txtCourseSearch.TabStop = false;
-            this.txtCourseSearch.UseSystemPasswordChar = false;
-            // 
-            // Header
-            // 
-            this.Header.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Header.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.Header.Controls.Add(this.HeaderFlow);
-            this.Header.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(41)))), ((int)(((byte)(50)))));
-            this.Header.Location = new System.Drawing.Point(15, 15);
-            this.Header.Margin = new System.Windows.Forms.Padding(5);
-            this.Header.Name = "Header";
-            this.Header.Padding = new System.Windows.Forms.Padding(5);
-            this.Header.Size = new System.Drawing.Size(1261, 43);
-            this.Header.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.Header.TabIndex = 0;
-            this.Header.Text = "panel2";
-            // 
-            // HeaderFlow
-            // 
-            this.HeaderFlow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.HeaderFlow.Location = new System.Drawing.Point(0, 0);
-            this.HeaderFlow.Name = "HeaderFlow";
-            this.HeaderFlow.Size = new System.Drawing.Size(1261, 43);
-            this.HeaderFlow.TabIndex = 0;
+            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSearch.BackColor = System.Drawing.Color.White;
+            this.txtSearch.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
+            this.txtSearch.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.txtSearch.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
+            this.txtSearch.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtSearch.ForeColor = System.Drawing.Color.Black;
+            this.txtSearch.Hint = "";
+            this.txtSearch.Location = new System.Drawing.Point(8, 46);
+            this.txtSearch.MaxLength = 32767;
+            this.txtSearch.Multiline = false;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.PasswordChar = '\0';
+            this.txtSearch.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtSearch.SelectedText = "";
+            this.txtSearch.SelectionLength = 0;
+            this.txtSearch.SelectionStart = 0;
+            this.txtSearch.Size = new System.Drawing.Size(376, 35);
+            this.txtSearch.TabIndex = 20;
+            this.txtSearch.TabStop = false;
+            this.txtSearch.UseSystemPasswordChar = false;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // FacultyListandUsersList
             // 
@@ -177,14 +196,13 @@
             this.Controls.Add(this.SwitchArea);
             this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.Name = "FacultyListandUsersList";
-            this.Size = new System.Drawing.Size(1304, 785);
+            this.Size = new System.Drawing.Size(1176, 716);
             this.Load += new System.EventHandler(this.FacultyListandUsersList_Load);
             this.SwitchArea.ResumeLayout(false);
             this.SwitchArea.PerformLayout();
-            this.ListFlow.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.poisonDataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.Header.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -192,12 +210,11 @@
         #endregion
 
         private ReaLTaiizor.Controls.Panel SwitchArea;
-        private System.Windows.Forms.FlowLayoutPanel ListFlow;
         private System.Windows.Forms.Label txtHeaderMain;
         private ReaLTaiizor.Controls.Panel panel1;
         private System.Windows.Forms.Label label8;
-        private ReaLTaiizor.Controls.HopeTextBox txtCourseSearch;
-        private ReaLTaiizor.Controls.Panel Header;
-        private System.Windows.Forms.FlowLayoutPanel HeaderFlow;
+        private ReaLTaiizor.Controls.HopeTextBox txtSearch;
+        private System.Windows.Forms.Panel HeaderPanel;
+        private ReaLTaiizor.Controls.PoisonDataGridView poisonDataGridView1;
     }
 }

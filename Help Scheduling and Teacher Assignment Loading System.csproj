@@ -154,6 +154,12 @@
     <Compile Include="Resetpass.Designer.cs">
       <DependentUpon>Resetpass.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScheduleCalendar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ScheduleCalendar.Designer.cs">
+      <DependentUpon>ScheduleCalendar.cs</DependentUpon>
+    </Compile>
     <Compile Include="SignUpPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -202,6 +208,9 @@
     </Compile>
     <EmbeddedResource Include="Resetpass.resx">
       <DependentUpon>Resetpass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScheduleCalendar.resx">
+      <DependentUpon>ScheduleCalendar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SignUpPanel.resx">
       <DependentUpon>SignUpPanel.cs</DependentUpon>

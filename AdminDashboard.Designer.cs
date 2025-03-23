@@ -284,6 +284,7 @@
             this.btnSchedule.TextColor = System.Drawing.Color.White;
             this.btnSchedule.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.btnSchedule.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnSchedule.Click += new System.EventHandler(this.btnSchedule_Click);
             // 
             // AdminDashboard
             // 

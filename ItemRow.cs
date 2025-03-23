@@ -28,6 +28,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         // Method to update the UI with course data
         public void UpdateCourseData()
         {
+            txtID.Text = CourseId.ToString();
             txtCourseInfo.Text = $"{CourseName}\n{CourseDescription}";
         }
 

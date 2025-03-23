@@ -140,7 +140,7 @@
             this.txtCourseInfo.Margin = new System.Windows.Forms.Padding(10);
             this.txtCourseInfo.Name = "txtCourseInfo";
             this.txtCourseInfo.Padding = new System.Windows.Forms.Padding(5);
-            this.txtCourseInfo.Size = new System.Drawing.Size(639, 43);
+            this.txtCourseInfo.Size = new System.Drawing.Size(500, 43);
             this.txtCourseInfo.TabIndex = 10;
             this.txtCourseInfo.Text = "Course Name:\r\nCouse Description:";
             this.txtCourseInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

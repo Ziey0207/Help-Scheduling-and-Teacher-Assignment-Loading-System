@@ -138,5 +138,32 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 return;
             }
         }
+
+        private void btnSchedule_Click(object sender, EventArgs e)
+        {
+            //gagamitin ko nlng same user control na courselist cause ive got no time hoe
+            if (!AreaUsed)
+            {
+                ScheduleCalendar List = new ScheduleCalendar();
+                AreaUsed = true;
+                Option = 5;
+                Area.Controls.Add(List);
+            }
+            else if (AreaUsed && !(Option == 4))
+            {
+                Control controlRemove = Area.Controls[1];
+                Area.Controls.Remove(controlRemove);
+                controlRemove.Dispose();
+
+                ScheduleCalendar List = new ScheduleCalendar();
+                AreaUsed = true;
+                Option = 5;
+                Area.Controls.Add(List);
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 }
