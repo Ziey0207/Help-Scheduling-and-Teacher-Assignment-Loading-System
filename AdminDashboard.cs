@@ -19,16 +19,33 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         public AdminDashboard()
         {
             InitializeComponent();
+            btnHome_Click(null, null);
         }
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            if (AreaUsed)
+            if (!AreaUsed)
+            {
+                AreaHome areaHome = new AreaHome();
+                AreaUsed = true;
+                Option = 0;
+                SwitchingArea.Controls.Add(areaHome);
+            }
+            else if (AreaUsed && !(Option == 0))
             {
                 Control controlRemove = Area.Controls[1];
                 Area.Controls.Remove(controlRemove);
                 controlRemove.Dispose();
-                AreaUsed = false;
+
+                AreaHome areaHome = new AreaHome();
+                areaHome.Dock = DockStyle.Fill;
+                AreaUsed = true;
+                Option = 0;
+                Area.Controls.Add(areaHome);
+            }
+            else
+            {
+                return;
             }
         }
 
