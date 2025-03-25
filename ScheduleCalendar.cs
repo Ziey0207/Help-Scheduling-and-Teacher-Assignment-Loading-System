@@ -28,6 +28,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         }
         public void displaDays() 
         { 
+
             DateTime now = DateTime.Now;
             month = now.Month;
             year = now.Year;
@@ -49,10 +50,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             for (int i = 1; i <= days; i++)
             {
-                UserControlDays ucd = new UserControlDays();
+                DateTime currentDate = new DateTime(year, month, i);
+                UserControlDays ucd = new UserControlDays(currentDate);  // Ipasok ang eksaktong petsa
                 ucd.days(i);
                 daycontainers.Controls.Add(ucd);
-            } 
+            }
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -83,7 +85,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             for (int i = 1; i <= days; i++)
             {
-                UserControlDays ucd = new UserControlDays();
+                DateTime currentDate = new DateTime(year, month, i);
+                UserControlDays ucd = new UserControlDays(currentDate);  // Ipasok ang eksaktong petsa
                 ucd.days(i);
                 daycontainers.Controls.Add(ucd);
             }
@@ -112,7 +115,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             for (int i = 1; i <= days; i++)
             {
-                UserControlDays ucd = new UserControlDays();
+                DateTime currentDate = new DateTime(year, month, i);
+                UserControlDays ucd = new UserControlDays(currentDate);  // Ipasok ang eksaktong petsa
                 ucd.days(i);
                 daycontainers.Controls.Add(ucd);
             }
