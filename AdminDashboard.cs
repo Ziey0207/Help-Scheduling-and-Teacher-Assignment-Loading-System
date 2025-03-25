@@ -149,7 +149,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Option = 5;
                 Area.Controls.Add(List);
             }
-            else if (AreaUsed && !(Option == 4))
+            else if (AreaUsed && !(Option == 5))
             {
                 Control controlRemove = Area.Controls[1];
                 Area.Controls.Remove(controlRemove);
