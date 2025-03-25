@@ -33,15 +33,14 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
             else if (AreaUsed && !(Option == 0))
             {
-                Control controlRemove = Area.Controls[1];
-                Area.Controls.Remove(controlRemove);
+                Control controlRemove = SwitchingArea.Controls[0];
+                SwitchingArea.Controls.Remove(controlRemove);
                 controlRemove.Dispose();
 
                 AreaHome areaHome = new AreaHome();
-                areaHome.Dock = DockStyle.Fill;
                 AreaUsed = true;
                 Option = 0;
-                Area.Controls.Add(areaHome);
+                SwitchingArea.Controls.Add(areaHome);
             }
             else
             {
@@ -53,21 +52,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             if (!AreaUsed)
             {
-                CourseList courseList1 = new CourseList(0);
+                CourseList Course = new CourseList(0);
                 AreaUsed = true;
                 Option = 1;
-                Area.Controls.Add(courseList1);
+                SwitchingArea.Controls.Add(Course);
             }
             else if (AreaUsed && !(Option == 1))
             {
-                Control controlRemove = Area.Controls[1];
-                Area.Controls.Remove(controlRemove);
+                Control controlRemove = SwitchingArea.Controls[0];
+                SwitchingArea.Controls.Remove(controlRemove);
                 controlRemove.Dispose();
 
-                CourseList courseList1 = new CourseList(0);
+                CourseList Course = new CourseList(0);
                 AreaUsed = true;
                 Option = 1;
-                Area.Controls.Add(courseList1);
+                SwitchingArea.Controls.Add(Course);
             }
             else
             {
@@ -80,21 +79,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             //gagamitin ko nlng same user control na courselist cause ive got no time hoe
             if (!AreaUsed)
             {
-                CourseList courseList1 = new CourseList(1);
+                CourseList Subject = new CourseList(1);
                 AreaUsed = true;
                 Option = 2;
-                Area.Controls.Add(courseList1);
+                SwitchingArea.Controls.Add(Subject);
             }
             else if (AreaUsed && !(Option == 2))
             {
-                Control controlRemove = Area.Controls[1];
-                Area.Controls.Remove(controlRemove);
+                Control controlRemove = SwitchingArea.Controls[0];
+                SwitchingArea.Controls.Remove(controlRemove);
                 controlRemove.Dispose();
 
-                CourseList courseList1 = new CourseList(1);
+                CourseList Subject = new CourseList(1);
                 AreaUsed = true;
                 Option = 2;
-                Area.Controls.Add(courseList1);
+                SwitchingArea.Controls.Add(Subject);
             }
             else
             {
@@ -107,21 +106,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             //gagamitin ko nlng same user control na courselist cause ive got no time hoe
             if (!AreaUsed)
             {
-                FacultyListandUsersList List = new FacultyListandUsersList(0);
+                FacultyListandUsersList Faculty = new FacultyListandUsersList(0);
                 AreaUsed = true;
                 Option = 3;
-                Area.Controls.Add(List);
+                SwitchingArea.Controls.Add(Faculty);
             }
             else if (AreaUsed && !(Option == 3))
             {
-                Control controlRemove = Area.Controls[1];
-                Area.Controls.Remove(controlRemove);
+                Control controlRemove = SwitchingArea.Controls[0];
+                SwitchingArea.Controls.Remove(controlRemove);
                 controlRemove.Dispose();
 
-                FacultyListandUsersList List = new FacultyListandUsersList(0);
+                FacultyListandUsersList Faculty = new FacultyListandUsersList(0);
                 AreaUsed = true;
                 Option = 3;
-                Area.Controls.Add(List);
+                SwitchingArea.Controls.Add(Faculty);
             }
             else
             {
@@ -134,21 +133,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             //gagamitin ko nlng same user control na courselist cause ive got no time hoe
             if (!AreaUsed)
             {
-                FacultyListandUsersList List = new FacultyListandUsersList(1);
+                FacultyListandUsersList User = new FacultyListandUsersList(1);
                 AreaUsed = true;
                 Option = 4;
-                Area.Controls.Add(List);
+                SwitchingArea.Controls.Add(User);
             }
             else if (AreaUsed && !(Option == 4))
             {
-                Control controlRemove = Area.Controls[1];
-                Area.Controls.Remove(controlRemove);
+                Control controlRemove = SwitchingArea.Controls[0];
+                SwitchingArea.Controls.Remove(controlRemove);
                 controlRemove.Dispose();
 
-                FacultyListandUsersList List = new FacultyListandUsersList(1);
+                FacultyListandUsersList User = new FacultyListandUsersList(1);
                 AreaUsed = true;
                 Option = 4;
-                Area.Controls.Add(List);
+                SwitchingArea.Controls.Add(User);
             }
             else
             {
@@ -161,21 +160,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             //gagamitin ko nlng same user control na courselist cause ive got no time hoe
             if (!AreaUsed)
             {
-                ScheduleCalendar List = new ScheduleCalendar();
+                ScheduleCalendar Schedule = new ScheduleCalendar();
                 AreaUsed = true;
                 Option = 5;
-                Area.Controls.Add(List);
+                SwitchingArea.Controls.Add(Schedule);
             }
             else if (AreaUsed && !(Option == 5))
             {
-                Control controlRemove = Area.Controls[1];
-                Area.Controls.Remove(controlRemove);
+                Control controlRemove = SwitchingArea.Controls[0];
+                SwitchingArea.Controls.Remove(controlRemove);
                 controlRemove.Dispose();
 
-                ScheduleCalendar List = new ScheduleCalendar();
+                ScheduleCalendar Schedule = new ScheduleCalendar();
                 AreaUsed = true;
                 Option = 5;
-                Area.Controls.Add(List);
+                SwitchingArea.Controls.Add(Schedule);
             }
             else
             {

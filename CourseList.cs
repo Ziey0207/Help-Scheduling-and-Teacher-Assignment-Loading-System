@@ -18,9 +18,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private bool isEditMode = false; // Flag to track if the form is in Edit mode
         private int currentCourseId = -1; // Track the course being edited
         private Timer searchTimer;
-        private Color hoverColor = Color.FromArgb(48, 51, 107); // Highlight color on hover
-        private Color selectedColor = Color.FromArgb(72, 52, 212); // Highlight color when selected (Edit/Delete)
-        private Color defaultColor = Color.FromArgb(19, 15, 64); // Default row color
 
         public bool isCourses, isSubject;
 
@@ -50,6 +47,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void CourseList_Load(object sender, EventArgs e)
         {
+            this.Dock = DockStyle.Fill;
             LoadCourses();
             // Attach KeyDown event to the search TextBox
             txtCourseSearch.TextChanged += TxtSearch_TextChanged;
