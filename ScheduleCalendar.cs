@@ -12,11 +12,11 @@ using MySql.Data.MySqlClient;
 
 namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
-
-    public partial class ScheduleCalendar: UserControl
+    public partial class ScheduleCalendar : UserControl
     {
-        int month, year;
+        private int month, year;
         public static int static_month, static_year;
+
         public ScheduleCalendar()
         {
             InitializeComponent();
@@ -26,8 +26,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             displaDays();
         }
-        public void displaDays() 
-        { 
+
+        public void displaDays()
+        {
             DateTime now = DateTime.Now;
             month = now.Month;
             year = now.Year;
@@ -49,24 +50,23 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             for (int i = 1; i <= days; i++)
             {
-                UserControlDays ucd = new UserControlDays();
+                DateTime currentDate = new DateTime(year, month, i);
+                UserControlDays ucd = new UserControlDays(currentDate);  // Ipasok ang eksaktong petsa
                 ucd.days(i);
                 daycontainers.Controls.Add(ucd);
-            } 
+            }
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             daycontainers.Controls.Clear();
-            UserControlDays.static_day = null; 
+            UserControlDays.static_day = null;
 
-                        month--;
-
+            month--;
 
             String monthname = DateTimeFormatInfo.CurrentInfo.GetMonthName(month);
             lbdate.Text = monthname + " " + year;
@@ -83,7 +83,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             for (int i = 1; i <= days; i++)
             {
-                UserControlDays ucd = new UserControlDays();
+                DateTime currentDate = new DateTime(year, month, i);
+                UserControlDays ucd = new UserControlDays(currentDate);  // Ipasok ang eksaktong petsa
                 ucd.days(i);
                 daycontainers.Controls.Add(ucd);
             }
@@ -92,10 +93,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private void button2_Click(object sender, EventArgs e)
         {
             daycontainers.Controls.Clear();
-            UserControlDays.static_day = null; 
+            UserControlDays.static_day = null;
 
-                        month++;
-   
+            month++;
 
             String monthname = DateTimeFormatInfo.CurrentInfo.GetMonthName(month);
             lbdate.Text = monthname + " " + year;
@@ -112,7 +112,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             for (int i = 1; i <= days; i++)
             {
-                UserControlDays ucd = new UserControlDays();
+                DateTime currentDate = new DateTime(year, month, i);
+                UserControlDays ucd = new UserControlDays(currentDate);  // Ipasok ang eksaktong petsa
                 ucd.days(i);
                 daycontainers.Controls.Add(ucd);
             }

@@ -167,13 +167,16 @@
             // ShowPass
             // 
             this.ShowPass.Image = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.eye_slash_solid;
-            this.ShowPass.Location = new System.Drawing.Point(554, 426);
+            this.ShowPass.Location = new System.Drawing.Point(543, 426);
             this.ShowPass.Name = "ShowPass";
-            this.ShowPass.Size = new System.Drawing.Size(40, 35);
+            this.ShowPass.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.ShowPass.Size = new System.Drawing.Size(51, 35);
             this.ShowPass.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ShowPass.TabIndex = 24;
             this.ShowPass.TabStop = false;
             this.ShowPass.Click += new System.EventHandler(this.ShowPass_Click);
+            this.ShowPass.MouseEnter += new System.EventHandler(this.ShowPass_MouseEnter);
+            this.ShowPass.MouseLeave += new System.EventHandler(this.ShowPass_MouseLeave);
             // 
             // SignUp
             // 
@@ -181,14 +184,17 @@
             this.SignUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SignUp.Font = new System.Drawing.Font("Arial", 15F);
             this.SignUp.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.SignUp.Location = new System.Drawing.Point(519, 25);
+            this.SignUp.Location = new System.Drawing.Point(509, 15);
             this.SignUp.Margin = new System.Windows.Forms.Padding(10);
             this.SignUp.Name = "SignUp";
-            this.SignUp.Size = new System.Drawing.Size(75, 23);
+            this.SignUp.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.SignUp.Size = new System.Drawing.Size(85, 43);
             this.SignUp.TabIndex = 11;
             this.SignUp.Text = "Sign up";
             this.SignUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.SignUp.Click += new System.EventHandler(this.SignUp_Click);
+            this.SignUp.MouseEnter += new System.EventHandler(this.SignUp_MouseEnter);
+            this.SignUp.MouseLeave += new System.EventHandler(this.SignUp_MouseLeave);
             // 
             // label4
             // 
@@ -196,10 +202,11 @@
             this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label4.Font = new System.Drawing.Font("Arial", 22F, System.Drawing.FontStyle.Underline);
             this.label4.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label4.Location = new System.Drawing.Point(30, 16);
+            this.label4.Location = new System.Drawing.Point(30, 6);
             this.label4.Margin = new System.Windows.Forms.Padding(10);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(97, 35);
+            this.label4.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.label4.Size = new System.Drawing.Size(107, 55);
             this.label4.TabIndex = 10;
             this.label4.Text = "Log In";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -210,14 +217,17 @@
             this.ForgotPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ForgotPassword.Font = new System.Drawing.Font("Arial", 15F);
             this.ForgotPassword.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.ForgotPassword.Location = new System.Drawing.Point(515, 390);
+            this.ForgotPassword.Location = new System.Drawing.Point(505, 370);
             this.ForgotPassword.Margin = new System.Windows.Forms.Padding(10);
             this.ForgotPassword.Name = "ForgotPassword";
-            this.ForgotPassword.Size = new System.Drawing.Size(79, 23);
+            this.ForgotPassword.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.ForgotPassword.Size = new System.Drawing.Size(89, 43);
             this.ForgotPassword.TabIndex = 9;
             this.ForgotPassword.Text = "Forgot?";
             this.ForgotPassword.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ForgotPassword.Click += new System.EventHandler(this.ForgotPassword_Click);
+            this.ForgotPassword.MouseEnter += new System.EventHandler(this.ForgotPassword_MouseEnter);
+            this.ForgotPassword.MouseLeave += new System.EventHandler(this.ForgotPassword_MouseLeave);
             // 
             // label2
             // 
@@ -225,10 +235,11 @@
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Arial", 15F);
             this.label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label2.Location = new System.Drawing.Point(33, 390);
+            this.label2.Location = new System.Drawing.Point(32, 370);
             this.label2.Margin = new System.Windows.Forms.Padding(10);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(98, 23);
+            this.label2.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.label2.Size = new System.Drawing.Size(108, 43);
             this.label2.TabIndex = 8;
             this.label2.Text = "Password";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -239,10 +250,11 @@
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Arial", 15F);
             this.label1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label1.Location = new System.Drawing.Point(33, 257);
+            this.label1.Location = new System.Drawing.Point(33, 237);
             this.label1.Margin = new System.Windows.Forms.Padding(10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 23);
+            this.label1.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.label1.Size = new System.Drawing.Size(109, 43);
             this.label1.TabIndex = 7;
             this.label1.Text = "Username";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -288,7 +300,7 @@
             this.txtLoginPass.SelectedText = "";
             this.txtLoginPass.SelectionLength = 0;
             this.txtLoginPass.SelectionStart = 0;
-            this.txtLoginPass.Size = new System.Drawing.Size(511, 35);
+            this.txtLoginPass.Size = new System.Drawing.Size(500, 35);
             this.txtLoginPass.TabIndex = 4;
             this.txtLoginPass.TabStop = false;
             this.txtLoginPass.UseSystemPasswordChar = false;

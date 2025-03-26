@@ -67,6 +67,71 @@ namespace Scheduling_and_Teacher_Loading_Assignment_System
             }
         }
 
+        // New async versions for real-time validation
+        public static async Task<int> ExecuteNonQueryAsync(string query, MySqlParameter[] parameters)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                await conn.OpenAsync();
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    if (parameters != null)
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                    }
+                    return await cmd.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        public static async Task<object> ExecuteScalarAsync(string query, MySqlParameter[] parameters)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                await conn.OpenAsync();
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    if (parameters != null && parameters.Length > 0)
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                    }
+                    return await cmd.ExecuteScalarAsync();
+                }
+            }
+        }
+
+        public static async Task<MySqlDataReader> ExecuteReaderAsync(string query, MySqlParameter[] parameters)
+        {
+            MySqlConnection conn = GetConnection();
+            await conn.OpenAsync();
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
+                return await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+            }
+        }
+
+        // Async version of TestConnection
+        public static async Task<bool> TestConnectionAsync()
+        {
+            try
+            {
+                using (MySqlConnection conn = GetConnection())
+                {
+                    await conn.OpenAsync();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Connecting to database: " + ex.Message);
+                return false;
+            }
+        }
+
         public bool TestConnection()
         {
             try

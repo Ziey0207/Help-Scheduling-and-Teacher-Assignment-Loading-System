@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.airForm1 = new ReaLTaiizor.Forms.AirForm();
-            this.metroControlBox1 = new ReaLTaiizor.Controls.MetroControlBox();
-            this.Area = new System.Windows.Forms.FlowLayoutPanel();
+            this.Area = new ReaLTaiizor.Controls.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnHome = new ReaLTaiizor.Controls.ParrotButton();
             this.btnCourse = new ReaLTaiizor.Controls.ParrotButton();
@@ -38,6 +37,8 @@
             this.btnFaculty = new ReaLTaiizor.Controls.ParrotButton();
             this.btnUsers = new ReaLTaiizor.Controls.ParrotButton();
             this.btnSchedule = new ReaLTaiizor.Controls.ParrotButton();
+            this.SwitchingArea = new ReaLTaiizor.Controls.Panel();
+            this.metroControlBox1 = new ReaLTaiizor.Controls.MetroControlBox();
             this.airForm1.SuspendLayout();
             this.Area.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -45,10 +46,11 @@
             // 
             // airForm1
             // 
-            this.airForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.airForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(40)))));
             this.airForm1.BorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.airForm1.Controls.Add(this.metroControlBox1);
             this.airForm1.Controls.Add(this.Area);
+            this.airForm1.Controls.Add(this.metroControlBox1);
+            this.airForm1.Cursor = System.Windows.Forms.Cursors.Default;
             this.airForm1.Customization = "/////1paWv9ycnL/";
             this.airForm1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.airForm1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -64,49 +66,25 @@
             this.airForm1.SmartBounds = true;
             this.airForm1.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.airForm1.TabIndex = 1;
-            this.airForm1.Text = "Welcome Back Administrator";
             this.airForm1.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.airForm1.Transparent = false;
-            // 
-            // metroControlBox1
-            // 
-            this.metroControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroControlBox1.CloseHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.metroControlBox1.CloseHoverForeColor = System.Drawing.Color.White;
-            this.metroControlBox1.CloseNormalForeColor = System.Drawing.Color.Gray;
-            this.metroControlBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.metroControlBox1.DefaultLocation = ReaLTaiizor.Enum.Metro.LocationType.Edge;
-            this.metroControlBox1.DisabledForeColor = System.Drawing.Color.DimGray;
-            this.metroControlBox1.IsDerivedStyle = true;
-            this.metroControlBox1.Location = new System.Drawing.Point(1266, 0);
-            this.metroControlBox1.MaximizeBox = true;
-            this.metroControlBox1.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.metroControlBox1.MaximizeHoverForeColor = System.Drawing.Color.Gray;
-            this.metroControlBox1.MaximizeNormalForeColor = System.Drawing.Color.Gray;
-            this.metroControlBox1.MinimizeBox = true;
-            this.metroControlBox1.MinimizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(238)))), ((int)(((byte)(238)))));
-            this.metroControlBox1.MinimizeHoverForeColor = System.Drawing.Color.Gray;
-            this.metroControlBox1.MinimizeNormalForeColor = System.Drawing.Color.Gray;
-            this.metroControlBox1.Name = "metroControlBox1";
-            this.metroControlBox1.Size = new System.Drawing.Size(100, 25);
-            this.metroControlBox1.Style = ReaLTaiizor.Enum.Metro.Style.Light;
-            this.metroControlBox1.StyleManager = null;
-            this.metroControlBox1.TabIndex = 3;
-            this.metroControlBox1.Text = "metroControlBox1";
-            this.metroControlBox1.ThemeAuthor = "Taiizor";
-            this.metroControlBox1.ThemeName = "MetroLight";
             // 
             // Area
             // 
             this.Area.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Area.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Area.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.Area.Controls.Add(this.SwitchingArea);
             this.Area.Controls.Add(this.flowLayoutPanel2);
-            this.Area.Location = new System.Drawing.Point(12, 37);
+            this.Area.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.Area.Location = new System.Drawing.Point(3, 31);
             this.Area.Name = "Area";
-            this.Area.Size = new System.Drawing.Size(1342, 719);
+            this.Area.Padding = new System.Windows.Forms.Padding(5);
+            this.Area.Size = new System.Drawing.Size(1360, 734);
+            this.Area.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.Area.TabIndex = 4;
+            this.Area.Text = "panel1";
             // 
             // flowLayoutPanel2
             // 
@@ -117,11 +95,12 @@
             this.flowLayoutPanel2.Controls.Add(this.btnFaculty);
             this.flowLayoutPanel2.Controls.Add(this.btnUsers);
             this.flowLayoutPanel2.Controls.Add(this.btnSchedule);
+            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(5, 5);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Padding = new System.Windows.Forms.Padding(2);
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(145, 793);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(145, 724);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
             // btnHome
@@ -286,6 +265,48 @@
             this.btnSchedule.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.btnSchedule.Click += new System.EventHandler(this.btnSchedule_Click);
             // 
+            // SwitchingArea
+            // 
+            this.SwitchingArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.SwitchingArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SwitchingArea.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.SwitchingArea.Location = new System.Drawing.Point(150, 5);
+            this.SwitchingArea.Name = "SwitchingArea";
+            this.SwitchingArea.Padding = new System.Windows.Forms.Padding(5);
+            this.SwitchingArea.Size = new System.Drawing.Size(1205, 724);
+            this.SwitchingArea.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.SwitchingArea.TabIndex = 2;
+            this.SwitchingArea.Text = "panel2";
+            // 
+            // metroControlBox1
+            // 
+            this.metroControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.metroControlBox1.CloseHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.metroControlBox1.CloseHoverForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.CloseNormalForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.metroControlBox1.DefaultLocation = ReaLTaiizor.Enum.Metro.LocationType.Edge;
+            this.metroControlBox1.DisabledForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.ForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.IsDerivedStyle = false;
+            this.metroControlBox1.Location = new System.Drawing.Point(1266, 0);
+            this.metroControlBox1.MaximizeBox = true;
+            this.metroControlBox1.MaximizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.metroControlBox1.MaximizeHoverForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.MaximizeNormalForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.MinimizeBox = true;
+            this.metroControlBox1.MinimizeHoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.metroControlBox1.MinimizeHoverForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.MinimizeNormalForeColor = System.Drawing.Color.White;
+            this.metroControlBox1.Name = "metroControlBox1";
+            this.metroControlBox1.Size = new System.Drawing.Size(100, 25);
+            this.metroControlBox1.Style = ReaLTaiizor.Enum.Metro.Style.Light;
+            this.metroControlBox1.StyleManager = null;
+            this.metroControlBox1.TabIndex = 3;
+            this.metroControlBox1.Text = "metroControlBox1";
+            this.metroControlBox1.ThemeAuthor = "Taiizor";
+            this.metroControlBox1.ThemeName = "MetroLight";
+            // 
             // AdminDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -310,14 +331,15 @@
         #endregion
 
         private ReaLTaiizor.Forms.AirForm airForm1;
-        private ReaLTaiizor.Controls.MetroControlBox metroControlBox1;
-        private System.Windows.Forms.FlowLayoutPanel Area;
+        private ReaLTaiizor.Controls.Panel Area;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private ReaLTaiizor.Controls.ParrotButton btnHome;
         private ReaLTaiizor.Controls.ParrotButton btnCourse;
-        private ReaLTaiizor.Controls.ParrotButton btnFaculty;
         private ReaLTaiizor.Controls.ParrotButton btnSubject;
-        private ReaLTaiizor.Controls.ParrotButton btnSchedule;
+        private ReaLTaiizor.Controls.ParrotButton btnFaculty;
         private ReaLTaiizor.Controls.ParrotButton btnUsers;
+        private ReaLTaiizor.Controls.ParrotButton btnSchedule;
+        private ReaLTaiizor.Controls.Panel SwitchingArea;
+        private ReaLTaiizor.Controls.MetroControlBox metroControlBox1;
     }
 }

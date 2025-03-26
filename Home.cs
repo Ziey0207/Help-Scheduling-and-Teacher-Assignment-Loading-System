@@ -82,25 +82,51 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             txtLoginError.Text = "";
             txtLoginError.Show();
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
                 txtLoginError.Text = "Username and Password Required";
+                return;
+            }
+            else if (string.IsNullOrEmpty(username))
+            {
+                txtLoginError.Text = "Username Required";
+                return;
+            }
+            else if (string.IsNullOrEmpty(password))
+            {
+                txtLoginError.Text = "Password Required";
                 return;
             }
 
             try
             {
-                string query = "SELECT password FROM admins WHERE username = @username";
-                MySqlParameter[] parameters =
-                    {
+                // First check if user exists
+                string userExistsQuery = "SELECT COUNT(*) FROM admins WHERE username = @username";
+                MySqlParameter[] userExistsParams =
+                {
                     new MySqlParameter("username", username)
                 };
 
-                string dbPassword = DatabaseHelper.ExecuteScalar(query, parameters)?.ToString();
+                int userCount = Convert.ToInt32(DatabaseHelper.ExecuteScalar(userExistsQuery, userExistsParams));
 
-                if (dbPassword != null && dbPassword == password)
+                if (userCount == 0)
                 {
-                    txtLoginError.Text = "Login Succesful";
+                    txtLoginError.Text = "Username does not exist";
+                    return;
+                }
+
+                // If user exists, check password
+                string passwordQuery = "SELECT password FROM admins WHERE username = @username";
+                MySqlParameter[] passwordParams =
+                {
+                  new MySqlParameter("username", username)
+                };
+
+                string dbPassword = DatabaseHelper.ExecuteScalar(passwordQuery, passwordParams)?.ToString();
+
+                if (dbPassword == password) // Consider using secure password comparison
+                {
+                    txtLoginError.Text = "Login Successful";
 
                     AdminDashboard adminDashboard = new AdminDashboard();
                     adminDashboard.FormClosed += (s, args) => this.Close();
@@ -109,7 +135,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 }
                 else
                 {
-                    txtLoginError.Text = "Invalid Username Or Password";
+                    txtLoginError.Text = "Incorrect password";
                 }
             }
             catch (Exception ex)
@@ -121,11 +147,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private void ForgotPassword_Click(object sender, EventArgs e)
         {
             // is ricky na dito
-  
 
             Forgot fr = new Forgot();
             fr.Show();
-
         }
 
         private void txtLoginPass_KeyDown(object sender, KeyEventArgs e)
@@ -136,6 +160,36 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 btnLogin_Click(sender, e);
                 e.SuppressKeyPress = true; // Prevent the "ding" sound
             }
+        }
+
+        private void SignUp_MouseEnter(object sender, EventArgs e)
+        {
+            SignUp.BackColor = Color.FromArgb(19, 15, 64);
+        }
+
+        private void SignUp_MouseLeave(object sender, EventArgs e)
+        {
+            SignUp.BackColor = Color.FromArgb(48, 51, 107);
+        }
+
+        private void ForgotPassword_MouseEnter(object sender, EventArgs e)
+        {
+            ForgotPassword.BackColor = Color.FromArgb(19, 15, 64);
+        }
+
+        private void ForgotPassword_MouseLeave(object sender, EventArgs e)
+        {
+            ForgotPassword.BackColor = Color.FromArgb(48, 51, 107);
+        }
+
+        private void ShowPass_MouseEnter(object sender, EventArgs e)
+        {
+            ShowPass.BackColor = Color.FromArgb(19, 15, 64);
+        }
+
+        private void ShowPass_MouseLeave(object sender, EventArgs e)
+        {
+            ShowPass.BackColor = Color.FromArgb(48, 51, 107);
         }
     }
 }
