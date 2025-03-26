@@ -52,12 +52,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void LoadData(string searchText = "")
         {
+            // Add this at the start
+            dataGridView1.Visible = false;
+            Cursor.Current = Cursors.WaitCursor;
+
             string query;
-            if (isFaculty)
+            try
             {
-                if (string.IsNullOrEmpty(searchText))
+                if (isFaculty)
                 {
-                    query = $@"
+                    if (string.IsNullOrEmpty(searchText))
+                    {
+                        query = $@"
                         SELECT
                             id,
                             id_no,
@@ -66,10 +72,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                             contact_number,
                             is_active
                         FROM faculty";
-                }
-                else
-                {
-                    query = $@"
+                    }
+                    else
+                    {
+                        query = $@"
                         SELECT
                             id,
                             id_no,
@@ -79,43 +85,49 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                             is_active
                         FROM faculty
                         WHERE last_name LIKE @searchText OR first_name LIKE @searchText OR middle_name LIKE @searchText";
+                    }
                 }
-            }
-            else if (isAdmin)
-            {
-                if (string.IsNullOrEmpty(searchText))
+                else if (isAdmin)
                 {
-                    query = $"SELECT * FROM admins";
+                    if (string.IsNullOrEmpty(searchText))
+                    {
+                        query = $"SELECT * FROM admins";
+                    }
+                    else
+                    {
+                        query = $"SELECT * FROM admins WHERE username LIKE @searchText OR email LIKE @searchText";
+                    }
                 }
                 else
                 {
-                    query = $"SELECT * FROM admins WHERE username LIKE @searchText OR email LIKE @searchText";
+                    return;
+                }
+
+                using (MySqlDataReader reader = DatabaseHelper.ExecuteReader(query, new MySqlParameter[]
+                {
+                new MySqlParameter("@searchText", $"%{searchText}%")
+                }))
+                {
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+
+                    // Disable auto-generated columns
+                    dataGridView1.AutoGenerateColumns = false;
+
+                    // Clear existing columns
+                    dataGridView1.Columns.Clear();
+
+                    // Bind the DataTable to the DataGridView
+                    dataGridView1.DataSource = dt;
+
+                    // Adjust columns based on the view
+                    AdjustColumns();
                 }
             }
-            else
+            finally
             {
-                return;
-            }
-
-            using (MySqlDataReader reader = DatabaseHelper.ExecuteReader(query, new MySqlParameter[]
-            {
-                new MySqlParameter("@searchText", $"%{searchText}%")
-            }))
-            {
-                DataTable dt = new DataTable();
-                dt.Load(reader);
-
-                // Disable auto-generated columns
-                dataGridView1.AutoGenerateColumns = false;
-
-                // Clear existing columns
-                dataGridView1.Columns.Clear();
-
-                // Bind the DataTable to the DataGridView
-                dataGridView1.DataSource = dt;
-
-                // Adjust columns based on the view
-                AdjustColumns();
+                Cursor.Current = Cursors.Default;
+                dataGridView1.Visible = true;
             }
         }
 
@@ -359,7 +371,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             dataGridView1.DefaultCellStyle.ForeColor = Color.FromArgb(66, 66, 66);
             dataGridView1.DefaultCellStyle.Font = new Font("Arial", 12);
             dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = _alternatingRowColor;
-            dataGridView1.RowTemplate.Height = 60;
+            dataGridView1.RowTemplate.Height = 100;
 
             // Selection Styling
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(229, 243, 255);
@@ -396,7 +408,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Visible = visible,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
-                    Padding = new Padding(5, 0, 5, 0) // Add cell padding
+                    Padding = new Padding(5, 8, 5, 8) // Add cell padding
                 }
             };
             dataGridView1.Columns.Add(col);
