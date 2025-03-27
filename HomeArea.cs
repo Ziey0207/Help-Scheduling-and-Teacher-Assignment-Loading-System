@@ -15,11 +15,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         public AreaHome()
         {
             InitializeComponent();
+            lblWelcome.Text = "Welcome!";
         }
 
         private void AreaHome_Load(object sender, EventArgs e)
         {
             this.Dock = DockStyle.Fill;
+        }
+
+        public void SetWelcomeMessage(string message)
+        {
+            // Assuming you have a label called lblWelcome in your AreaHome control
+            lblWelcome.Text = message;
         }
     }
 }

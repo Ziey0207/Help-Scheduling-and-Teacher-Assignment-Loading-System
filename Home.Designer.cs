@@ -33,6 +33,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.LoginPanel = new System.Windows.Forms.Panel();
+            this.chkRememberMe = new ReaLTaiizor.Controls.HopeCheckBox();
             this.txtLoginError = new System.Windows.Forms.Label();
             this.ShowPass = new System.Windows.Forms.PictureBox();
             this.SignUp = new System.Windows.Forms.Label();
@@ -134,6 +135,7 @@
             this.LoginPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.LoginPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.LoginPanel.Controls.Add(this.chkRememberMe);
             this.LoginPanel.Controls.Add(this.txtLoginError);
             this.LoginPanel.Controls.Add(this.ShowPass);
             this.LoginPanel.Controls.Add(this.SignUp);
@@ -149,6 +151,26 @@
             this.LoginPanel.Size = new System.Drawing.Size(624, 734);
             this.LoginPanel.TabIndex = 1;
             // 
+            // chkRememberMe
+            // 
+            this.chkRememberMe.AutoSize = true;
+            this.chkRememberMe.CheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.chkRememberMe.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkRememberMe.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(198)))), ((int)(((byte)(202)))));
+            this.chkRememberMe.DisabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(187)))), ((int)(((byte)(189)))));
+            this.chkRememberMe.Enable = true;
+            this.chkRememberMe.EnabledCheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.chkRememberMe.EnabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.chkRememberMe.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
+            this.chkRememberMe.Font = new System.Drawing.Font("Arial", 12F);
+            this.chkRememberMe.ForeColor = System.Drawing.Color.White;
+            this.chkRememberMe.Location = new System.Drawing.Point(457, 474);
+            this.chkRememberMe.Name = "chkRememberMe";
+            this.chkRememberMe.Size = new System.Drawing.Size(137, 20);
+            this.chkRememberMe.TabIndex = 26;
+            this.chkRememberMe.Text = "Remember Me";
+            this.chkRememberMe.UseVisualStyleBackColor = true;
+            // 
             // txtLoginError
             // 
             this.txtLoginError.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -158,7 +180,7 @@
             this.txtLoginError.Margin = new System.Windows.Forms.Padding(10);
             this.txtLoginError.Name = "txtLoginError";
             this.txtLoginError.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtLoginError.Size = new System.Drawing.Size(558, 23);
+            this.txtLoginError.Size = new System.Drawing.Size(347, 23);
             this.txtLoginError.TabIndex = 25;
             this.txtLoginError.Text = "*";
             this.txtLoginError.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -271,7 +293,7 @@
             this.btnLogin.ForeColor = System.Drawing.Color.White;
             this.btnLogin.HoverTextColor = System.Drawing.Color.White;
             this.btnLogin.InfoColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.btnLogin.Location = new System.Drawing.Point(241, 533);
+            this.btnLogin.Location = new System.Drawing.Point(241, 564);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
             this.btnLogin.Size = new System.Drawing.Size(152, 48);
@@ -345,6 +367,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "formTheme1";
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Home_FormClosing);
             this.airForm1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -372,6 +395,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox ShowPass;
         private System.Windows.Forms.Label txtLoginError;
+        private ReaLTaiizor.Controls.HopeCheckBox chkRememberMe;
     }
 }
 

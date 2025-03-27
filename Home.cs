@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,22 +15,69 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
     public partial class Home : Form
     {
-        private bool mouseDown;
-        private Point lastLocation;
+        private const string SESSION_SETTING = "CurrentSessionToken";
+        private const string REMEMBER_ME_SETTING = "RememberMe";
 
         public Home()
         {
             InitializeComponent();
+
+            Debug.WriteLine("Home form loaded");
+
             ShowPass.Image = Properties.Resources.eye_slash_solid;
-            ShowPass.Cursor = Cursors.Hand;
-            SignUp.Cursor = Cursors.Hand;
-            ForgotPassword.Cursor = Cursors.Hand;
+            ShowPass.Cursor = SignUp.Cursor = ForgotPassword.Cursor = Cursors.Hand;
             txtLoginPass.UseSystemPasswordChar = true;
+
             DatabaseHelper dhelper = new DatabaseHelper();
+
             if (!dhelper.TestConnection())
             {
+                Debug.WriteLine("DB connection failed");
                 MessageBox.Show("Failed to connect to the database. Please check your settings.");
                 Environment.Exit(1);
+                return;
+            }
+
+            Debug.WriteLine("DB connection successful");
+            CheckAutoLogin();
+        }
+
+        private void CheckAutoLogin()
+        {
+            if (Properties.Settings.Default.RememberMe &&
+                !string.IsNullOrEmpty(Properties.Settings.Default.CurrentSessionToken))
+            {
+                string oldToken = Properties.Settings.Default.CurrentSessionToken;
+
+                Task.Run(() =>
+                {
+                    // Get user ID from old token
+                    int? userId = DatabaseHelper.GetAdminIdBySession(oldToken);
+
+                    if (userId.HasValue && DatabaseHelper.IsValidSession(oldToken))
+                    {
+                        // Create brand new session
+                        string newToken = DatabaseHelper.CreateNewSession(userId.Value, true);
+
+                        // Update settings with new token
+                        Properties.Settings.Default.CurrentSessionToken = newToken;
+                        Properties.Settings.Default.Save();
+
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            OpenDashboard(newToken);
+                        });
+                    }
+                    else
+                    {
+                        // Clear invalid session
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            Properties.Settings.Default.CurrentSessionToken = "";
+                            Properties.Settings.Default.Save();
+                        });
+                    }
+                });
             }
         }
 
@@ -76,6 +124,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine("Login button clicked");
             string username = txtLoginUser.Text;
             string password = txtLoginPass.Text;
 
@@ -100,48 +149,54 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             try
             {
-                // First check if user exists
-                string userExistsQuery = "SELECT COUNT(*) FROM admins WHERE username = @username";
-                MySqlParameter[] userExistsParams =
-                {
-                    new MySqlParameter("username", username)
-                };
+                Debug.WriteLine($"Attempting login for user: {username}");
 
-                int userCount = Convert.ToInt32(DatabaseHelper.ExecuteScalar(userExistsQuery, userExistsParams));
-
-                if (userCount == 0)
+                // Verify credentials
+                int userId = DatabaseHelper.GetUserId(username);
+                if (userId == 0)
                 {
+                    Debug.WriteLine("User not found");
                     txtLoginError.Text = "Username does not exist";
                     return;
                 }
 
                 // If user exists, check password
-                string passwordQuery = "SELECT password FROM admins WHERE username = @username";
-                MySqlParameter[] passwordParams =
-                {
-                  new MySqlParameter("username", username)
-                };
-
-                string dbPassword = DatabaseHelper.ExecuteScalar(passwordQuery, passwordParams)?.ToString();
+                string dbPassword = DatabaseHelper.ExecuteScalar(
+                    "SELECT password FROM admins WHERE id = @id",
+                    new MySqlParameter[] { new MySqlParameter("@id", userId) })?.ToString();
 
                 if (dbPassword == password) // Consider using secure password comparison
                 {
-                    txtLoginError.Text = "Login Successful";
+                    Debug.WriteLine("Password verified, creating session");
+                    // Create and record session
+                    string newToken = DatabaseHelper.CreateNewSession(userId, chkRememberMe.Checked);
 
-                    AdminDashboard adminDashboard = new AdminDashboard();
-                    adminDashboard.FormClosed += (s, args) => this.Close();
-                    adminDashboard.Show();
-                    this.Hide();
+                    // Store new token if Remember Me is checked
+                    Properties.Settings.Default.CurrentSessionToken = chkRememberMe.Checked ? newToken : "";
+                    Properties.Settings.Default.RememberMe = chkRememberMe.Checked;
+                    Properties.Settings.Default.Save();
+
+                    Debug.WriteLine($"Session created - RememberMe: {chkRememberMe.Checked}, Token: {newToken}");
+                    OpenDashboard(newToken);
                 }
                 else
                 {
+                    Debug.WriteLine("Incorrect password");
                     txtLoginError.Text = "Incorrect password";
                 }
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Login error: {ex.Message}");
                 txtLoginError.Text = "Error: " + ex.Message;
             }
+        }
+
+        private void OpenDashboard(string sessionToken)
+        {
+            this.Hide();
+            var dashboard = new AdminDashboard(sessionToken);
+            dashboard.Show();
         }
 
         private void ForgotPassword_Click(object sender, EventArgs e)
@@ -149,6 +204,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             // is ricky na dito
 
             Forgot fr = new Forgot();
+            fr.FormClosed += (s, args) =>
+            {
+                // Bring focus back to login form after password reset
+                this.Show();
+            };
             fr.Show();
         }
 
@@ -190,6 +250,25 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private void ShowPass_MouseLeave(object sender, EventArgs e)
         {
             ShowPass.BackColor = Color.FromArgb(48, 51, 107);
+        }
+
+        private void Home_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Debug.WriteLine("Home form closing");
+
+            string sessionToken = Properties.Settings.Default[SESSION_SETTING]?.ToString();
+            if (!string.IsNullOrEmpty(sessionToken))
+            {
+                Debug.WriteLine($"Recording logout for token: {sessionToken}");
+                DatabaseHelper.RecordLogout(sessionToken);
+            }
+
+            // Only exit completely if this is the main close action
+            if (Application.OpenForms.Count <= 1)
+            {
+                Debug.WriteLine("Closing application completely");
+                Application.Exit();
+            }
         }
     }
 }

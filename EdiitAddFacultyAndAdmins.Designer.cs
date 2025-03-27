@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.hopeForm1 = new ReaLTaiizor.Forms.HopeForm();
+            this.FormHeader = new System.Windows.Forms.Label();
             this.FacultyInputs = new ReaLTaiizor.Controls.Panel();
             this.Error8 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -56,7 +57,6 @@
             this.Error1 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.input1 = new ReaLTaiizor.Controls.HopeTextBox();
-            this.FormHeader = new System.Windows.Forms.Label();
             this.isActive = new ReaLTaiizor.Controls.HopeCheckBox();
             this.hopeForm1.SuspendLayout();
             this.FacultyInputs.SuspendLayout();
@@ -78,6 +78,21 @@
             this.hopeForm1.Size = new System.Drawing.Size(753, 40);
             this.hopeForm1.TabIndex = 0;
             this.hopeForm1.ThemeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            // 
+            // FormHeader
+            // 
+            this.FormHeader.AutoSize = true;
+            this.FormHeader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.FormHeader.Font = new System.Drawing.Font("Arial", 15F);
+            this.FormHeader.ForeColor = System.Drawing.Color.White;
+            this.FormHeader.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.FormHeader.Location = new System.Drawing.Point(17, 10);
+            this.FormHeader.Margin = new System.Windows.Forms.Padding(10);
+            this.FormHeader.Name = "FormHeader";
+            this.FormHeader.Size = new System.Drawing.Size(74, 23);
+            this.FormHeader.TabIndex = 53;
+            this.FormHeader.Text = "Header";
+            this.FormHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FacultyInputs
             // 
@@ -590,21 +605,6 @@
             this.input1.TabIndex = 54;
             this.input1.TabStop = false;
             this.input1.UseSystemPasswordChar = false;
-            // 
-            // FormHeader
-            // 
-            this.FormHeader.AutoSize = true;
-            this.FormHeader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.FormHeader.Font = new System.Drawing.Font("Arial", 15F);
-            this.FormHeader.ForeColor = System.Drawing.Color.White;
-            this.FormHeader.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.FormHeader.Location = new System.Drawing.Point(17, 10);
-            this.FormHeader.Margin = new System.Windows.Forms.Padding(10);
-            this.FormHeader.Name = "FormHeader";
-            this.FormHeader.Size = new System.Drawing.Size(74, 23);
-            this.FormHeader.TabIndex = 53;
-            this.FormHeader.Text = "Header";
-            this.FormHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // isActive
             // 

@@ -30,6 +30,7 @@
         {
             this.airForm1 = new ReaLTaiizor.Forms.AirForm();
             this.Area = new ReaLTaiizor.Controls.Panel();
+            this.SwitchingArea = new ReaLTaiizor.Controls.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnHome = new ReaLTaiizor.Controls.ParrotButton();
             this.btnCourse = new ReaLTaiizor.Controls.ParrotButton();
@@ -37,7 +38,7 @@
             this.btnFaculty = new ReaLTaiizor.Controls.ParrotButton();
             this.btnUsers = new ReaLTaiizor.Controls.ParrotButton();
             this.btnSchedule = new ReaLTaiizor.Controls.ParrotButton();
-            this.SwitchingArea = new ReaLTaiizor.Controls.Panel();
+            this.btnLogout = new ReaLTaiizor.Controls.ParrotButton();
             this.metroControlBox1 = new ReaLTaiizor.Controls.MetroControlBox();
             this.airForm1.SuspendLayout();
             this.Area.SuspendLayout();
@@ -86,6 +87,19 @@
             this.Area.TabIndex = 4;
             this.Area.Text = "panel1";
             // 
+            // SwitchingArea
+            // 
+            this.SwitchingArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.SwitchingArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SwitchingArea.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.SwitchingArea.Location = new System.Drawing.Point(150, 5);
+            this.SwitchingArea.Name = "SwitchingArea";
+            this.SwitchingArea.Padding = new System.Windows.Forms.Padding(5);
+            this.SwitchingArea.Size = new System.Drawing.Size(1205, 724);
+            this.SwitchingArea.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.SwitchingArea.TabIndex = 2;
+            this.SwitchingArea.Text = "panel2";
+            // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
@@ -95,6 +109,7 @@
             this.flowLayoutPanel2.Controls.Add(this.btnFaculty);
             this.flowLayoutPanel2.Controls.Add(this.btnUsers);
             this.flowLayoutPanel2.Controls.Add(this.btnSchedule);
+            this.flowLayoutPanel2.Controls.Add(this.btnLogout);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(5, 5);
@@ -265,18 +280,32 @@
             this.btnSchedule.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.btnSchedule.Click += new System.EventHandler(this.btnSchedule_Click);
             // 
-            // SwitchingArea
+            // btnLogout
             // 
-            this.SwitchingArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.SwitchingArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SwitchingArea.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.SwitchingArea.Location = new System.Drawing.Point(150, 5);
-            this.SwitchingArea.Name = "SwitchingArea";
-            this.SwitchingArea.Padding = new System.Windows.Forms.Padding(5);
-            this.SwitchingArea.Size = new System.Drawing.Size(1205, 724);
-            this.SwitchingArea.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.SwitchingArea.TabIndex = 2;
-            this.SwitchingArea.Text = "panel2";
+            this.btnLogout.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            this.btnLogout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnLogout.ButtonImage = null;
+            this.btnLogout.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.btnLogout.ButtonText = "Logout";
+            this.btnLogout.ClickBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnLogout.ClickTextColor = System.Drawing.Color.Black;
+            this.btnLogout.CornerRadius = 10;
+            this.btnLogout.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLogout.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogout.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnLogout.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.btnLogout.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
+            this.btnLogout.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.btnLogout.Location = new System.Drawing.Point(5, 329);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Padding = new System.Windows.Forms.Padding(5);
+            this.btnLogout.Size = new System.Drawing.Size(135, 34);
+            this.btnLogout.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.btnLogout.TabIndex = 6;
+            this.btnLogout.TextColor = System.Drawing.Color.White;
+            this.btnLogout.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.btnLogout.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // metroControlBox1
             // 
@@ -321,6 +350,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AdminDashboard";
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AdminDashboard_FormClosing);
             this.airForm1.ResumeLayout(false);
             this.Area.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
@@ -341,5 +371,6 @@
         private ReaLTaiizor.Controls.ParrotButton btnSchedule;
         private ReaLTaiizor.Controls.Panel SwitchingArea;
         private ReaLTaiizor.Controls.MetroControlBox metroControlBox1;
+        private ReaLTaiizor.Controls.ParrotButton btnLogout;
     }
 }
