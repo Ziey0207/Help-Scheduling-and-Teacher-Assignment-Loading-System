@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblPasswordHelp = new System.Windows.Forms.Label();
+            this.lblConfirmPassStatus = new System.Windows.Forms.Label();
+            this.lblPasswordStatus = new System.Windows.Forms.Label();
+            this.lblContactStatus = new System.Windows.Forms.Label();
+            this.lblEmailStatus = new System.Windows.Forms.Label();
+            this.lblUsernameStatus = new System.Windows.Forms.Label();
             this.ReShowPass = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.Login = new System.Windows.Forms.Label();
@@ -44,20 +50,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtUsername = new ReaLTaiizor.Controls.HopeTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblUsernameStatus = new System.Windows.Forms.Label();
-            this.lblEmailStatus = new System.Windows.Forms.Label();
-            this.lblContactStatus = new System.Windows.Forms.Label();
-            this.lblPasswordStatus = new System.Windows.Forms.Label();
-            this.lblConfirmPassStatus = new System.Windows.Forms.Label();
-            this.lblPasswordHelp = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ReShowPass)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.panel1.Controls.Add(this.lblPasswordHelp);
             this.panel1.Controls.Add(this.lblConfirmPassStatus);
             this.panel1.Controls.Add(this.lblPasswordStatus);
@@ -79,14 +78,94 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.txtUsername);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(624, 734);
             this.panel1.TabIndex = 0;
             // 
+            // lblPasswordHelp
+            // 
+            this.lblPasswordHelp.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblPasswordHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblPasswordHelp.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblPasswordHelp.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblPasswordHelp.Location = new System.Drawing.Point(30, 472);
+            this.lblPasswordHelp.Margin = new System.Windows.Forms.Padding(10);
+            this.lblPasswordHelp.Name = "lblPasswordHelp";
+            this.lblPasswordHelp.Size = new System.Drawing.Size(523, 58);
+            this.lblPasswordHelp.TabIndex = 29;
+            this.lblPasswordHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblConfirmPassStatus
+            // 
+            this.lblConfirmPassStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblConfirmPassStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblConfirmPassStatus.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblConfirmPassStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblConfirmPassStatus.Location = new System.Drawing.Point(228, 542);
+            this.lblConfirmPassStatus.Margin = new System.Windows.Forms.Padding(10);
+            this.lblConfirmPassStatus.Name = "lblConfirmPassStatus";
+            this.lblConfirmPassStatus.Size = new System.Drawing.Size(325, 23);
+            this.lblConfirmPassStatus.TabIndex = 28;
+            this.lblConfirmPassStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblPasswordStatus
+            // 
+            this.lblPasswordStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblPasswordStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblPasswordStatus.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblPasswordStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblPasswordStatus.Location = new System.Drawing.Point(155, 381);
+            this.lblPasswordStatus.Margin = new System.Windows.Forms.Padding(10);
+            this.lblPasswordStatus.Name = "lblPasswordStatus";
+            this.lblPasswordStatus.Size = new System.Drawing.Size(398, 23);
+            this.lblPasswordStatus.TabIndex = 27;
+            this.lblPasswordStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblContactStatus
+            // 
+            this.lblContactStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblContactStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblContactStatus.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblContactStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblContactStatus.Location = new System.Drawing.Point(155, 281);
+            this.lblContactStatus.Margin = new System.Windows.Forms.Padding(10);
+            this.lblContactStatus.Name = "lblContactStatus";
+            this.lblContactStatus.Size = new System.Drawing.Size(398, 23);
+            this.lblContactStatus.TabIndex = 26;
+            this.lblContactStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblEmailStatus
+            // 
+            this.lblEmailStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblEmailStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblEmailStatus.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblEmailStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblEmailStatus.Location = new System.Drawing.Point(155, 181);
+            this.lblEmailStatus.Margin = new System.Windows.Forms.Padding(10);
+            this.lblEmailStatus.Name = "lblEmailStatus";
+            this.lblEmailStatus.Size = new System.Drawing.Size(398, 23);
+            this.lblEmailStatus.TabIndex = 25;
+            this.lblEmailStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblUsernameStatus
+            // 
+            this.lblUsernameStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblUsernameStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblUsernameStatus.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblUsernameStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblUsernameStatus.Location = new System.Drawing.Point(155, 81);
+            this.lblUsernameStatus.Margin = new System.Windows.Forms.Padding(10);
+            this.lblUsernameStatus.Name = "lblUsernameStatus";
+            this.lblUsernameStatus.Size = new System.Drawing.Size(398, 23);
+            this.lblUsernameStatus.TabIndex = 24;
+            this.lblUsernameStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // ReShowPass
             // 
+            this.ReShowPass.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ReShowPass.Image = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.eye_slash_solid;
             this.ReShowPass.Location = new System.Drawing.Point(559, 424);
             this.ReShowPass.Name = "ReShowPass";
@@ -100,6 +179,7 @@
             // 
             // label6
             // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label6.Font = new System.Drawing.Font("Arial", 22F, System.Drawing.FontStyle.Underline);
@@ -133,6 +213,7 @@
             // 
             // btnConfirm
             // 
+            this.btnConfirm.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnConfirm.BackColor = System.Drawing.Color.White;
             this.btnConfirm.BorderColor = System.Drawing.Color.White;
             this.btnConfirm.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
@@ -157,6 +238,7 @@
             // 
             // txtError
             // 
+            this.txtError.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtError.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.txtError.Font = new System.Drawing.Font("Arial", 12F);
             this.txtError.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -171,6 +253,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
             this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label5.Font = new System.Drawing.Font("Arial", 15F);
@@ -186,6 +269,7 @@
             // 
             // txtConfirmPassword
             // 
+            this.txtConfirmPassword.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtConfirmPassword.BackColor = System.Drawing.Color.White;
             this.txtConfirmPassword.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
             this.txtConfirmPassword.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
@@ -210,6 +294,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
             this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label4.Font = new System.Drawing.Font("Arial", 15F);
@@ -225,6 +310,7 @@
             // 
             // txtPassword
             // 
+            this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtPassword.BackColor = System.Drawing.Color.White;
             this.txtPassword.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
             this.txtPassword.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
@@ -249,6 +335,7 @@
             // 
             // txtContactNumber
             // 
+            this.txtContactNumber.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtContactNumber.BackColor = System.Drawing.Color.White;
             this.txtContactNumber.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
             this.txtContactNumber.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
@@ -274,6 +361,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
             this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label3.Font = new System.Drawing.Font("Arial", 15F);
@@ -289,6 +377,7 @@
             // 
             // txtEmail
             // 
+            this.txtEmail.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtEmail.BackColor = System.Drawing.Color.White;
             this.txtEmail.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
             this.txtEmail.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
@@ -313,6 +402,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Arial", 15F);
@@ -328,6 +418,7 @@
             // 
             // txtUsername
             // 
+            this.txtUsername.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtUsername.BackColor = System.Drawing.Color.White;
             this.txtUsername.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
             this.txtUsername.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
@@ -352,6 +443,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Arial", 15F);
@@ -365,78 +457,6 @@
             this.label1.Text = "Username";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblUsernameStatus
-            // 
-            this.lblUsernameStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblUsernameStatus.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblUsernameStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblUsernameStatus.Location = new System.Drawing.Point(155, 81);
-            this.lblUsernameStatus.Margin = new System.Windows.Forms.Padding(10);
-            this.lblUsernameStatus.Name = "lblUsernameStatus";
-            this.lblUsernameStatus.Size = new System.Drawing.Size(398, 23);
-            this.lblUsernameStatus.TabIndex = 24;
-            this.lblUsernameStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblEmailStatus
-            // 
-            this.lblEmailStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblEmailStatus.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblEmailStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblEmailStatus.Location = new System.Drawing.Point(155, 181);
-            this.lblEmailStatus.Margin = new System.Windows.Forms.Padding(10);
-            this.lblEmailStatus.Name = "lblEmailStatus";
-            this.lblEmailStatus.Size = new System.Drawing.Size(398, 23);
-            this.lblEmailStatus.TabIndex = 25;
-            this.lblEmailStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblContactStatus
-            // 
-            this.lblContactStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblContactStatus.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblContactStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblContactStatus.Location = new System.Drawing.Point(155, 281);
-            this.lblContactStatus.Margin = new System.Windows.Forms.Padding(10);
-            this.lblContactStatus.Name = "lblContactStatus";
-            this.lblContactStatus.Size = new System.Drawing.Size(398, 23);
-            this.lblContactStatus.TabIndex = 26;
-            this.lblContactStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblPasswordStatus
-            // 
-            this.lblPasswordStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblPasswordStatus.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblPasswordStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblPasswordStatus.Location = new System.Drawing.Point(155, 381);
-            this.lblPasswordStatus.Margin = new System.Windows.Forms.Padding(10);
-            this.lblPasswordStatus.Name = "lblPasswordStatus";
-            this.lblPasswordStatus.Size = new System.Drawing.Size(398, 23);
-            this.lblPasswordStatus.TabIndex = 27;
-            this.lblPasswordStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblConfirmPassStatus
-            // 
-            this.lblConfirmPassStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblConfirmPassStatus.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblConfirmPassStatus.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblConfirmPassStatus.Location = new System.Drawing.Point(228, 542);
-            this.lblConfirmPassStatus.Margin = new System.Windows.Forms.Padding(10);
-            this.lblConfirmPassStatus.Name = "lblConfirmPassStatus";
-            this.lblConfirmPassStatus.Size = new System.Drawing.Size(325, 23);
-            this.lblConfirmPassStatus.TabIndex = 28;
-            this.lblConfirmPassStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblPasswordHelp
-            // 
-            this.lblPasswordHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblPasswordHelp.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblPasswordHelp.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblPasswordHelp.Location = new System.Drawing.Point(30, 472);
-            this.lblPasswordHelp.Margin = new System.Windows.Forms.Padding(10);
-            this.lblPasswordHelp.Name = "lblPasswordHelp";
-            this.lblPasswordHelp.Size = new System.Drawing.Size(523, 58);
-            this.lblPasswordHelp.TabIndex = 29;
-            this.lblPasswordHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // SignUpPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -448,6 +468,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SignUpPanel";
             this.Size = new System.Drawing.Size(624, 734);
+            this.Load += new System.EventHandler(this.SignUpPanel_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ReShowPass)).EndInit();

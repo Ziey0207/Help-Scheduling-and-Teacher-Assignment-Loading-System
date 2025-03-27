@@ -384,5 +384,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                                   _confirmPasswordValid ? "✓ Match" : "⚠ No match";
             lblConfirmPassStatus.ForeColor = _confirmPasswordValid ? Color.Green : Color.Red;
         }
+
+        private void SignUpPanel_Load(object sender, EventArgs e)
+        {
+            this.Dock = DockStyle.Left;
+        }
     }
 }
