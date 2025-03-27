@@ -150,9 +150,14 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     HeaderText = "Active",
                     DataPropertyName = "is_active",
                     ReadOnly = true,
-                    Width = 60
+                    Width = 30
                 };
                 dataGridView1.Columns.Add(activeCol);
+
+                // Add action buttons
+                dataGridView1.Columns.Add(CreateButtonColumn("View", "👁", Color.FromArgb(100, 149, 237), Color.White, "view"));
+                dataGridView1.Columns.Add(CreateButtonColumn("Edit", "✏", Color.FromArgb(255, 215, 0), Color.White, "edit"));
+                dataGridView1.Columns.Add(CreateButtonColumn("Delete", "🗑", Color.FromArgb(220, 20, 60), Color.White, "delete"));
             }
             else if (isAdmin)
             {
@@ -175,6 +180,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     }
                 };
                 dataGridView1.Columns.Add(passwordCol);
+
+                // Add action buttons (only Edit and Delete for admin)
+                dataGridView1.Columns.Add(CreateButtonColumn("Edit", "✏", Color.FromArgb(255, 215, 0), Color.White, "edit"));
+                dataGridView1.Columns.Add(CreateButtonColumn("Delete", "🗑", Color.FromArgb(220, 20, 60), Color.White, "delete"));
             }
 
             // Make the last column fill remaining space
@@ -445,15 +454,60 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             btnView.Visible = false;
         }
 
-        protected override void OnResize(EventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            base.OnResize(e);
-            if (dataGridView1.Columns.Count > 0)
+            if (e.RowIndex < 0) return;
+
+            var senderGrid = (DataGridView)sender;
+
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
             {
-                // Keep the last column filling remaining space
-                dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
+                int id = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["id"].Value);
+                string buttonName = senderGrid.Columns[e.ColumnIndex].Name;
+
+                switch (buttonName)
+                {
+                    case "View":
+                        OpenViewForm(id);
+                        break;
+
+                    case "Edit":
+                        if (isFaculty)
+                        {
+                            OpenEditAddForm(0, recordId: id);
+                        }
+                        else if (isAdmin)
+                        {
+                            OpenEditAddForm(1, recordId: id);
+                        }
+                        break;
+
+                    case "Delete":
+                        DeleteRecord(id);
+                        break;
+                }
             }
+        }
+
+        private DataGridViewButtonColumn CreateButtonColumn(string name, string text, Color backColor, Color foreColor, string iconName)
+        {
+            var col = new DataGridViewButtonColumn
+            {
+                Name = name,
+                HeaderText = "",
+                Text = text,
+                UseColumnTextForButtonValue = true,
+                FlatStyle = FlatStyle.Flat,
+                Width = 20
+            };
+
+            // Style the button
+            col.DefaultCellStyle.BackColor = backColor;
+            col.DefaultCellStyle.ForeColor = foreColor;
+            col.DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            return col;
         }
     }
 }
