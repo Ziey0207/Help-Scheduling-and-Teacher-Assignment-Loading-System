@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using ReaLTaiizor.Controls;
 using MySql.Data.MySqlClient;
 using Scheduling_and_Teacher_Loading_Assignment_System;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
@@ -17,17 +18,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
     {
         private bool isFaculty, isAdmin;
 
-        // Add with your other class variables
-        private Color _headerColor = Color.FromArgb(19, 15, 64); // Material Blue
+        // Updated color scheme
+        private Color _headerColor = Color.FromArgb(19, 15, 64);  // Dark blue header
 
-        private Color _rowColor = Color.White;
-        private Color _alternatingRowColor = Color.FromArgb(240, 240, 240);
+        private Color _rowColor = Color.FromArgb(60, 63, 120);     // Row color
+        private Color _textColor = Color.FromArgb(220, 220, 220);  // Light text
+        private Color _buttonHoverColor = Color.FromArgb(19, 15, 64); // Hover color as requested
 
         public FacultyListandUsersList(int FacultyorUsers)
         {
             InitializeComponent();
 
-            ApplyModernDataGridViewStyle();
+            ApplyDarkModeTableStyle(); // Updated to use dark theme
             ConfigureSelectionBehavior();
 
             switch (FacultyorUsers)
@@ -137,60 +139,72 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             if (isFaculty)
             {
-                AddColumn("id", "ID", 60, false);
-                AddColumn("id_no", "ID No", 100);
-                AddColumn("name", "Name", 200);
-                AddColumn("email", "Email", 200);
-                AddColumn("contact_number", "Contact", 120);
+                // ID column - auto-sized to content
+                AddColumn("id", "ID", 50, false, DataGridViewAutoSizeColumnMode.DisplayedCells);
 
-                // Custom checkbox column for active status
+                // ID No column
+                AddColumn("id_no", "ID No", 100);
+
+                // Name column - takes remaining space
+                AddColumn("name", "Name", 200, true, DataGridViewAutoSizeColumnMode.Fill);
+
+                // Email column
+                AddColumn("email", "Email", 200, true, DataGridViewAutoSizeColumnMode.Fill);
+
+                // Contact column
+                AddColumn("contact_number", "Contact", 120, true, DataGridViewAutoSizeColumnMode.DisplayedCells);
+
+                // Active column - auto-sized to content
                 var activeCol = new DataGridViewCheckBoxColumn
                 {
                     Name = "is_active",
                     HeaderText = "Active",
                     DataPropertyName = "is_active",
                     ReadOnly = true,
-                    Width = 30
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                    FlatStyle = FlatStyle.Flat,
+                    MinimumWidth = 60
                 };
                 dataGridView1.Columns.Add(activeCol);
 
-                // Add action buttons
-                dataGridView1.Columns.Add(CreateButtonColumn("View", "👁", Color.FromArgb(100, 149, 237), Color.White, "view"));
-                dataGridView1.Columns.Add(CreateButtonColumn("Edit", "✏", Color.FromArgb(255, 215, 0), Color.White, "edit"));
-                dataGridView1.Columns.Add(CreateButtonColumn("Delete", "🗑", Color.FromArgb(220, 20, 60), Color.White, "delete"));
+                // Action buttons - auto-sized to content
+                dataGridView1.Columns.Add(CreateActionButtonColumn("View", "👁", "View details"));
+                dataGridView1.Columns.Add(CreateActionButtonColumn("Edit", "✏", "Edit record"));
+                dataGridView1.Columns.Add(CreateActionButtonColumn("Delete", "🗑", "Delete record"));
             }
             else if (isAdmin)
             {
-                AddColumn("id", "ID", 60, false);
-                AddColumn("username", "Username", 150);
-                AddColumn("email", "Email", 200);
-                AddColumn("contact_number", "Contact", 120);
+                // ID column - auto-sized to content
+                AddColumn("id", "ID", 50, false, DataGridViewAutoSizeColumnMode.DisplayedCells);
 
-                // Password column with masked text
+                // Username column
+                AddColumn("username", "Username", 150, true, DataGridViewAutoSizeColumnMode.Fill);
+
+                // Email column - takes remaining space
+                AddColumn("email", "Email", 200, true, DataGridViewAutoSizeColumnMode.Fill);
+
+                // Contact column
+                AddColumn("contact_number", "Contact", 120, true, DataGridViewAutoSizeColumnMode.DisplayedCells);
+
+                // Password column
                 var passwordCol = new DataGridViewTextBoxColumn
                 {
                     Name = "password",
                     HeaderText = "Password",
                     DataPropertyName = "password",
                     Width = 150,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
                     DefaultCellStyle = new DataGridViewCellStyle
                     {
-                        ForeColor = Color.Gray,
-                        Font = new Font("Segoe UI", 8)
+                        ForeColor = Color.Silver,
+                        Font = new Font("Arial", 10)
                     }
                 };
                 dataGridView1.Columns.Add(passwordCol);
 
-                // Add action buttons (only Edit and Delete for admin)
-                dataGridView1.Columns.Add(CreateButtonColumn("Edit", "✏", Color.FromArgb(255, 215, 0), Color.White, "edit"));
-                dataGridView1.Columns.Add(CreateButtonColumn("Delete", "🗑", Color.FromArgb(220, 20, 60), Color.White, "delete"));
-            }
-
-            // Make the last column fill remaining space
-            if (dataGridView1.Columns.Count > 0)
-            {
-                dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
+                // Action buttons - auto-sized to content
+                dataGridView1.Columns.Add(CreateActionButtonColumn("Edit", "✏", "Edit record"));
+                dataGridView1.Columns.Add(CreateActionButtonColumn("Delete", "🗑", "Delete record"));
             }
         }
 
@@ -316,24 +330,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             ConfigureDataGridViewResizing();
         }
 
-        private void dataGridView1_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor =
-                    Color.FromArgb(245, 245, 245);
-            }
-        }
-
-        private void dataGridView1_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor =
-                    e.RowIndex % 2 == 0 ? _rowColor : _alternatingRowColor;
-            }
-        }
-
         private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             DataGridViewColumn newColumn = dataGridView1.Columns[e.ColumnIndex];
@@ -357,34 +353,39 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 direction == ListSortDirection.Ascending ? SortOrder.Ascending : SortOrder.Descending;
         }
 
-        // Modern DataGridView style
-
-        private void ApplyModernDataGridViewStyle()
+        // Modern DataGridView style - UPDATED TO DARK THEME
+        private void ApplyDarkModeTableStyle()
         {
             // Basic Grid Setup
             dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dataGridView1.BackgroundColor = _headerColor;
+            dataGridView1.GridColor = Color.FromArgb(70, 73, 130);
 
             // Header Styling
             dataGridView1.EnableHeadersVisualStyles = false;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = _headerColor;
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 15, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = _textColor;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 16, FontStyle.Bold);
             dataGridView1.ColumnHeadersHeight = 40;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-            // Row Styling
+            // Row Styling (no alternating colors)
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.DefaultCellStyle.BackColor = _rowColor;
-            dataGridView1.DefaultCellStyle.ForeColor = Color.FromArgb(66, 66, 66);
+            dataGridView1.DefaultCellStyle.ForeColor = _textColor;
             dataGridView1.DefaultCellStyle.Font = new Font("Arial", 12);
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = _alternatingRowColor;
-            dataGridView1.RowTemplate.Height = 100;
+            dataGridView1.RowTemplate.ReadOnly = true;
+            dataGridView1.AllowUserToAddRows = false;
+
+            // Auto-size rows based on content
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView1.DefaultCellStyle.WrapMode = DataGridViewTriState.True; // Allow text wrapping
 
             // Selection Styling
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(229, 243, 255);
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.FromArgb(66, 66, 66);
+            dataGridView1.DefaultCellStyle.SelectionBackColor = _buttonHoverColor;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
 
             // Enable Double Buffering for smooth scrolling
             typeof(DataGridView).InvokeMember("DoubleBuffered",
@@ -403,10 +404,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             // Configure auto-sizing
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.AllowUserToResizeColumns = true;
+            dataGridView1.AllowUserToResizeColumns = false;
+
+            // Prevent row height adjustment
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
         }
 
-        private void AddColumn(string name, string headerText, int width, bool visible = true)
+        // Updated AddColumn method with auto-size mode parameter
+        private void AddColumn(string name, string headerText, int width, bool visible = true,
+                              DataGridViewAutoSizeColumnMode autoSizeMode = DataGridViewAutoSizeColumnMode.None)
         {
             var col = new DataGridViewTextBoxColumn
             {
@@ -415,9 +422,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 DataPropertyName = name,
                 Width = width,
                 Visible = visible,
+                AutoSizeMode = autoSizeMode,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
-                    Padding = new Padding(5, 8, 5, 8) // Add cell padding
+                    Padding = new Padding(5, 10, 5, 10)
                 }
             };
             dataGridView1.Columns.Add(col);
@@ -432,8 +440,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             dataGridView1.MultiSelect = false;
 
             // Visual improvements for selection
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(229, 243, 255);
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(19, 15, 64);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
             dataGridView1.RowTemplate.Height = 40; // Taller rows for better touch
         }
 
@@ -452,6 +460,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             btnEdit.Visible = false;
             btnDelete.Visible = false;
             btnView.Visible = false;
+
+            // Auto-size all rows after data is loaded
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Height = row.GetPreferredHeight(row.Index, DataGridViewAutoSizeRowMode.AllCells, true);
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -489,25 +503,63 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
-        private DataGridViewButtonColumn CreateButtonColumn(string name, string text, Color backColor, Color foreColor, string iconName)
+        private DataGridViewButtonColumn CreateActionButtonColumn(string name, string icon, string tooltip)
         {
-            var col = new DataGridViewButtonColumn
+            var btnColumn = new DataGridViewButtonColumn
             {
                 Name = name,
                 HeaderText = "",
-                Text = text,
+                Text = icon,
                 UseColumnTextForButtonValue = true,
                 FlatStyle = FlatStyle.Flat,
-                Width = 20
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                MinimumWidth = 40,
+                DefaultCellStyle = new DataGridViewCellStyle()
+                {
+                    BackColor = _rowColor,
+                    ForeColor = _textColor,
+                    Font = new Font("Arial", 15),
+                    Alignment = DataGridViewContentAlignment.MiddleCenter,
+                    Padding = new Padding(5)
+                }
             };
 
-            // Style the button
-            col.DefaultCellStyle.BackColor = backColor;
-            col.DefaultCellStyle.ForeColor = foreColor;
-            col.DefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
-            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            // Add tooltip
+            dataGridView1.CellToolTipTextNeeded += (sender, e) =>
+            {
+                if (e.ColumnIndex == dataGridView1.Columns[name].Index && e.RowIndex >= 0)
+                    e.ToolTipText = tooltip;
+            };
 
-            return col;
+            return btnColumn;
+        }
+
+        // NEW METHOD: Handle button hover effects
+        private void dataGridView1_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            var column = dataGridView1.Columns[e.ColumnIndex];
+            if (column is DataGridViewButtonColumn)
+            {
+                dataGridView1.Cursor = Cursors.Hand;
+                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = _buttonHoverColor;
+                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.ForeColor = Color.White;
+            }
+        }
+
+        // NEW METHOD: Reset button appearance when mouse leaves
+        private void dataGridView1_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            var column = dataGridView1.Columns[e.ColumnIndex];
+            if (column is DataGridViewButtonColumn)
+            {
+                dataGridView1.Cursor = Cursors.Default;
+                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = _rowColor;
+                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.ForeColor = _textColor;
+            }
         }
     }
 }
