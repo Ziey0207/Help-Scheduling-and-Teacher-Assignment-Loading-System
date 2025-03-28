@@ -40,5 +40,17 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 MessageBox.Show("Invalid OTP. Please try again.");
             }
         }
+
+        private void txtOTP_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Forgot fg = new Forgot();
+            fg.Show();
+        }
     }
 }

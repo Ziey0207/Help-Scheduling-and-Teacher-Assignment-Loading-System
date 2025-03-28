@@ -8,13 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
     public partial class Resetpass : Form
     {
+        private string correctOTP;
         private string userEmail;
+
 
         public Resetpass(string email)
         {
@@ -53,6 +56,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             {
                 MessageBox.Show("Passwords do not match!");
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            OTP tp = new OTP(correctOTP, userEmail);
+            tp.Show();
         }
     }
 }
