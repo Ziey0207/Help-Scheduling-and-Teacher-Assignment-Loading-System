@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new ReaLTaiizor.Controls.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.lbdate = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -37,9 +40,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.daycontainers = new System.Windows.Forms.FlowLayoutPanel();
-            this.lbdate = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,6 +65,36 @@
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 0;
             this.panel1.Text = "panel1";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(568, 14);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(66, 20);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "Next";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(23, 14);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(66, 20);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Previous";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // lbdate
+            // 
+            this.lbdate.AutoSize = true;
+            this.lbdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbdate.Location = new System.Drawing.Point(289, 14);
+            this.lbdate.Name = "lbdate";
+            this.lbdate.Size = new System.Drawing.Size(117, 18);
+            this.lbdate.TabIndex = 10;
+            this.lbdate.Text = "MONTH YEAR";
             // 
             // label7
             // 
@@ -144,36 +174,6 @@
             this.daycontainers.Size = new System.Drawing.Size(657, 526);
             this.daycontainers.TabIndex = 0;
             // 
-            // lbdate
-            // 
-            this.lbdate.AutoSize = true;
-            this.lbdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbdate.Location = new System.Drawing.Point(289, 14);
-            this.lbdate.Name = "lbdate";
-            this.lbdate.Size = new System.Drawing.Size(117, 18);
-            this.lbdate.TabIndex = 10;
-            this.lbdate.Text = "MONTH YEAR";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(23, 14);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(66, 20);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Previous";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(568, 14);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(66, 20);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "Next";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // ScheduleCalendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -182,7 +182,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Name = "ScheduleCalendar";
-            this.Size = new System.Drawing.Size(665, 522);
+            this.Size = new System.Drawing.Size(668, 488);
             this.Load += new System.EventHandler(this.ScheduleCalendar_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

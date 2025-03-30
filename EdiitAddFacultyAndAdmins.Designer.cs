@@ -632,7 +632,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.ClientSize = new System.Drawing.Size(753, 742);
+            this.ClientSize = new System.Drawing.Size(753, 728);
             this.Controls.Add(this.isActive);
             this.Controls.Add(this.FacultyInputs);
             this.Controls.Add(this.Error3);
