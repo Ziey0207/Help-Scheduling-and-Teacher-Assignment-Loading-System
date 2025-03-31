@@ -208,6 +208,12 @@
     <Compile Include="ListCRUD.Designer.cs">
       <DependentUpon>ListCRUD.cs</DependentUpon>
     </Compile>
+    <Compile Include="teacherdash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="teacherdash.Designer.cs">
+      <DependentUpon>teacherdash.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControlBlank.cs">
       <SubType>UserControl</SubType>
     </Compile>
