@@ -103,6 +103,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AE_CourseSubj.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AE_CourseSubj.Designer.cs">
+      <DependentUpon>AE_CourseSubj.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AE_Faculty.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AE_Faculty.Designer.cs">
+      <DependentUpon>AE_Faculty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AE_User.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AE_User.Designer.cs">
+      <DependentUpon>AE_User.cs</DependentUpon>
+    </Compile>
     <Compile Include="addschedule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +133,7 @@
     <Compile Include="AdminDashboard.Designer.cs">
       <DependentUpon>AdminDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="EnhancedTextBox.cs" />
     <Compile Include="HomeArea.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -184,11 +203,11 @@
     <Compile Include="SignUpPanel.Designer.cs">
       <DependentUpon>SignUpPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="FacultyListandUsersList.cs">
+    <Compile Include="ListCRUD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FacultyListandUsersList.Designer.cs">
-      <DependentUpon>FacultyListandUsersList.cs</DependentUpon>
+    <Compile Include="ListCRUD.Designer.cs">
+      <DependentUpon>ListCRUD.cs</DependentUpon>
     </Compile>
     <Compile Include="teacherdash.cs">
       <SubType>Form</SubType>
@@ -208,6 +227,15 @@
     <Compile Include="UserControlDays.Designer.cs">
       <DependentUpon>UserControlDays.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AE_CourseSubj.resx">
+      <DependentUpon>AE_CourseSubj.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AE_Faculty.resx">
+      <DependentUpon>AE_Faculty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AE_User.resx">
+      <DependentUpon>AE_User.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="addschedule.resx">
       <DependentUpon>addschedule.cs</DependentUpon>
     </EmbeddedResource>
@@ -232,8 +260,8 @@
     <EmbeddedResource Include="FacultyandUserUpdateAdd.resx">
       <DependentUpon>FacultyandUserUpdateAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FacultyListandUsersList.resx">
-      <DependentUpon>FacultyListandUsersList.cs</DependentUpon>
+    <EmbeddedResource Include="ListCRUD.resx">
+      <DependentUpon>ListCRUD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forgot.resx">
       <DependentUpon>Forgot.cs</DependentUpon>
@@ -296,8 +324,13 @@
     <None Include="Resources\120352507_175623534137466_5950447378052295425_n__1_-removebg-preview_upscayl_1x_upscayl-standard-4x.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ViewIcon.png" />
+    <None Include="Resources\ViewIcon.bmp" />
     <None Include="Resources\menu_book_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" />
     <None Include="Resources\calendar_month_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Include="Resources\add_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Include="Resources\Editicon.png" />
+    <None Include="Resources\DeleteIcon.png" />
     <Content Include="Resources\eye-regular.svg" />
     <Content Include="Resources\eye-slash-regular.svg" />
     <Content Include="Resources\eye-slash-solid.png" />
@@ -309,6 +342,9 @@
     <None Include="Resources\eye-solid1.png" />
     <None Include="Resources\eye-slash-solid1.png" />
     <Content Include="Resources\eye-solid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AddEdit_userControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

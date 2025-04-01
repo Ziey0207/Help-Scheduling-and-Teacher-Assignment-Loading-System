@@ -22,21 +22,26 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private DateTime _lastActivityTime;
         private string _currentSessionToken;
         private bool _explicitLogout = false;
-
         private int _adminId;
 
-        public bool AreaUsed = false;
-        private int Option;
+        private enum ContentArea
+        {
+            Home,
+            Course,
+            Subject,
+            Faculty,
+            Users,
+            Schedule
+        }
 
         public AdminDashboard(string sessionToken = null)
         {
             InitializeComponent();
             _currentSessionToken = sessionToken;
-
             _adminId = DatabaseHelper.GetAdminIdBySession(sessionToken) ?? -1;
 
             InitializeSessionTracking();
-            btnHome_Click(null, null);
+            ShowContentArea(ContentArea.Home);
         }
 
         private void InitializeSessionTracking()
@@ -49,7 +54,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             _sessionTimer = new Timer { Interval = 60000 }; // Check every minute
             _sessionTimer.Tick += CheckSessionTimeout;
             _sessionTimer.Start();
-
             _lastActivityTime = DateTime.Now;
         }
 
@@ -61,11 +65,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 MessageBox.Show("Session expired due to inactivity");
                 Logout();
             }
-        }
-
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            Logout();
         }
 
         private void Logout()
@@ -93,169 +92,69 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
-        private void btnHome_Click(object sender, EventArgs e)
-        {
-            if (!AreaUsed)
-            {
-                AreaHome areaHome = new AreaHome();
-                string adminName = DatabaseHelper.GetAdminNameById(_adminId);
-                areaHome.SetWelcomeMessage($"Welcome, {adminName}!");
-                AreaUsed = true;
-                Option = 0;
-                SwitchingArea.Controls.Add(areaHome);
-            }
-            else if (AreaUsed && !(Option == 0))
-            {
-                Control controlRemove = SwitchingArea.Controls[0];
-                SwitchingArea.Controls.Remove(controlRemove);
-                controlRemove.Dispose();
+        private void btnLogout_Click(object sender, EventArgs e) => Logout();
 
-                AreaHome areaHome = new AreaHome();
-                string adminName = DatabaseHelper.GetAdminNameById(_adminId);
-                areaHome.SetWelcomeMessage($"Welcome, {adminName}!");
-                AreaUsed = true;
-                Option = 0;
-                SwitchingArea.Controls.Add(areaHome);
-            }
-            else
+        private void ShowContentArea(ContentArea area)
+        {
+            // Clear current content
+            SwitchingArea.Controls.Clear();
+
+            Control contentControl = null;
+
+            switch (area)
             {
-                return;
+                case ContentArea.Home:
+                    contentControl = CreateHomeArea();
+                    break;
+
+                case ContentArea.Course:
+                    contentControl = new ListCRUD(2); // 2 for Course
+                    break;
+
+                case ContentArea.Subject:
+                    contentControl = new ListCRUD(3); // 3 for Subject
+                    break;
+
+                case ContentArea.Faculty:
+                    contentControl = new ListCRUD(0); // 0 for Faculty
+                    break;
+
+                case ContentArea.Users:
+                    contentControl = new ListCRUD(1); // 1 for Users
+                    break;
+
+                case ContentArea.Schedule:
+                    contentControl = new ScheduleCalendar();
+                    break;
+            }
+
+            if (contentControl != null)
+            {
+                contentControl.Dock = DockStyle.Fill;
+                SwitchingArea.Controls.Add(contentControl);
             }
         }
 
-        private void btnCourse_Click(object sender, EventArgs e)
+        private Control CreateHomeArea()
         {
-            if (!AreaUsed)
-            {
-                CourseList Course = new CourseList(0);
-                AreaUsed = true;
-                Option = 1;
-                SwitchingArea.Controls.Add(Course);
-            }
-            else if (AreaUsed && !(Option == 1))
-            {
-                Control controlRemove = SwitchingArea.Controls[0];
-                SwitchingArea.Controls.Remove(controlRemove);
-                controlRemove.Dispose();
-
-                CourseList Course = new CourseList(0);
-                AreaUsed = true;
-                Option = 1;
-                SwitchingArea.Controls.Add(Course);
-            }
-            else
-            {
-                return;
-            }
+            var areaHome = new AreaHome();
+            string adminName = DatabaseHelper.GetAdminNameById(_adminId);
+            areaHome.SetWelcomeMessage($"Welcome, {adminName}!");
+            return areaHome;
         }
 
-        private void btnSubject_Click(object sender, EventArgs e)
-        {
-            //gagamitin ko nlng same user control na courselist cause ive got no time hoe
-            if (!AreaUsed)
-            {
-                CourseList Subject = new CourseList(1);
-                AreaUsed = true;
-                Option = 2;
-                SwitchingArea.Controls.Add(Subject);
-            }
-            else if (AreaUsed && !(Option == 2))
-            {
-                Control controlRemove = SwitchingArea.Controls[0];
-                SwitchingArea.Controls.Remove(controlRemove);
-                controlRemove.Dispose();
+        // Button click handlers
+        private void btnHome_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Home);
 
-                CourseList Subject = new CourseList(1);
-                AreaUsed = true;
-                Option = 2;
-                SwitchingArea.Controls.Add(Subject);
-            }
-            else
-            {
-                return;
-            }
-        }
+        private void btnCourse_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Course);
 
-        private void btnFaculty_Click(object sender, EventArgs e)
-        {
-            //gagamitin ko nlng same user control na courselist cause ive got no time hoe
-            if (!AreaUsed)
-            {
-                FacultyListandUsersList Faculty = new FacultyListandUsersList(0);
-                AreaUsed = true;
-                Option = 3;
-                SwitchingArea.Controls.Add(Faculty);
-            }
-            else if (AreaUsed && !(Option == 3))
-            {
-                Control controlRemove = SwitchingArea.Controls[0];
-                SwitchingArea.Controls.Remove(controlRemove);
-                controlRemove.Dispose();
+        private void btnSubject_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Subject);
 
-                FacultyListandUsersList Faculty = new FacultyListandUsersList(0);
-                AreaUsed = true;
-                Option = 3;
-                SwitchingArea.Controls.Add(Faculty);
-            }
-            else
-            {
-                return;
-            }
-        }
+        private void btnFaculty_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Faculty);
 
-        private void btnUsers_Click(object sender, EventArgs e)
-        {
-            //gagamitin ko nlng same user control na courselist cause ive got no time hoe
-            if (!AreaUsed)
-            {
-                FacultyListandUsersList User = new FacultyListandUsersList(1);
-                AreaUsed = true;
-                Option = 4;
-                SwitchingArea.Controls.Add(User);
-            }
-            else if (AreaUsed && !(Option == 4))
-            {
-                Control controlRemove = SwitchingArea.Controls[0];
-                SwitchingArea.Controls.Remove(controlRemove);
-                controlRemove.Dispose();
+        private void btnUsers_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Users);
 
-                FacultyListandUsersList User = new FacultyListandUsersList(1);
-                AreaUsed = true;
-                Option = 4;
-                SwitchingArea.Controls.Add(User);
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        private void btnSchedule_Click(object sender, EventArgs e)
-        {
-            //gagamitin ko nlng same user control na courselist cause ive got no time hoe
-            if (!AreaUsed)
-            {
-                ScheduleCalendar Schedule = new ScheduleCalendar();
-                AreaUsed = true;
-                Option = 5;
-                SwitchingArea.Controls.Add(Schedule);
-            }
-            else if (AreaUsed && !(Option == 5))
-            {
-                Control controlRemove = SwitchingArea.Controls[0];
-                SwitchingArea.Controls.Remove(controlRemove);
-                controlRemove.Dispose();
-
-                ScheduleCalendar Schedule = new ScheduleCalendar();
-                AreaUsed = true;
-                Option = 5;
-                SwitchingArea.Controls.Add(Schedule);
-            }
-            else
-            {
-                return;
-            }
-        }
+        private void btnSchedule_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Schedule);
 
         private void AdminDashboard_FormClosing(object sender, FormClosingEventArgs e)
         {
