@@ -60,7 +60,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
-            private void label2_Click(object sender, EventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }
@@ -68,11 +68,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private void button1_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtDate.Text) ||
-            string.IsNullOrWhiteSpace(txtSubject.Text) ||
-            string.IsNullOrWhiteSpace(txtTeacher.Text) ||
-            string.IsNullOrWhiteSpace(txtTimeIn.Text) ||
-            string.IsNullOrWhiteSpace(txtTimeOut.Text) ||
-            string.IsNullOrWhiteSpace(txtRoom.Text))
+              string.IsNullOrWhiteSpace(txtSubject.Text) ||
+              string.IsNullOrWhiteSpace(txtTeacher.Text) ||
+              string.IsNullOrWhiteSpace(txtTimeIn.Text) ||
+              string.IsNullOrWhiteSpace(txtTimeOut.Text) ||
+              string.IsNullOrWhiteSpace(txtRoom.Text))
             {
                 MessageBox.Show("Please fill in all fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -113,6 +113,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             MessageBox.Show(scheduleId.HasValue ? "Schedule Updated!" : "Schedule Saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close(); // Close the form after saving
         }
+    
+
+
 
         private void addschedule_Load(object sender, EventArgs e)
         {

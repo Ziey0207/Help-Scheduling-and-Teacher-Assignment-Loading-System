@@ -259,7 +259,7 @@
             this.btnSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnSchedule.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.calendar_month_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
             this.btnSchedule.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
-            this.btnSchedule.ButtonText = "Schedule";
+            this.btnSchedule.ButtonText = "Calendar";
             this.btnSchedule.ClickBackColor = System.Drawing.Color.WhiteSmoke;
             this.btnSchedule.ClickTextColor = System.Drawing.Color.Black;
             this.btnSchedule.CornerRadius = 10;

@@ -266,6 +266,9 @@
     <EmbeddedResource Include="SignUpPanel.resx">
       <DependentUpon>SignUpPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="teacherdash.resx">
+      <DependentUpon>teacherdash.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControlBlank.resx">
       <DependentUpon>UserControlBlank.cs</DependentUpon>
     </EmbeddedResource>
