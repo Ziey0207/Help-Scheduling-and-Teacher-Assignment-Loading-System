@@ -228,8 +228,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             switch (_currentListType)
             {
                 case ListType.Faculty:
-                    AddColumn("id", "ID", 50, false);
-                    AddColumn("id_no", "ID No", 100);
+                    AddColumn("id_no", "ID No", 250, true, DataGridViewAutoSizeColumnMode.AllCells);
                     AddColumn("Name", "Name", 200, true, DataGridViewAutoSizeColumnMode.Fill);
                     AddColumn("email", "Email", 200, true, DataGridViewAutoSizeColumnMode.Fill);
                     AddColumn("contact_number", "Contact", 120, true, DataGridViewAutoSizeColumnMode.None);
@@ -239,14 +238,14 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                         Name = "Active",
                         HeaderText = "Active",
                         DataPropertyName = "Active",
-                        Width = 20,
-                        AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader,
                         DefaultCellStyle = new DataGridViewCellStyle
                         {
                             Alignment = DataGridViewContentAlignment.MiddleCenter,
                             Font = new Font("Segoe UI Emoji", 10), // Ensures emoji display
                             BackColor = _headerColor,
-                            ForeColor = Color.White
+                            ForeColor = Color.White,
+                            Padding = new Padding(5, 10, 5, 10)
                         },
                         ReadOnly = true
                     };
@@ -356,7 +355,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 direction == ListSortDirection.Ascending ? SortOrder.Ascending : SortOrder.Descending;
         }
 
-        // Modern DataGridView style - UPDATED TO DARK THEME
+        // In ListCRUD.cs, update the ApplyDarkModeTableStyle method to center the header text
         private void ApplyDarkModeTableStyle()
         {
             // Basic Grid Setup
@@ -370,7 +369,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = _headerColor;
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = _textColor;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 16, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 13, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Center align header text
             dataGridView1.ColumnHeadersHeight = 40;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 

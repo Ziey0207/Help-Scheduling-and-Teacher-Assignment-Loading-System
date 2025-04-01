@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new ReaLTaiizor.Controls.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cmbCourse = new ReaLTaiizor.Controls.AloneComboBox();
             this.lblErrorAddress = new System.Windows.Forms.Label();
             this.lblErrorContact = new System.Windows.Forms.Label();
             this.lblErrorEmail = new System.Windows.Forms.Label();
@@ -38,11 +40,9 @@
             this.cmbGender = new ReaLTaiizor.Controls.AloneComboBox();
             this.txtAddress = new ReaLTaiizor.Controls.SmallTextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtContact = new ReaLTaiizor.Controls.SmallTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtEmail = new ReaLTaiizor.Controls.SmallTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtID = new ReaLTaiizor.Controls.SmallTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtFullName = new ReaLTaiizor.Controls.SmallTextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,14 +50,17 @@
             this.btnCancel = new ReaLTaiizor.Controls.ParrotButton();
             this.btnSave = new ReaLTaiizor.Controls.ParrotButton();
             this.lblFaculty = new System.Windows.Forms.Label();
-            this.cmbCourse = new ReaLTaiizor.Controls.AloneComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.txtID = new ReaLTaiizor.Controls.SmallTextBox();
+            this.btnGen = new ReaLTaiizor.Controls.ParrotButton();
+            this.txtContact = new ReaLTaiizor.Controls.HopeTextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            this.panel1.Controls.Add(this.txtContact);
+            this.panel1.Controls.Add(this.btnGen);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.cmbCourse);
             this.panel1.Controls.Add(this.lblErrorAddress);
@@ -69,7 +72,6 @@
             this.panel1.Controls.Add(this.cmbGender);
             this.panel1.Controls.Add(this.txtAddress);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.txtContact);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.txtEmail);
             this.panel1.Controls.Add(this.label3);
@@ -91,6 +93,37 @@
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 1;
             this.panel1.Text = "panel1";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label6.Font = new System.Drawing.Font("Arial", 12F);
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.label6.Location = new System.Drawing.Point(322, 50);
+            this.label6.Margin = new System.Windows.Forms.Padding(10);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(59, 18);
+            this.label6.TabIndex = 65;
+            this.label6.Text = "Course";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmbCourse
+            // 
+            this.cmbCourse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.cmbCourse.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbCourse.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCourse.EnabledCalc = true;
+            this.cmbCourse.FormattingEnabled = true;
+            this.cmbCourse.ItemHeight = 20;
+            this.cmbCourse.Location = new System.Drawing.Point(313, 81);
+            this.cmbCourse.MaxDropDownItems = 100;
+            this.cmbCourse.Name = "cmbCourse";
+            this.cmbCourse.Size = new System.Drawing.Size(68, 26);
+            this.cmbCourse.TabIndex = 64;
+            this.cmbCourse.SelectedIndexChanged += new System.EventHandler(this.cmbCourseCode_SelectedIndexChanged);
             // 
             // lblErrorAddress
             // 
@@ -163,11 +196,11 @@
             this.lblErrorID.Font = new System.Drawing.Font("Arial", 10F);
             this.lblErrorID.ForeColor = System.Drawing.Color.White;
             this.lblErrorID.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblErrorID.Location = new System.Drawing.Point(108, 45);
+            this.lblErrorID.Location = new System.Drawing.Point(89, 45);
             this.lblErrorID.Margin = new System.Windows.Forms.Padding(10);
             this.lblErrorID.Name = "lblErrorID";
             this.lblErrorID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblErrorID.Size = new System.Drawing.Size(188, 23);
+            this.lblErrorID.Size = new System.Drawing.Size(176, 23);
             this.lblErrorID.TabIndex = 59;
             this.lblErrorID.Text = "asdasd";
             this.lblErrorID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -224,6 +257,7 @@
             this.txtAddress.TabIndex = 54;
             this.txtAddress.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtAddress.UseSystemPasswordChar = false;
+            this.txtAddress.TextChanged += new System.EventHandler(this.txtAddress_TextChanged);
             // 
             // label5
             // 
@@ -239,25 +273,6 @@
             this.label5.TabIndex = 53;
             this.label5.Text = "Address";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtContact
-            // 
-            this.txtContact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.txtContact.BackColor = System.Drawing.Color.Transparent;
-            this.txtContact.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.txtContact.CustomBGColor = System.Drawing.Color.White;
-            this.txtContact.Font = new System.Drawing.Font("Arial", 10F);
-            this.txtContact.ForeColor = System.Drawing.Color.Black;
-            this.txtContact.Location = new System.Drawing.Point(14, 298);
-            this.txtContact.MaxLength = 32767;
-            this.txtContact.Multiline = false;
-            this.txtContact.Name = "txtContact";
-            this.txtContact.ReadOnly = false;
-            this.txtContact.Size = new System.Drawing.Size(367, 26);
-            this.txtContact.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            this.txtContact.TabIndex = 52;
-            this.txtContact.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtContact.UseSystemPasswordChar = false;
             // 
             // label4
             // 
@@ -292,6 +307,7 @@
             this.txtEmail.TabIndex = 50;
             this.txtEmail.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtEmail.UseSystemPasswordChar = false;
+            this.txtEmail.TextChanged += new System.EventHandler(this.txtEmail_TextChanged);
             // 
             // label3
             // 
@@ -307,27 +323,6 @@
             this.label3.TabIndex = 49;
             this.label3.Text = "Email";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtID
-            // 
-            this.txtID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.txtID.BackColor = System.Drawing.Color.Transparent;
-            this.txtID.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.txtID.CustomBGColor = System.Drawing.Color.White;
-            this.txtID.Font = new System.Drawing.Font("Arial", 10F);
-            this.txtID.ForeColor = System.Drawing.Color.Black;
-            this.txtID.Location = new System.Drawing.Point(14, 81);
-            this.txtID.MaxLength = 32767;
-            this.txtID.Multiline = false;
-            this.txtID.Name = "txtID";
-            this.txtID.ReadOnly = false;
-            this.txtID.Size = new System.Drawing.Size(293, 26);
-            this.txtID.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            this.txtID.TabIndex = 48;
-            this.txtID.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtID.UseSystemPasswordChar = false;
-            this.txtID.Enter += new System.EventHandler(this.txtID_Enter);
-            this.txtID.Leave += new System.EventHandler(this.txtID_Leave);
             // 
             // label1
             // 
@@ -362,6 +357,7 @@
             this.txtFullName.TabIndex = 46;
             this.txtFullName.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtFullName.UseSystemPasswordChar = false;
+            this.txtFullName.TextChanged += new System.EventHandler(this.txtFullName_TextChanged);
             this.txtFullName.Leave += new System.EventHandler(this.txtFullName_Leave);
             // 
             // label2
@@ -466,35 +462,83 @@
             this.lblFaculty.Text = "Add Faculty";
             this.lblFaculty.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cmbCourse
+            // txtID
             // 
-            this.cmbCourse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cmbCourse.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cmbCourse.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCourse.EnabledCalc = true;
-            this.cmbCourse.FormattingEnabled = true;
-            this.cmbCourse.ItemHeight = 20;
-            this.cmbCourse.Location = new System.Drawing.Point(313, 81);
-            this.cmbCourse.MaxDropDownItems = 3;
-            this.cmbCourse.Name = "cmbCourse";
-            this.cmbCourse.Size = new System.Drawing.Size(68, 26);
-            this.cmbCourse.TabIndex = 64;
+            this.txtID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.txtID.BackColor = System.Drawing.Color.Transparent;
+            this.txtID.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.txtID.CustomBGColor = System.Drawing.Color.White;
+            this.txtID.Font = new System.Drawing.Font("Arial", 10F);
+            this.txtID.ForeColor = System.Drawing.Color.Black;
+            this.txtID.Location = new System.Drawing.Point(14, 81);
+            this.txtID.MaxLength = 32767;
+            this.txtID.Multiline = false;
+            this.txtID.Name = "txtID";
+            this.txtID.ReadOnly = false;
+            this.txtID.Size = new System.Drawing.Size(293, 26);
+            this.txtID.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            this.txtID.TabIndex = 48;
+            this.txtID.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtID.UseSystemPasswordChar = false;
+            this.txtID.TextChanged += new System.EventHandler(this.txtID_TextChanged);
+            this.txtID.Enter += new System.EventHandler(this.txtID_Enter);
+            this.txtID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtID_KeyPress);
+            this.txtID.Leave += new System.EventHandler(this.txtID_Leave);
             // 
-            // label6
+            // btnGen
             // 
-            this.label6.AutoSize = true;
-            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label6.Font = new System.Drawing.Font("Arial", 12F);
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label6.Location = new System.Drawing.Point(322, 50);
-            this.label6.Margin = new System.Windows.Forms.Padding(10);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(59, 18);
-            this.label6.TabIndex = 65;
-            this.label6.Text = "Course";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGen.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.btnGen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnGen.ButtonImage = null;
+            this.btnGen.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.btnGen.ButtonText = "Gen";
+            this.btnGen.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
+            this.btnGen.ClickTextColor = System.Drawing.Color.White;
+            this.btnGen.CornerRadius = 10;
+            this.btnGen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGen.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGen.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnGen.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.btnGen.HoverTextColor = System.Drawing.Color.White;
+            this.btnGen.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.btnGen.Location = new System.Drawing.Point(270, 45);
+            this.btnGen.Name = "btnGen";
+            this.btnGen.Padding = new System.Windows.Forms.Padding(5);
+            this.btnGen.Size = new System.Drawing.Size(37, 30);
+            this.btnGen.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.btnGen.TabIndex = 66;
+            this.btnGen.TextColor = System.Drawing.Color.White;
+            this.btnGen.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.btnGen.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnGen.Click += new System.EventHandler(this.btnGen_Click);
+            // 
+            // txtContact
+            // 
+            this.txtContact.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.txtContact.BackColor = System.Drawing.Color.White;
+            this.txtContact.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
+            this.txtContact.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.txtContact.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
+            this.txtContact.Font = new System.Drawing.Font("Arial", 10F);
+            this.txtContact.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
+            this.txtContact.Hint = "";
+            this.txtContact.Location = new System.Drawing.Point(14, 292);
+            this.txtContact.MaxLength = 32767;
+            this.txtContact.Multiline = false;
+            this.txtContact.Name = "txtContact";
+            this.txtContact.PasswordChar = '\0';
+            this.txtContact.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtContact.SelectedText = "";
+            this.txtContact.SelectionLength = 0;
+            this.txtContact.SelectionStart = 0;
+            this.txtContact.Size = new System.Drawing.Size(367, 32);
+            this.txtContact.TabIndex = 67;
+            this.txtContact.TabStop = false;
+            this.txtContact.UseSystemPasswordChar = false;
+            this.txtContact.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContact_KeyDown);
+            this.txtContact.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContact_KeyPress);
+            this.txtContact.TextChanged += new System.EventHandler(this.txtContact_TextChanged);
             // 
             // AE_Faculty
             // 
@@ -522,11 +566,9 @@
         private ReaLTaiizor.Controls.SmallTextBox txtFullName;
         private ReaLTaiizor.Controls.SmallTextBox txtAddress;
         private System.Windows.Forms.Label label5;
-        private ReaLTaiizor.Controls.SmallTextBox txtContact;
         private System.Windows.Forms.Label label4;
         private ReaLTaiizor.Controls.SmallTextBox txtEmail;
         private System.Windows.Forms.Label label3;
-        private ReaLTaiizor.Controls.SmallTextBox txtID;
         private System.Windows.Forms.Label label1;
         private ReaLTaiizor.Controls.AloneComboBox cmbGender;
         private ReaLTaiizor.Controls.AloneCheckBox isActive;
@@ -537,5 +579,8 @@
         private System.Windows.Forms.Label lblErrorID;
         private System.Windows.Forms.Label label6;
         private ReaLTaiizor.Controls.AloneComboBox cmbCourse;
+        private ReaLTaiizor.Controls.SmallTextBox txtID;
+        private ReaLTaiizor.Controls.ParrotButton btnGen;
+        private ReaLTaiizor.Controls.HopeTextBox txtContact;
     }
 }

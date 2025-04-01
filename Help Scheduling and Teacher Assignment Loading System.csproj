@@ -133,6 +133,7 @@
     <Compile Include="AdminDashboard.Designer.cs">
       <DependentUpon>AdminDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="EnhancedTextBox.cs" />
     <Compile Include="HomeArea.cs">
       <SubType>UserControl</SubType>
     </Compile>
