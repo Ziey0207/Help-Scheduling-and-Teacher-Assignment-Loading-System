@@ -55,10 +55,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     cmd.Parameters.AddWithValue("@date", selectedDate);
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
 
-                    if (count > 0)
+                    if (count >= 2)
                     {
-                        MessageBox.Show("A schedule already exists for this date. You cannot add another one.",
-                                        "Schedule Exists", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("You can only add up to 2 schedules per day.",
+                                        "Schedule Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
                 }
@@ -74,9 +74,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         }
 
-            private void lblSchedule_Click(object sender, EventArgs e)
+        private void lblSchedule_Click(object sender, EventArgs e)
         {
-      
+
         }
 
         public void displayEvent()
@@ -118,15 +118,46 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 }
             }
         }
-        
 
+        private void OpenEditForm(string date, int scheduleId)
+        {
+            addschedule editForm = new addschedule(date, scheduleId);
+            editForm.FormClosed += (s, args) => displayEvent();
+            editForm.ShowDialog();
+        }
 
+        private string PromptScheduleSelection(List<(int id, string details)> schedules)
+        {
+            using (Form selectForm = new Form())
+            {
+                selectForm.Text = "Select Schedule to Edit";
+                selectForm.Size = new Size(400, 200);
+                selectForm.StartPosition = FormStartPosition.CenterScreen;
 
+                ListBox listBox = new ListBox() { Dock = DockStyle.Fill };
+                foreach (var schedule in schedules)
+                {
+                    listBox.Items.Add(schedule.details);
+                }
+
+                Button btnOK = new Button() { Text = "OK", Dock = DockStyle.Bottom };
+                btnOK.Click += (s, e) => selectForm.DialogResult = DialogResult.OK;
+
+                selectForm.Controls.Add(listBox);
+                selectForm.Controls.Add(btnOK);
+
+                if (selectForm.ShowDialog() == DialogResult.OK && listBox.SelectedItem != null)
+                {
+                    return listBox.SelectedItem.ToString();
+                }
+                return null;
+            }
+        }
 
         private void timer1_Tick(object sender, EventArgs e)
-          {
+        {
             displayEvent();
-          }
+        }
 
         private void lbevent_Click(object sender, EventArgs e)
         {
@@ -134,59 +165,58 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             if (lbl != null)
             {
                 string[] lines = lbl.Text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                if (lines.Length >= 4) // Ensure valid format
+
+                if (lines.Length < 4)
                 {
-                    string subjectDetails = lines[0].Trim(); // Extract subject
-                    string teacher = lines[1].Replace("Teacher: ", "").Trim();
-                    string time = lines[2].Replace("Time: ", "").Trim();
-                    string room = lines[3].Replace("Room: ", "").Trim();
+                    MessageBox.Show("Invalid schedule format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    DateTime selectedFullDate = new DateTime(currentDate.Year, currentDate.Month, int.Parse(lbdays.Text));
-                    string selectedDate = selectedFullDate.ToString("yyyy-MM-dd");
+                DateTime selectedFullDate = new DateTime(currentDate.Year, currentDate.Month, int.Parse(lbdays.Text));
+                string selectedDate = selectedFullDate.ToString("yyyy-MM-dd");
 
-                    using (MySqlConnection conn = new MySqlConnection(connString))
+                using (MySqlConnection conn = new MySqlConnection(connString))
+                {
+                    conn.Open();
+                    string sql = "SELECT id, subject, teacher, time_in, time_out, room FROM schedules WHERE date = @date";
+
+                    using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                     {
-                        conn.Open();
-                        string sql = "SELECT id FROM schedules WHERE date = @date AND subject = @subject LIMIT 1";
-                        using (MySqlCommand cmd = new MySqlCommand(sql, conn))
+                        cmd.Parameters.AddWithValue("@date", selectedDate);
+                        List<(int id, string details)> schedules = new List<(int, string)>();
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            cmd.Parameters.AddWithValue("@date", selectedDate);
-                            cmd.Parameters.AddWithValue("@subject", subjectDetails);
-
-                            object result = cmd.ExecuteScalar();
-
-                            if (result != null)
+                            while (reader.Read())
                             {
-                                int scheduleId = Convert.ToInt32(result);
+                                int id = Convert.ToInt32(reader["id"]);
+                                string subject = reader["subject"].ToString().Trim();
+                                string teacher = reader["teacher"].ToString().Trim();
+                                string timeIn = reader["time_in"].ToString().Trim();
+                                string timeOut = reader["time_out"].ToString().Trim();
+                                string room = reader["room"].ToString().Trim();
 
-                                // Show options to View, Edit, or Delete
-                                DialogResult dialogResult = MessageBox.Show(
-                                    $"Schedule Details:\n\nSubject: {subjectDetails}\nTeacher: {teacher}\nTime: {time}\nRoom: {room}\nDate: {selectedDate}\n\nDo you want to Edit this schedule?",
-                                    "Schedule Options",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Question
-                                );
-
-                                if (dialogResult == DialogResult.Yes) // Edit
-                                {
-                                    addschedule editForm = new addschedule(selectedDate, scheduleId);
-
-                                    // Attach event handler para mag-refresh pag nagsara ang edit form
-                                    editForm.FormClosed += (s, args) => displayEvent();
-
-                                    editForm.ShowDialog();
-                                }
+                                string details = $"{subject} \n\n({teacher})\n\n{timeIn} - {timeOut}\n\nRoom: {room}";
+                                schedules.Add((id, details));
                             }
-                            else
+                        }
+
+                        // If only one schedule exists, open it directly
+                        if (schedules.Count == 1)
+                        {
+                            OpenEditForm(selectedDate, schedules[0].id);
+                        }
+                        else if (schedules.Count == 2)
+                        {
+                            // Let user choose between two schedules
+                            string selectedSchedule = PromptScheduleSelection(schedules);
+                            if (!string.IsNullOrEmpty(selectedSchedule))
                             {
-                                MessageBox.Show($"Schedule not found for '{subjectDetails}'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                int selectedId = schedules.First(s => s.details == selectedSchedule).id;
+                                OpenEditForm(selectedDate, selectedId);
                             }
                         }
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid schedule format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }

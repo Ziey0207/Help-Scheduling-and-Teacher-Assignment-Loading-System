@@ -61,6 +61,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            teacherdash teach = new teacherdash();
+            teach.Show();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             daycontainers.Controls.Clear();
