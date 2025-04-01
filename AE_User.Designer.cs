@@ -86,10 +86,10 @@
             this.lblPasswordRequirements.Font = new System.Drawing.Font("Arial", 10F);
             this.lblPasswordRequirements.ForeColor = System.Drawing.Color.White;
             this.lblPasswordRequirements.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblPasswordRequirements.Location = new System.Drawing.Point(11, 455);
+            this.lblPasswordRequirements.Location = new System.Drawing.Point(11, 416);
             this.lblPasswordRequirements.Margin = new System.Windows.Forms.Padding(10);
             this.lblPasswordRequirements.Name = "lblPasswordRequirements";
-            this.lblPasswordRequirements.Size = new System.Drawing.Size(368, 46);
+            this.lblPasswordRequirements.Size = new System.Drawing.Size(368, 116);
             this.lblPasswordRequirements.TabIndex = 49;
             this.lblPasswordRequirements.Text = "asdasd";
             // 
@@ -227,6 +227,7 @@
             this.btnSave.TextColor = System.Drawing.Color.White;
             this.btnSave.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             this.btnSave.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // label5
             // 

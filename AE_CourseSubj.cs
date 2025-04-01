@@ -55,7 +55,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
             txtCode.Tag = null;
             isCodeManuallyEdited = false;
             isCodeFocused = false;
-            lblformError.Text = string.Empty;
+            lblformError.Text = lblErrorCourse.Text = lblErrorCode.Text = string.Empty;
         }
 
         public void SetEditMode(int id, DataRow data)
@@ -121,7 +121,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
                 {
                     bool isDuplicate = CheckForDuplicateCode(txtCode.Text.Trim());
                     lblErrorCode.Text = isDuplicate ?
-                        $"{txtName.Text} already exists" : "";
+                        $"{txtCode.Text.ToUpper()} already exists" : "";
 
                     if (isDuplicate)
                     {
@@ -211,17 +211,17 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
             string query = $@"
         SELECT {codeField}
         FROM {table}
-        WHERE {codeField} LIKE @pattern
+        WHERE {codeField} REGEXP @pattern
         ORDER BY {codeField} DESC
         LIMIT 1";
 
-            MySqlParameter[] parameters = { new MySqlParameter("@pattern", baseCode + "%") };
+            MySqlParameter[] parameters = { new MySqlParameter("@pattern", $"^{baseCode}[0-9]{{3}}$") };
             string lastCode = DatabaseHelper.ExecuteScalar(query, parameters)?.ToString();
 
             int nextNum = 1;
             if (!string.IsNullOrEmpty(lastCode))
             {
-                string numPart = new string(lastCode.Where(char.IsDigit).ToArray());
+                string numPart = lastCode.Substring(baseCode.Length); // Get just the numeric part
                 if (int.TryParse(numPart, out int lastNum))
                 {
                     nextNum = lastNum + 1;
@@ -294,7 +294,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
             // Validate code (if manually entered)
             string code = txtCode.Text.StartsWith("Suggested:")
                 ? GenerateFinalCode(GenerateBaseCode(txtName.Text, isCourse), isCourse)
-                : txtCode.Text.Trim();
+                : txtCode.Text.Trim().ToUpper();
 
             if (CheckForDuplicateName(txtName.Text.Trim()) &&
                 (!IsEditMode || txtName.Text.Trim() != originalName))

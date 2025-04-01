@@ -50,6 +50,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     txtHeaderMain.Text = "Users List";
 
                     AE_User UsersAE = new AE_User();
+                    UsersAE.DataSaved += () => LoadData();
                     AddEditArea.Controls.Add(UsersAE);
                     break;
 
@@ -268,10 +269,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                         HeaderText = "Password",
                         DataPropertyName = "password",
                         Width = 150,
+                        AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
                         DefaultCellStyle = new DataGridViewCellStyle
                         {
+                            Alignment = DataGridViewContentAlignment.MiddleCenter,
                             ForeColor = Color.Silver,
-                            Font = new Font("Arial", 10)
+                            Font = new Font("Arial", 8)
                         }
                     };
                     dataGridView1.Columns.Add(passwordCol);

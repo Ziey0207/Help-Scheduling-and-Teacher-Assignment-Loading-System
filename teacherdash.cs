@@ -13,12 +13,13 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
     public partial class teacherdash : Form
     {
-        string connString = "server=localhost;database=school_management;uid=root;pwd=;";
+        private string connString = "server=localhost;database=school_management;uid=root;pwd=;Convert Zero Datetime = True";
         private DateTime currentMonth = DateTime.Now;
+
         public teacherdash()
         {
             InitializeComponent();
-            LoadSchedules(); 
+            LoadSchedules();
         }
 
         private void LoadSchedules(string teacherFilter = "")
@@ -93,7 +94,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void dgvScheduleResults_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
         }
     }
 }

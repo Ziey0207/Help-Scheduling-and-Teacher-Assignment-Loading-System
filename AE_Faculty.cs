@@ -113,11 +113,14 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
             btnCancel.Visible = false;
             lblFaculty.Text = "Add Faculty";
 
-            txtID.Text = "Pick course to generate";
             txtID.ForeColor = SystemColors.WindowText;
             txtFullName.Text = txtEmail.Text = txtContact.Text = txtAddress.Text = "";
             isActive.Checked = true;
+            if (cmbCourse.Items.Count > 0) cmbCourse.SelectedIndex = 0;
+            txtID.Text = "Pick course to generate";
+
             cmbGender.SelectedIndex = 0;
+
             _isIdManuallyEdited = false;
             _isIdFocused = false;
 
@@ -199,6 +202,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
 
         private string GetCurrentPrefix()
         {
+            if (cmbCourse.SelectedIndex == 0) return "FAC";
             return cmbCourse.SelectedItem?.ToString() ?? "FAC";
         }
 
@@ -668,7 +672,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
             }
             else
             {
-                lblErrorContact.Text = "Must be exactly 11 digits starting with 09\nExample: 0917-123-4567";
+                lblErrorContact.Text = "ex: 0917-123-4567";
                 return;
             }
 
