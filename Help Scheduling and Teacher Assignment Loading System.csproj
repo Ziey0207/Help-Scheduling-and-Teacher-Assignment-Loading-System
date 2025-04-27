@@ -139,7 +139,19 @@
     <Compile Include="AdminDashboard.Designer.cs">
       <DependentUpon>AdminDashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Calendar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Calendar.Designer.cs">
+      <DependentUpon>Calendar.cs</DependentUpon>
+    </Compile>
     <Compile Include="EnhancedTextBox.cs" />
+    <Compile Include="DayPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DayPopup.Designer.cs">
+      <DependentUpon>DayPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="HomeArea.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -197,11 +209,18 @@
     <Compile Include="Resetpass.Designer.cs">
       <DependentUpon>Resetpass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Schedule.cs" />
     <Compile Include="ScheduleCalendar.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ScheduleCalendar.Designer.cs">
       <DependentUpon>ScheduleCalendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SearchResultsPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchResultsPopup.Designer.cs">
+      <DependentUpon>SearchResultsPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="SignUpPanel.cs">
       <SubType>UserControl</SubType>
@@ -220,6 +239,12 @@
     </Compile>
     <Compile Include="teacherdash.Designer.cs">
       <DependentUpon>teacherdash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Day.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Day.Designer.cs">
+      <DependentUpon>Day.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControlBlank.cs">
       <SubType>UserControl</SubType>
@@ -253,6 +278,15 @@
     </Compile>
     <EmbeddedResource Include="AdminDashboard.resx">
       <DependentUpon>AdminDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calendar.resx">
+      <DependentUpon>Calendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Day.resx">
+      <DependentUpon>Day.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DayPopup.resx">
+      <DependentUpon>DayPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HomeArea.resx">
       <DependentUpon>HomeArea.cs</DependentUpon>
@@ -296,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScheduleCalendar.resx">
       <DependentUpon>ScheduleCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchResultsPopup.resx">
+      <DependentUpon>SearchResultsPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SignUpPanel.resx">
       <DependentUpon>SignUpPanel.cs</DependentUpon>

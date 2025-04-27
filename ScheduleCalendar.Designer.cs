@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new ReaLTaiizor.Controls.Panel();
+            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lbdate = new System.Windows.Forms.Label();
@@ -40,7 +41,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.daycontainers = new System.Windows.Forms.FlowLayoutPanel();
-            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +67,16 @@
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 0;
             this.panel1.Text = "panel1";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(448, 14);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(66, 20);
+            this.button3.TabIndex = 13;
+            this.button3.Text = "Schedules";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -176,16 +186,6 @@
             this.daycontainers.Size = new System.Drawing.Size(657, 526);
             this.daycontainers.TabIndex = 0;
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(448, 14);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(66, 20);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "Schedules";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // ScheduleCalendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,7 +194,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
             this.Name = "ScheduleCalendar";
-            this.Size = new System.Drawing.Size(677, 454);
+            this.Size = new System.Drawing.Size(643, 420);
             this.Load += new System.EventHandler(this.ScheduleCalendar_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
