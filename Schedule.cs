@@ -15,5 +15,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         public string Room { get; set; }
         public string TimeIn { get; set; }
         public string TimeOut { get; set; }
+
+        public string Time => $"{TimeIn} - {TimeOut}";
     }
 }

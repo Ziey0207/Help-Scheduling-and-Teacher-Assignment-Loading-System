@@ -23,7 +23,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private string _currentSessionToken;
         private bool _explicitLogout = false;
         private int _adminId;
-        private Calendar calendarControl = null;
 
         private enum ContentArea
         {
@@ -43,7 +42,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             _adminId = DatabaseHelper.GetAdminIdBySession(sessionToken) ?? -1;
 
             InitializeSessionTracking();
-
             ShowContentArea(ContentArea.Home);
         }
 

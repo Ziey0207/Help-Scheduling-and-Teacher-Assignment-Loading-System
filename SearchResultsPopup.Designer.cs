@@ -44,7 +44,7 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(6);
-            this.panel1.Size = new System.Drawing.Size(349, 333);
+            this.panel1.Size = new System.Drawing.Size(574, 402);
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 0;
             this.panel1.Text = "panel1";
@@ -56,7 +56,7 @@
             this.dgvResults.Location = new System.Drawing.Point(6, 6);
             this.dgvResults.Margin = new System.Windows.Forms.Padding(4);
             this.dgvResults.Name = "dgvResults";
-            this.dgvResults.Size = new System.Drawing.Size(337, 321);
+            this.dgvResults.Size = new System.Drawing.Size(562, 390);
             this.dgvResults.TabIndex = 0;
             // 
             // SearchResultsPopup
@@ -64,7 +64,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(349, 333);
+            this.ClientSize = new System.Drawing.Size(574, 402);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Arial", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
