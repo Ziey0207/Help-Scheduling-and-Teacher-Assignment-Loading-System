@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,43 +16,19 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
     public partial class Calendar : UserControl
     {
-        private bool _suppressSearchPopup = false; // Add this
         private DateTime currentDate;
-        private SearchResultsPopup searchPopup;
         private Timer searchDelayTimer;
 
         public Calendar()
         {
             InitializeComponent();
-            InitializeSearch();
             InitializeCalendar();
+            SetupSearchComponents();
 
             calendarGrid.ColumnCount = 0;
             calendarGrid.RowCount = 0;
 
             currentDate = DateTime.Now;
-        }
-
-        public bool IsSearchPopupVisible()
-        {
-            return searchPopup?.Visible ?? false;
-        }
-
-        public bool IsPointInSearchPopup(Point point)
-        {
-            if (!IsSearchPopupVisible())
-                return false;
-
-            // Convert to popup's coordinates for proper bounds check
-            Point popupPoint = searchPopup.PointToClient(this.PointToScreen(point));
-            return searchPopup.ClientRectangle.Contains(popupPoint);
-        }
-
-        public bool IsPointInSearchTextBox(Point point)
-        {
-            // Convert to textbox's coordinates for proper bounds check
-            Point textBoxPoint = txtSearch.PointToClient(this.PointToScreen(point));
-            return txtSearch.ClientRectangle.Contains(textBoxPoint);
         }
 
         private void InitializeCalendar()
@@ -61,89 +38,197 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             currentDate = DateTime.Now;
         }
 
-        internal void HideSearchPopup()
+        private void SetupSearchComponents()
         {
-            if (searchPopup.Visible)
-                searchPopup.Visible = false;
-        }
+            // Configure SplitContainer
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Panel1Collapsed = true;
+            splitContainer1.SplitterDistance = 150;
 
-        private void InitializeSearch()
-        {
-            Console.WriteLine("InitializeSearch called");
+            splitContainer1.IsSplitterFixed = true;
+            splitContainer1.SplitterWidth = 1; // Make splitter thinner
+            splitContainer1.Panel1MinSize = 0;
+            splitContainer1.Panel2MinSize = 0;
+            splitContainer1.FixedPanel = FixedPanel.None;
 
-            // Search box events
-            txtSearch.TextChanged += TxtSearch_TextChanged;
-            txtSearch.Click += TxtSearch_Click;
-            txtSearch.GotFocus += TxtSearch_GotFocus; // Add focus handler
-            txtSearch.LostFocus += TxtSearch_LostFocus; // Add focus lost handler
+            // Configure DataGridView
+            dgvSearchResults.Dock = DockStyle.Fill;
+            dgvSearchResults.AutoGenerateColumns = false;
+            dgvSearchResults.ReadOnly = true;
 
-            // Search delay timer
+            // Configure search delay timer
             searchDelayTimer = new Timer { Interval = 500 };
             searchDelayTimer.Tick += SearchDelayTimer_Tick;
+            txtSearch.TextChanged += TxtSearch_TextChanged;
 
-            // Initialize popup
-            searchPopup = new SearchResultsPopup
+            ConfigureSearchGrid();
+        }
+
+        private void ConfigureSearchGrid()
+        {
+            // Clear existing columns and settings
+            dgvSearchResults.Columns.Clear();
+            dgvSearchResults.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // Grid behavior properties
+            dgvSearchResults.AutoGenerateColumns = false;
+            dgvSearchResults.ReadOnly = true;
+            dgvSearchResults.AllowUserToAddRows = false;
+            dgvSearchResults.AllowUserToDeleteRows = false;
+            dgvSearchResults.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvSearchResults.MultiSelect = false;
+            dgvSearchResults.RowHeadersVisible = false;
+            dgvSearchResults.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            // Fixed dimensions and scrolling
+            dgvSearchResults.Height = (30 * 4) + dgvSearchResults.ColumnHeadersHeight;
+            dgvSearchResults.ScrollBars = ScrollBars.Vertical;
+            dgvSearchResults.RowTemplate.Height = 25;
+            dgvSearchResults.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+            // Prevent all resizing
+            dgvSearchResults.AllowUserToResizeRows = false;
+            dgvSearchResults.AllowUserToResizeColumns = false;
+
+            // Add columns with specific sizing rules
+            dgvSearchResults.Columns.AddRange(new[]
             {
-                Visible = false,
-                Size = new Size(400, 200),
-                Tag = this
+        new DataGridViewTextBoxColumn // Subject
+        {
+            DataPropertyName = "Subject",
+            HeaderText = "Subject",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+            MinimumWidth = 150,
+            Resizable = DataGridViewTriState.False
+        },
+        new DataGridViewTextBoxColumn // Teacher (fill column)
+        {
+            DataPropertyName = "Teacher",
+            HeaderText = "Teacher",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+            FillWeight = 45, // Percentage of remaining space
+            MinimumWidth = 120,
+            Resizable = DataGridViewTriState.False
+        },
+        new DataGridViewTextBoxColumn // Date
+        {
+            DataPropertyName = "Date",
+            HeaderText = "Date",
+            DefaultCellStyle = new DataGridViewCellStyle { Format = "yyyy-MM-dd" },
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+            MinimumWidth = 100,
+            Resizable = DataGridViewTriState.False
+        },
+        new DataGridViewTextBoxColumn // Time (fill column)
+        {
+            DataPropertyName = "Time",
+            HeaderText = "Time",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+            Resizable = DataGridViewTriState.False
+        },
+        new DataGridViewTextBoxColumn // Room
+        {
+            DataPropertyName = "Room",
+            HeaderText = "Room",
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+            FillWeight = 20, // Percentage of remaining space
+            MinimumWidth = 80,
+            Resizable = DataGridViewTriState.False
+        }
+    });
+
+            // Visual styling
+            dgvSearchResults.DefaultCellStyle.SelectionBackColor = Color.SteelBlue;
+            dgvSearchResults.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgvSearchResults.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10);
+        }
+
+        private async void SearchDelayTimer_Tick(object sender, EventArgs e)
+        {
+            searchDelayTimer.Stop();
+            Debug.WriteLine("[DEBUG] === SEARCH STARTED ===");
+
+            try
+            {
+                string term = txtSearch.Text.Trim();
+                Debug.WriteLine($"[DEBUG] Search term: '{term}'");
+
+                if (string.IsNullOrEmpty(term))
+                {
+                    Debug.WriteLine("[DEBUG] Empty search term - collapsing panel");
+                    splitContainer1.Panel1Collapsed = true;
+                    return;
+                }
+
+                // Execute search with case-insensitive matching
+                var results = await SearchSchedules(term);
+                Debug.WriteLine($"[DEBUG] Found {results.Count} matches");
+
+                if (results.Count > 0)
+                {
+                    splitContainer1.Panel1Collapsed = false;
+                    dgvSearchResults.DataSource = results;
+
+                    // Auto-size columns once after data binding
+                    dgvSearchResults.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                    Debug.WriteLine($"[UI] Panel expanded. Grid rows: {dgvSearchResults.Rows.Count}");
+                }
+                else
+                {
+                    Debug.WriteLine("[DEBUG] No matches found - collapsing panel");
+                    splitContainer1.Panel1Collapsed = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[ERROR] Search failed: {ex.ToString()}");
+                MessageBox.Show($"Search error: {ex.Message}");
+                splitContainer1.Panel1Collapsed = true;
+            }
+            finally
+            {
+                Debug.WriteLine("[DEBUG] === SEARCH COMPLETED ===\n");
+            }
+        }
+
+        private async Task<List<Schedule>> SearchSchedules(string term)
+        {
+            var parameters = new[] {
+                 new MySqlParameter("@searchTerm", $"%{term}%")
             };
 
-            // Add click handler for the popup
-            searchPopup.Click += SearchPopup_Click;
+            Debug.WriteLine($"[SQL] Executing query with term: {parameters[0].Value}");
 
-            // Handle DGV clicks in the popup
-            if (searchPopup.Controls["dgvResults"] is DataGridView dgv)
+            using (var reader = await DatabaseHelper.ExecuteReaderAsync(
+                    @"SELECT id, subject, teacher, date, room, time_in, time_out
+        FROM schedules
+        WHERE subject LIKE @searchTerm
+           OR teacher LIKE @searchTerm
+           OR room LIKE @searchTerm", parameters))
             {
-                Console.WriteLine("Attaching click handler to DataGridView");
-                dgv.CellClick += DgvResults_CellClick;
+                var results = new List<Schedule>();
+                while (await reader.ReadAsync())
+                {
+                    Debug.WriteLine($"[Data] Found match: {reader["subject"]}");
+                    results.Add(new Schedule
+                    {
+                        Id = reader.GetInt32("id"),
+                        Subject = reader.GetString("subject"),
+                        Teacher = reader.GetString("teacher"),
+                        Date = reader.GetDateTime("date"),
+                        Room = reader.GetString("room"),
+                        TimeIn = reader.GetString("time_in"),
+                        TimeOut = reader.GetString("time_out")
+                    });
+                }
+                return results;
             }
-            else
-            {
-                Console.WriteLine("WARNING: Could not find dgvResults control in popup");
-            }
         }
 
-        private void TxtSearch_GotFocus(object sender, EventArgs e)
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("Search textbox got focus");
-            if (!string.IsNullOrEmpty(txtSearch.Text) && !_suppressSearchPopup)
-            {
-                Console.WriteLine("Search has text and not suppressed - showing results");
-                ShowSearchResults(txtSearch.Text);
-            }
-        }
-
-        private void TxtSearch_LostFocus(object sender, EventArgs e)
-        {
-            Console.WriteLine("Search textbox lost focus");
-            // Don't hide the popup here - let the click handlers manage it
-        }
-
-        private void DgvResults_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            Console.WriteLine($"DataGridView cell clicked: Row {e.RowIndex}, Column {e.ColumnIndex}");
-            // Don't hide popup or change focus - let user interact with the results
-            // If you want to perform an action when they select a row, do it here
-        }
-
-        private void SearchPopup_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("SearchPopup clicked - maintaining focus");
-            // Prevent focus change
-            txtSearch.Focus();
-        }
-
-        private void TxtSearch_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Search textbox clicked");
-            if (!string.IsNullOrEmpty(txtSearch.Text))
-            {
-                Console.WriteLine("Search has text - showing results");
-                ShowSearchResults(txtSearch.Text);
-            }
-            // Keep focus on the textbox
-            txtSearch.Focus();
+            searchDelayTimer.Stop();
+            searchDelayTimer.Start();
         }
 
         private void Calendar_Load(object sender, EventArgs e)
@@ -152,9 +237,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             GenerateCalendar(currentDate.Year, currentDate.Month);
             UpdateMonthLabel();
             this.Dock = DockStyle.Fill;
-
-            this.MouseDown += Calendar_MouseDown;
-            calendarGrid.MouseDown += Calendar_MouseDown;
         }
 
         private void InitializeDayNames()
@@ -228,23 +310,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     Date = currentDate // Set the date property
                 };
 
-                dayControl.MouseDown += Day_MouseDown;
-
                 calendarGrid.Controls.Add(dayControl, col, row);
                 currentDate = currentDate.AddDays(1);
             }
-        }
-
-        public void StopSearchTimer()
-        {
-            Console.WriteLine("StopSearchTimer called. Timer Enabled: " + searchDelayTimer.Enabled);
-            searchDelayTimer.Stop();
-        }
-
-        private void Day_MouseDown(object sender, MouseEventArgs e)
-        {
-            searchPopup.Visible = false;
-            searchDelayTimer.Stop();
         }
 
         private void UpdateMonthLabel()
@@ -256,8 +324,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             currentDate = currentDate.AddMonths(-1);
             GenerateCalendar(currentDate.Year, currentDate.Month);
-            searchPopup.Visible = false; // Hide popup when changing month
-            searchDelayTimer.Stop();
             UpdateMonthLabel();
         }
 
@@ -265,152 +331,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             currentDate = currentDate.AddMonths(1);
             GenerateCalendar(currentDate.Year, currentDate.Month);
-            searchPopup.Visible = false; // Hide popup when changing month
-            searchDelayTimer.Stop();
             UpdateMonthLabel();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-        }
-
-        private void TxtSearch_TextChanged(object sender, EventArgs e)
-        {
-            Console.WriteLine("Text changed: " + txtSearch.Text.Trim());
-            searchDelayTimer.Stop();
-            searchDelayTimer.Start();
-        }
-
-        private void SearchDelayTimer_Tick(object sender, EventArgs e)
-        {
-            Console.WriteLine("Search timer tick - performing search");
-            searchDelayTimer.Stop();
-            ShowSearchResults(txtSearch.Text.Trim());
-            // Make sure search maintains focus
-            txtSearch.Focus();
-        }
-
-        private void ShowSearchResults(string term)
-        {
-            Console.WriteLine($"ShowSearchResults called with term: '{term}'");
-
-            if (string.IsNullOrEmpty(term))
-            {
-                Console.WriteLine("Term is empty - hiding popup");
-                searchPopup.Hide();
-                searchDelayTimer.Stop();
-                return;
-            }
-
-            searchDelayTimer.Stop();
-            Console.WriteLine("Search timer stopped");
-
-            // Position popup relative to search box
-            Point screenCoords = txtSearch.PointToScreen(new Point(0, txtSearch.Height));
-            searchPopup.Location = screenCoords;
-            Console.WriteLine($"Positioning popup at screen coordinates: {screenCoords}");
-
-            // Load and show results
-            var results = SearchSchedules(term);
-            Console.WriteLine($"Found {results.Count} search results");
-
-            searchPopup.LoadResults(results);
-
-            if (results.Count > 0)
-            {
-                if (!searchPopup.Visible)
-                {
-                    Console.WriteLine("Showing popup (was hidden)");
-                    searchPopup.Show(this.ParentForm);
-                    Console.WriteLine($"Popup visibility after Show(): {searchPopup.Visible}");
-
-                    // Ensure textbox keeps focus
-                    Console.WriteLine("Refocusing textbox");
-                    txtSearch.Focus();
-                }
-                else
-                {
-                    Console.WriteLine("Popup already visible - maintaining state");
-                }
-            }
-            else
-            {
-                Console.WriteLine("No results found - hiding popup");
-                searchPopup.Hide();
-            }
-        }
-
-        private List<Schedule> SearchSchedules(string term)
-        {
-            var parameters = new[] {
-        new MySqlParameter("@searchTerm", $"%{term}%")
-    };
-
-            using (var reader = DatabaseHelper.ExecuteReader(
-                @"SELECT * FROM schedules
-        WHERE subject LIKE @searchTerm
-           OR teacher LIKE @searchTerm
-           OR room LIKE @searchTerm", parameters))
-            {
-                var results = new List<Schedule>();
-                while (reader.Read())
-                {
-                    results.Add(new Schedule
-                    {
-                        Id = Convert.ToInt32(reader["id"]),
-                        Subject = reader["subject"].ToString(),
-                        Teacher = reader["teacher"].ToString(),
-                        Date = Convert.ToDateTime(reader["date"]),
-                        Room = reader["room"].ToString(),
-                        TimeIn = reader["time_in"].ToString(),
-                        TimeOut = reader["time_out"].ToString()
-                    });
-                }
-                return results;
-            }
-        }
-
-        private void Calendar_MouseDown(object sender, MouseEventArgs e)
-        {
-            Console.WriteLine("Calendar_MouseDown triggered");
-
-            if (searchPopup.Visible)
-            {
-                Point clickPoint = (sender == this)
-                    ? e.Location
-                    : this.PointToClient((sender as Control).PointToScreen(e.Location));
-
-                Console.WriteLine($"Click at point: {clickPoint}, checking against search popup and textbox");
-
-                bool inPopup = IsPointInSearchPopup(clickPoint);
-                bool inTextBox = IsPointInSearchTextBox(clickPoint);
-
-                Console.WriteLine($"Click in popup: {inPopup}, Click in textbox: {inTextBox}");
-
-                if (!inPopup && !inTextBox)
-                {
-                    Console.WriteLine("Click outside search areas - hiding popup");
-                    _suppressSearchPopup = true;
-                    searchPopup.Hide();
-                    searchDelayTimer.Stop();
-
-                    Console.WriteLine("Setting focus to calendar");
-                    this.Focus();
-                    this.ParentForm?.Activate();
-
-                    Console.WriteLine("Scheduling reset of suppress flag");
-                    Task.Delay(200).ContinueWith(t =>
-                    {
-                        _suppressSearchPopup = false;
-                        Console.WriteLine("Reset suppress flag to false");
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
-                }
-                else if (inTextBox)
-                {
-                    Console.WriteLine("Click in search box - maintaining focus");
-                    txtSearch.Focus();
-                }
-            }
         }
     }
 }
