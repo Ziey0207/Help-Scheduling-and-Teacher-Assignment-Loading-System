@@ -15,12 +15,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         public SearchResultsPopup()
         {
             InitializeComponent();
+            Console.WriteLine("SearchResultsPopup constructor called");
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowInTaskbar = false;
             this.StartPosition = FormStartPosition.Manual;
             this.TopMost = true;
 
+            Console.WriteLine("Configuring DataGridView as read-only");
             this.dgvResults.AllowUserToAddRows = false;
+            this.dgvResults.ReadOnly = true;
+            this.dgvResults.EditMode = DataGridViewEditMode.EditProgrammatically;
+            this.dgvResults.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
             this.dgvResults.RowHeadersVisible = false;
             this.dgvResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dgvResults.Columns.Add("Date", "Date");
@@ -32,9 +38,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             // Single Deactivate event
             this.Deactivate += (s, e) =>
             {
-                this.Hide(); // Uses the overridden Hide() method above
+                Console.WriteLine("SearchResultsPopup Deactivate event fired");
                 if (this.Tag is Calendar calendar)
+                {
+                    Console.WriteLine("Stopping search timer from Deactivate event");
                     calendar.StopSearchTimer();
+                }
             };
         }
 
@@ -46,20 +55,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             Console.WriteLine($"Popup visibility after Hide(): {this.Visible}");
         }
 
-        protected override void OnDeactivate(EventArgs e)
-        {
-            Console.WriteLine("Popup deactivated.");
-            base.OnDeactivate(e);
-            this.Hide();
-            if (this.Tag is Calendar calendar)
-            {
-                Console.WriteLine("Stopping calendar timer.");
-                calendar.StopSearchTimer();
-            }
-        }
-
         public void LoadResults(List<Schedule> results)
         {
+            Console.WriteLine($"LoadResults called with {results.Count} schedules");
             dgvResults.Rows.Clear();
             foreach (var schedule in results)
             {
@@ -71,6 +69,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     $"{schedule.TimeIn} - {schedule.TimeOut}"
                 );
             }
+            Console.WriteLine($"Loaded {dgvResults.Rows.Count} rows into the grid");
         }
     }
 }
