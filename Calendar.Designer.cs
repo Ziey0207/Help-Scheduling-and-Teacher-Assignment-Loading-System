@@ -240,7 +240,7 @@
             this.btnPrev.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnPrev.HoverTextColor = System.Drawing.Color.White;
             this.btnPrev.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnPrev.Location = new System.Drawing.Point(939, 3);
+            this.btnPrev.Location = new System.Drawing.Point(940, 5);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Padding = new System.Windows.Forms.Padding(5);
             this.btnPrev.Size = new System.Drawing.Size(106, 34);
@@ -268,7 +268,7 @@
             this.btnNext.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnNext.HoverTextColor = System.Drawing.Color.White;
             this.btnNext.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnNext.Location = new System.Drawing.Point(1052, 3);
+            this.btnNext.Location = new System.Drawing.Point(1052, 5);
             this.btnNext.Name = "btnNext";
             this.btnNext.Padding = new System.Windows.Forms.Padding(5);
             this.btnNext.Size = new System.Drawing.Size(106, 34);
@@ -282,14 +282,15 @@
             // lblMonthYear
             // 
             this.lblMonthYear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMonthYear.AutoSize = true;
             this.lblMonthYear.Font = new System.Drawing.Font("Arial", 15F);
             this.lblMonthYear.ForeColor = System.Drawing.Color.White;
-            this.lblMonthYear.Location = new System.Drawing.Point(542, 6);
+            this.lblMonthYear.Location = new System.Drawing.Point(769, 5);
             this.lblMonthYear.Name = "lblMonthYear";
-            this.lblMonthYear.Size = new System.Drawing.Size(109, 23);
+            this.lblMonthYear.Padding = new System.Windows.Forms.Padding(5);
+            this.lblMonthYear.Size = new System.Drawing.Size(165, 34);
             this.lblMonthYear.TabIndex = 0;
             this.lblMonthYear.Text = "Month/year";
+            this.lblMonthYear.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Calendar
             // 
@@ -308,7 +309,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResults)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
