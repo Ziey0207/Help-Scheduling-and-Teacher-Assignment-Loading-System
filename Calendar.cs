@@ -18,6 +18,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
     {
         private DateTime currentDate;
         private Timer searchDelayTimer;
+        private bool showAllMode = false;
 
         public Calendar()
         {
@@ -27,7 +28,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             calendarGrid.ColumnCount = 0;
             calendarGrid.RowCount = 0;
-
             currentDate = DateTime.Now;
         }
 
@@ -44,8 +44,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Panel1Collapsed = true;
             splitContainer1.SplitterDistance = 150;
-
             splitContainer1.IsSplitterFixed = true;
+
             splitContainer1.SplitterWidth = 1; // Make splitter thinner
             splitContainer1.Panel1MinSize = 0;
             splitContainer1.Panel2MinSize = 0;
@@ -335,6 +335,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void hopeButton1_Click(object sender, EventArgs e)
         {
         }
     }

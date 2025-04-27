@@ -36,11 +36,11 @@
             this.calendarGrid = new System.Windows.Forms.TableLayoutPanel();
             this.dayNamesPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new ReaLTaiizor.Controls.Panel();
+            this.btnShowAll = new ReaLTaiizor.Controls.HopeButton();
             this.txtSearch = new ReaLTaiizor.Controls.HopeTextBox();
+            this.btnPrev = new ReaLTaiizor.Controls.ParrotButton();
             this.btnNext = new ReaLTaiizor.Controls.ParrotButton();
             this.lblMonthYear = new System.Windows.Forms.Label();
-            this.btnPrev = new ReaLTaiizor.Controls.ParrotButton();
-            this.hopeButton1 = new ReaLTaiizor.Controls.HopeButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -97,7 +97,7 @@
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(5);
-            this.panel4.Size = new System.Drawing.Size(1166, 200);
+            this.panel4.Size = new System.Drawing.Size(150, 200);
             this.panel4.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel4.TabIndex = 3;
             this.panel4.Text = "panel4";
@@ -109,7 +109,7 @@
             this.dgvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSearchResults.Location = new System.Drawing.Point(5, 5);
             this.dgvSearchResults.Name = "dgvSearchResults";
-            this.dgvSearchResults.Size = new System.Drawing.Size(1156, 190);
+            this.dgvSearchResults.Size = new System.Drawing.Size(140, 190);
             this.dgvSearchResults.TabIndex = 0;
             // 
             // panel3
@@ -164,7 +164,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panel2.Controls.Add(this.hopeButton1);
+            this.panel2.Controls.Add(this.btnShowAll);
             this.panel2.Controls.Add(this.txtSearch);
             this.panel2.Controls.Add(this.btnPrev);
             this.panel2.Controls.Add(this.btnNext);
@@ -179,6 +179,26 @@
             this.panel2.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel2.TabIndex = 1;
             this.panel2.Text = "panel2";
+            // 
+            // btnShowAll
+            // 
+            this.btnShowAll.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
+            this.btnShowAll.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
+            this.btnShowAll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnShowAll.DangerColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
+            this.btnShowAll.DefaultColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnShowAll.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.btnShowAll.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
+            this.btnShowAll.InfoColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
+            this.btnShowAll.Location = new System.Drawing.Point(235, 7);
+            this.btnShowAll.Name = "btnShowAll";
+            this.btnShowAll.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.btnShowAll.Size = new System.Drawing.Size(120, 29);
+            this.btnShowAll.SuccessColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
+            this.btnShowAll.TabIndex = 48;
+            this.btnShowAll.Text = "Show All";
+            this.btnShowAll.TextColor = System.Drawing.Color.White;
+            this.btnShowAll.WarningColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
             // 
             // txtSearch
             // 
@@ -202,6 +222,34 @@
             this.txtSearch.TabIndex = 47;
             this.txtSearch.TabStop = false;
             this.txtSearch.UseSystemPasswordChar = false;
+            // 
+            // btnPrev
+            // 
+            this.btnPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrev.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.btnPrev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnPrev.ButtonImage = null;
+            this.btnPrev.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.btnPrev.ButtonText = "Previous";
+            this.btnPrev.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
+            this.btnPrev.ClickTextColor = System.Drawing.Color.White;
+            this.btnPrev.CornerRadius = 10;
+            this.btnPrev.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPrev.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.btnPrev.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnPrev.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.btnPrev.HoverTextColor = System.Drawing.Color.White;
+            this.btnPrev.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.btnPrev.Location = new System.Drawing.Point(939, 3);
+            this.btnPrev.Name = "btnPrev";
+            this.btnPrev.Padding = new System.Windows.Forms.Padding(5);
+            this.btnPrev.Size = new System.Drawing.Size(106, 34);
+            this.btnPrev.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.btnPrev.TabIndex = 45;
+            this.btnPrev.TextColor = System.Drawing.Color.White;
+            this.btnPrev.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.btnPrev.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
             // btnNext
             // 
@@ -243,54 +291,6 @@
             this.lblMonthYear.TabIndex = 0;
             this.lblMonthYear.Text = "Month/year";
             // 
-            // btnPrev
-            // 
-            this.btnPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrev.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.btnPrev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnPrev.ButtonImage = null;
-            this.btnPrev.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
-            this.btnPrev.ButtonText = "Previous";
-            this.btnPrev.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
-            this.btnPrev.ClickTextColor = System.Drawing.Color.White;
-            this.btnPrev.CornerRadius = 10;
-            this.btnPrev.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrev.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.btnPrev.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
-            this.btnPrev.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
-            this.btnPrev.HoverTextColor = System.Drawing.Color.White;
-            this.btnPrev.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnPrev.Location = new System.Drawing.Point(939, 3);
-            this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Padding = new System.Windows.Forms.Padding(5);
-            this.btnPrev.Size = new System.Drawing.Size(106, 34);
-            this.btnPrev.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.btnPrev.TabIndex = 45;
-            this.btnPrev.TextColor = System.Drawing.Color.White;
-            this.btnPrev.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.btnPrev.Vertical_Alignment = System.Drawing.StringAlignment.Center;
-            this.btnPrev.Click += new System.EventHandler(this.btnPrevious_Click);
-            // 
-            // hopeButton1
-            // 
-            this.hopeButton1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
-            this.hopeButton1.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
-            this.hopeButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.hopeButton1.DangerColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.hopeButton1.DefaultColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.hopeButton1.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.hopeButton1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
-            this.hopeButton1.InfoColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.hopeButton1.Location = new System.Drawing.Point(235, 7);
-            this.hopeButton1.Name = "hopeButton1";
-            this.hopeButton1.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.hopeButton1.Size = new System.Drawing.Size(120, 29);
-            this.hopeButton1.SuccessColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
-            this.hopeButton1.TabIndex = 48;
-            this.hopeButton1.Text = "Show All";
-            this.hopeButton1.TextColor = System.Drawing.Color.White;
-            this.hopeButton1.WarningColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
-            // 
             // Calendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -327,6 +327,6 @@
         private System.Windows.Forms.DataGridView dgvSearchResults;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ReaLTaiizor.Controls.ParrotButton btnPrev;
-        private ReaLTaiizor.Controls.HopeButton hopeButton1;
+        private ReaLTaiizor.Controls.HopeButton btnShowAll;
     }
 }
