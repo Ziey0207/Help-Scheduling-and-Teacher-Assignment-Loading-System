@@ -81,6 +81,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 cmbRooms.Items.Clear();
                 // Set room options
                 cmbRooms.Items.AddRange(new[] { "Room 303", "Room 404", "Room 301", "Comlab" });
+
+                cmbCourse.Items.Clear();
+                // Load teachers
+                using (var reader = DatabaseHelper.ExecuteReader(
+                    "SELECT course_code FROM courses", null))
+                {
+                    cmbCourse.Items.Clear();
+                    while (reader.Read())
+                        cmbCourse.Items.Add(reader[0]);
+                }
             }
             catch (Exception ex)
             {
@@ -98,7 +108,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             };
 
                 using (var reader = DatabaseHelper.ExecuteReader(
-                    @"SELECT id, subject, teacher, room, time_in, time_out
+                    @"SELECT id, course_code, subject, teacher, room, time_in, time_out
                 FROM schedules
                 WHERE date = @selectedDate", parameters))
                 {
@@ -148,6 +158,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 {
             new MySqlParameter("@subject", cmbSubjects.Text),
             new MySqlParameter("@teacher", cmbTeachers.Text),
+            new MySqlParameter("@course_code", cmbCourse.Text),
             new MySqlParameter("@room", cmbRooms.Text),
             new MySqlParameter("@date", currentDate.Date),
             new MySqlParameter("@timeIn", startTime.ToString("hh:mm tt")),
@@ -157,12 +168,13 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
                 string query = currentEventId == -1 ?
                     @"INSERT INTO schedules
-              (subject, teacher, room, date, time_in, time_out)
-              VALUES (@subject, @teacher, @room, @date, @timeIn, @timeOut)"
+              (course_code, subject, teacher, room, date, time_in, time_out)
+              VALUES (@course_code, @subject, @teacher, @room, @date, @timeIn, @timeOut)"
                     :
                     @"UPDATE schedules SET
               subject = @subject,
               teacher = @teacher,
+              course_code = @course_code,
               room = @room,
               time_in = @timeIn,
               time_out = @timeOut
@@ -221,6 +233,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             new MySqlParameter("@date", currentDate.Date),
             new MySqlParameter("@room", cmbRooms.Text),
             new MySqlParameter("@teacher", cmbTeachers.Text),
+            new MySqlParameter("@course_code", cmbCourse.Text),
+            new MySqlParameter("@subject", cmbSubjects.Text),
             new MySqlParameter("@newStart", newStart.ToString("HH:mm")),
             new MySqlParameter("@newEnd", newEnd.ToString("HH:mm")),
             new MySqlParameter("@id", currentEventId)
@@ -279,6 +293,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     currentEventId = Convert.ToInt32(row.Cells["id"].Value);
                     cmbSubjects.Text = row.Cells["subject"]?.Value?.ToString() ?? "";
                     cmbTeachers.Text = row.Cells["teacher"]?.Value?.ToString() ?? "";
+                    cmbCourse.Text = row.Cells["course_code"]?.Value?.ToString() ?? "";
                     cmbRooms.Text = row.Cells["room"]?.Value?.ToString() ?? "";
                     txtTimeIn.Text = row.Cells["time_in"]?.Value?.ToString() ?? "";
                     txtTimeOut.Text = row.Cells["time_out"]?.Value?.ToString() ?? "";
@@ -291,6 +306,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             currentEventId = -1;
             cmbSubjects.SelectedIndex = -1;
             cmbTeachers.SelectedIndex = -1;
+            cmbCourse.SelectedIndex = -1;
             cmbRooms.SelectedIndex = -1;
             txtTimeIn.Clear();
             txtTimeOut.Clear();
@@ -337,6 +353,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             return ValidateChildren() &&
                    string.IsNullOrEmpty(errorProvider.GetError(txtTimeIn)) &&
                    string.IsNullOrEmpty(errorProvider.GetError(txtTimeOut));
+        }
+
+        private void airForm1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -94,6 +94,26 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap classroom {
+            get {
+                object obj = ResourceManager.GetObject("classroom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap classroom_line_icon_vector_55623931_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("classroom-line-icon-vector-55623931-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DeleteIcon {
             get {
                 object obj = ResourceManager.GetObject("DeleteIcon", resourceCulture);
@@ -114,6 +134,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap education {
+            get {
+                object obj = ResourceManager.GetObject("education", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap eye_slash_solid {
             get {
                 object obj = ResourceManager.GetObject("eye-slash-solid", resourceCulture);
@@ -127,6 +157,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties {
         internal static System.Drawing.Bitmap eye_solid {
             get {
                 object obj = ResourceManager.GetObject("eye-solid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap hide_solid_24 {
+            get {
+                object obj = ResourceManager.GetObject("hide-solid-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -187,6 +227,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties {
         internal static System.Drawing.Bitmap school_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24 {
             get {
                 object obj = ResourceManager.GetObject("school_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap show_solid_24 {
+            get {
+                object obj = ResourceManager.GetObject("show-solid-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

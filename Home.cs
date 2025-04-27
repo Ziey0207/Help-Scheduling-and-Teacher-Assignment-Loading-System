@@ -113,12 +113,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             if (txtLoginPass.UseSystemPasswordChar)
             {
                 txtLoginPass.UseSystemPasswordChar = false;
-                ShowPass.Image = Properties.Resources.eye_solid; // Open eye icon
+                ShowPass.Image = Properties.Resources.hide_solid_24; // Open eye icon
             }
             else
             {
                 txtLoginPass.UseSystemPasswordChar = true;
-                ShowPass.Image = Properties.Resources.eye_slash_solid; // Closed eye icon
+                ShowPass.Image = Properties.Resources.show_solid_24; // Closed eye icon
             }
         }
 
@@ -244,12 +244,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void ShowPass_MouseEnter(object sender, EventArgs e)
         {
-            ShowPass.BackColor = Color.FromArgb(19, 15, 64);
         }
 
         private void ShowPass_MouseLeave(object sender, EventArgs e)
         {
-            ShowPass.BackColor = Color.FromArgb(48, 51, 107);
         }
 
         private void Home_FormClosing(object sender, FormClosingEventArgs e)
@@ -268,6 +266,26 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             {
                 Debug.WriteLine("Closing application completely");
                 Application.Exit();
+            }
+        }
+
+        private void ShowPass_LoadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+
+        }
+
+        private void Home_Load(object sender, EventArgs e)
+        {
+            // Toggle password visibility
+            if (txtLoginPass.UseSystemPasswordChar)
+            {
+                txtLoginPass.UseSystemPasswordChar = false;
+                ShowPass.Image = Properties.Resources.hide_solid_24; // Open eye icon
+            }
+            else
+            {
+                txtLoginPass.UseSystemPasswordChar = true;
+                ShowPass.Image = Properties.Resources.show_solid_24; // Closed eye icon
             }
         }
     }

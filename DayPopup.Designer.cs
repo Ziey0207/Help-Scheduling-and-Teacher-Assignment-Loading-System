@@ -44,6 +44,8 @@
             this.txtTimeIn = new ReaLTaiizor.Controls.HopeTextBox();
             this.btnSave = new ReaLTaiizor.Controls.AirButton();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
+            this.cmbCourse = new ReaLTaiizor.Controls.HopeComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.airForm1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -66,17 +68,20 @@
             this.airForm1.NoRounding = false;
             this.airForm1.Padding = new System.Windows.Forms.Padding(10);
             this.airForm1.Sizable = true;
-            this.airForm1.Size = new System.Drawing.Size(709, 831);
+            this.airForm1.Size = new System.Drawing.Size(709, 600);
             this.airForm1.SmartBounds = true;
             this.airForm1.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.airForm1.TabIndex = 0;
             this.airForm1.Text = "Day Events";
             this.airForm1.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.airForm1.Transparent = false;
+            this.airForm1.Click += new System.EventHandler(this.airForm1_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.cmbCourse);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.cmbSubjects);
             this.panel1.Controls.Add(this.cmbTeachers);
             this.panel1.Controls.Add(this.airButton3);
@@ -92,10 +97,10 @@
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.EdgeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(10, 36);
+            this.panel1.Location = new System.Drawing.Point(10, 38);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(5);
-            this.panel1.Size = new System.Drawing.Size(689, 199);
+            this.panel1.Size = new System.Drawing.Size(689, 271);
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 15;
             this.panel1.Text = "panel1";
@@ -134,7 +139,7 @@
             this.airButton3.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
             this.airButton3.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.airButton3.Image = null;
-            this.airButton3.Location = new System.Drawing.Point(8, 143);
+            this.airButton3.Location = new System.Drawing.Point(8, 224);
             this.airButton3.Name = "airButton3";
             this.airButton3.NoRounding = false;
             this.airButton3.Size = new System.Drawing.Size(63, 28);
@@ -172,7 +177,7 @@
             this.airButton2.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
             this.airButton2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.airButton2.Image = null;
-            this.airButton2.Location = new System.Drawing.Point(621, 143);
+            this.airButton2.Location = new System.Drawing.Point(621, 224);
             this.airButton2.Name = "airButton2";
             this.airButton2.NoRounding = false;
             this.airButton2.Size = new System.Drawing.Size(63, 28);
@@ -281,7 +286,7 @@
             this.btnSave.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSave.Image = null;
-            this.btnSave.Location = new System.Drawing.Point(548, 143);
+            this.btnSave.Location = new System.Drawing.Point(548, 224);
             this.btnSave.Name = "btnSave";
             this.btnSave.NoRounding = false;
             this.btnSave.Size = new System.Drawing.Size(67, 28);
@@ -294,17 +299,41 @@
             // 
             this.dgvEvents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEvents.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvEvents.Location = new System.Drawing.Point(10, 235);
+            this.dgvEvents.Location = new System.Drawing.Point(10, 309);
             this.dgvEvents.Name = "dgvEvents";
-            this.dgvEvents.Size = new System.Drawing.Size(689, 586);
+            this.dgvEvents.Size = new System.Drawing.Size(689, 281);
             this.dgvEvents.TabIndex = 14;
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
+            // 
+            // cmbCourse
+            // 
+            this.cmbCourse.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbCourse.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCourse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbCourse.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbCourse.FormattingEnabled = true;
+            this.cmbCourse.ItemHeight = 30;
+            this.cmbCourse.Location = new System.Drawing.Point(11, 168);
+            this.cmbCourse.Name = "cmbCourse";
+            this.cmbCourse.Size = new System.Drawing.Size(272, 36);
+            this.cmbCourse.TabIndex = 13;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial", 10F);
+            this.label6.Location = new System.Drawing.Point(12, 149);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 16);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Course";
             // 
             // DayPopup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 831);
+            this.ClientSize = new System.Drawing.Size(709, 600);
             this.Controls.Add(this.airForm1);
             this.Font = new System.Drawing.Font("Arial", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -341,5 +370,7 @@
         private ReaLTaiizor.Controls.AirButton airButton3;
         private System.Windows.Forms.DataGridView dgvEvents;
         private ReaLTaiizor.Controls.Panel panel1;
+        private ReaLTaiizor.Controls.HopeComboBox cmbCourse;
+        private System.Windows.Forms.Label label6;
     }
 }

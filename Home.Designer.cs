@@ -207,14 +207,16 @@
             // ShowPass
             // 
             this.ShowPass.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ShowPass.Image = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.eye_slash_solid;
-            this.ShowPass.Location = new System.Drawing.Point(529, 209);
+            this.ShowPass.BackColor = System.Drawing.Color.White;
+            this.ShowPass.Image = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.hide_solid_24;
+            this.ShowPass.Location = new System.Drawing.Point(530, 214);
             this.ShowPass.Name = "ShowPass";
             this.ShowPass.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.ShowPass.Size = new System.Drawing.Size(51, 35);
+            this.ShowPass.Size = new System.Drawing.Size(41, 24);
             this.ShowPass.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ShowPass.TabIndex = 24;
             this.ShowPass.TabStop = false;
+            this.ShowPass.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.ShowPass_LoadCompleted);
             this.ShowPass.Click += new System.EventHandler(this.ShowPass_Click);
             this.ShowPass.MouseEnter += new System.EventHandler(this.ShowPass_MouseEnter);
             this.ShowPass.MouseLeave += new System.EventHandler(this.ShowPass_MouseLeave);
@@ -313,7 +315,7 @@
             this.txtLoginPass.SelectedText = "";
             this.txtLoginPass.SelectionLength = 0;
             this.txtLoginPass.SelectionStart = 0;
-            this.txtLoginPass.Size = new System.Drawing.Size(500, 35);
+            this.txtLoginPass.Size = new System.Drawing.Size(557, 35);
             this.txtLoginPass.TabIndex = 4;
             this.txtLoginPass.TabStop = false;
             this.txtLoginPass.UseSystemPasswordChar = false;
@@ -409,6 +411,7 @@
             this.Text = "formTheme1";
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Home_FormClosing);
+            this.Load += new System.EventHandler(this.Home_Load);
             this.airForm1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

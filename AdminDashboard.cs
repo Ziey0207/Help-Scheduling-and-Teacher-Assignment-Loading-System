@@ -32,7 +32,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             Subject,
             Faculty,
             Users,
-            Schedule
+            Schedule,
+            room
         }
 
         public AdminDashboard(string sessionToken = null)
@@ -128,6 +129,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 case ContentArea.Schedule:
                     contentControl = new Calendar();
                     break;
+
+                case ContentArea.room:
+                    contentControl = new room();
+                    break;
             }
 
             if (contentControl != null)
@@ -157,6 +162,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private void btnUsers_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Users);
 
         private void btnSchedule_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Schedule);
+
+        private void btnRoom_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.room);
 
         private void AdminDashboard_FormClosing(object sender, FormClosingEventArgs e)
         {

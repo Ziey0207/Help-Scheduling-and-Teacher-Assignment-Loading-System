@@ -37,7 +37,8 @@
             this.btnSubject = new ReaLTaiizor.Controls.ParrotButton();
             this.btnFaculty = new ReaLTaiizor.Controls.ParrotButton();
             this.btnUsers = new ReaLTaiizor.Controls.ParrotButton();
-            this.btnSchedule = new ReaLTaiizor.Controls.ParrotButton();
+            this.btnRoom = new ReaLTaiizor.Controls.ParrotButton();
+            this.parrotButton1 = new ReaLTaiizor.Controls.ParrotButton();
             this.btnLogout = new ReaLTaiizor.Controls.ParrotButton();
             this.metroControlBox1 = new ReaLTaiizor.Controls.MetroControlBox();
             this.airForm1.SuspendLayout();
@@ -108,7 +109,8 @@
             this.flowLayoutPanel2.Controls.Add(this.btnSubject);
             this.flowLayoutPanel2.Controls.Add(this.btnFaculty);
             this.flowLayoutPanel2.Controls.Add(this.btnUsers);
-            this.flowLayoutPanel2.Controls.Add(this.btnSchedule);
+            this.flowLayoutPanel2.Controls.Add(this.parrotButton1);
+            this.flowLayoutPanel2.Controls.Add(this.btnRoom);
             this.flowLayoutPanel2.Controls.Add(this.btnLogout);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -253,32 +255,59 @@
             this.btnUsers.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click);
             // 
-            // btnSchedule
+            // btnRoom
             // 
-            this.btnSchedule.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
-            this.btnSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSchedule.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.calendar_month_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
-            this.btnSchedule.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
-            this.btnSchedule.ButtonText = "Calendar";
-            this.btnSchedule.ClickBackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnSchedule.ClickTextColor = System.Drawing.Color.Black;
-            this.btnSchedule.CornerRadius = 10;
-            this.btnSchedule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSchedule.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSchedule.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
-            this.btnSchedule.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
-            this.btnSchedule.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
-            this.btnSchedule.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnSchedule.Location = new System.Drawing.Point(5, 275);
-            this.btnSchedule.Name = "btnSchedule";
-            this.btnSchedule.Padding = new System.Windows.Forms.Padding(5);
-            this.btnSchedule.Size = new System.Drawing.Size(135, 48);
-            this.btnSchedule.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.btnSchedule.TabIndex = 3;
-            this.btnSchedule.TextColor = System.Drawing.Color.White;
-            this.btnSchedule.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.btnSchedule.Vertical_Alignment = System.Drawing.StringAlignment.Center;
-            this.btnSchedule.Click += new System.EventHandler(this.btnSchedule_Click);
+            this.btnRoom.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            this.btnRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnRoom.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.classroom;
+            this.btnRoom.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.btnRoom.ButtonText = "Room";
+            this.btnRoom.ClickBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnRoom.ClickTextColor = System.Drawing.Color.Black;
+            this.btnRoom.CornerRadius = 10;
+            this.btnRoom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRoom.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRoom.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnRoom.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.btnRoom.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
+            this.btnRoom.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.btnRoom.Location = new System.Drawing.Point(5, 329);
+            this.btnRoom.Name = "btnRoom";
+            this.btnRoom.Padding = new System.Windows.Forms.Padding(5);
+            this.btnRoom.Size = new System.Drawing.Size(135, 48);
+            this.btnRoom.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.btnRoom.TabIndex = 3;
+            this.btnRoom.TextColor = System.Drawing.Color.White;
+            this.btnRoom.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.btnRoom.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnRoom.Click += new System.EventHandler(this.btnRoom_Click);
+            // 
+            // parrotButton1
+            // 
+            this.parrotButton1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            this.parrotButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.parrotButton1.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.calendar_month_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
+            this.parrotButton1.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.parrotButton1.ButtonText = "Calendar";
+            this.parrotButton1.ClickBackColor = System.Drawing.Color.WhiteSmoke;
+            this.parrotButton1.ClickTextColor = System.Drawing.Color.Black;
+            this.parrotButton1.CornerRadius = 10;
+            this.parrotButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.parrotButton1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.parrotButton1.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.parrotButton1.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.parrotButton1.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
+            this.parrotButton1.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.parrotButton1.Location = new System.Drawing.Point(5, 275);
+            this.parrotButton1.Name = "parrotButton1";
+            this.parrotButton1.Padding = new System.Windows.Forms.Padding(5);
+            this.parrotButton1.Size = new System.Drawing.Size(135, 48);
+            this.parrotButton1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.parrotButton1.TabIndex = 7;
+            this.parrotButton1.TextColor = System.Drawing.Color.White;
+            this.parrotButton1.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.parrotButton1.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            this.parrotButton1.Click += new System.EventHandler(this.btnSchedule_Click);
             // 
             // btnLogout
             // 
@@ -296,7 +325,7 @@
             this.btnLogout.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnLogout.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(215)))));
             this.btnLogout.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnLogout.Location = new System.Drawing.Point(5, 329);
+            this.btnLogout.Location = new System.Drawing.Point(5, 383);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Padding = new System.Windows.Forms.Padding(5);
             this.btnLogout.Size = new System.Drawing.Size(135, 34);
@@ -368,9 +397,10 @@
         private ReaLTaiizor.Controls.ParrotButton btnSubject;
         private ReaLTaiizor.Controls.ParrotButton btnFaculty;
         private ReaLTaiizor.Controls.ParrotButton btnUsers;
-        private ReaLTaiizor.Controls.ParrotButton btnSchedule;
+        private ReaLTaiizor.Controls.ParrotButton btnRoom;
         private ReaLTaiizor.Controls.Panel SwitchingArea;
         private ReaLTaiizor.Controls.MetroControlBox metroControlBox1;
         private ReaLTaiizor.Controls.ParrotButton btnLogout;
+        private ReaLTaiizor.Controls.ParrotButton parrotButton1;
     }
 }

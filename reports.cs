@@ -1,36 +1,25 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
-    public partial class AreaHome : UserControl
+    public partial class reports : Form
     {
-        public AreaHome()
+        public reports()
         {
             InitializeComponent();
-            lblWelcome.Text = "Welcome!";
             LoadGraphReports();
         }
 
-        private void AreaHome_Load(object sender, EventArgs e)
-        {
-            this.Dock = DockStyle.Fill;
-        }
-
-        public void SetWelcomeMessage(string message)
-        {
-            // Assuming you have a label called lblWelcome in your AreaHome control
-            lblWelcome.Text = message;
-        }
 
         private async void LoadGraphReports()
         {
@@ -120,5 +109,24 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
+        private void chartRoom_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void reports_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chartTeacher_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chartSection_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
