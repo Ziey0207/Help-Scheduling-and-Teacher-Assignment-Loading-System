@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -58,42 +59,66 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
-                cmbSubjects.Items.Clear();
+                Debug.WriteLine("Loading combo box data...");
+
                 // Load subjects
+                Debug.WriteLine("Loading subjects...");
+                cmbSubjects.Items.Clear();
                 using (var reader = DatabaseHelper.ExecuteReader(
                     "SELECT subject_name FROM subjects", null))
                 {
-                    cmbSubjects.Items.Clear();
                     while (reader.Read())
                         cmbSubjects.Items.Add(reader["subject_name"]);
                 }
+                Debug.WriteLine($"Loaded {cmbSubjects.Items.Count} subjects");
 
-                cmbTeachers.Items.Clear();
                 // Load teachers
+                Debug.WriteLine("Loading teachers...");
+                cmbTeachers.Items.Clear();
                 using (var reader = DatabaseHelper.ExecuteReader(
                     "SELECT CONCAT(first_name, ' ', last_name) FROM faculty", null))
                 {
-                    cmbTeachers.Items.Clear();
                     while (reader.Read())
                         cmbTeachers.Items.Add(reader[0]);
                 }
+                Debug.WriteLine($"Loaded {cmbTeachers.Items.Count} teachers");
 
+                // Load rooms from database
+                Debug.WriteLine("Loading rooms...");
                 cmbRooms.Items.Clear();
-                // Set room options
-                cmbRooms.Items.AddRange(new[] { "Room 303", "Room 404", "Room 301", "Comlab" });
+                using (var reader = DatabaseHelper.ExecuteReader(
+                    "SELECT room_name FROM rooms", null))
+                {
+                    while (reader.Read())
+                        cmbRooms.Items.Add(reader["room_name"]);
+                }
+                Debug.WriteLine($"Loaded {cmbRooms.Items.Count} rooms");
 
+                // Load courses
+                Debug.WriteLine("Loading courses...");
                 cmbCourse.Items.Clear();
-                // Load teachers
                 using (var reader = DatabaseHelper.ExecuteReader(
                     "SELECT course_code FROM courses", null))
                 {
-                    cmbCourse.Items.Clear();
                     while (reader.Read())
                         cmbCourse.Items.Add(reader[0]);
                 }
+                Debug.WriteLine($"Loaded {cmbCourse.Items.Count} courses");
+
+                // Load sections (new addition)
+                Debug.WriteLine("Loading sections...");
+                cmbSections.Items.Clear(); // Ensure cmbSections exists in your form
+                using (var reader = DatabaseHelper.ExecuteReader(
+                    "SELECT section_name FROM sections", null))
+                {
+                    while (reader.Read())
+                        cmbSections.Items.Add(reader["section_name"]);
+                }
+                Debug.WriteLine($"Loaded {cmbSections.Items.Count} sections");
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Error in LoadComboBoxData: {ex.Message}");
                 MessageBox.Show($"Error loading data: {ex.Message}");
             }
         }
@@ -357,7 +382,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void airForm1_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

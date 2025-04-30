@@ -5,23 +5,33 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userControls
 {
     public partial class AE_CourseSubj : UserControl
     {
+        private const string DEBUG_PREFIX = "[AE_CourseSubj]";
+
         public bool IsEditMode { get; private set; }
         private int currentId = -1;
-        private bool isCourse = true;
+        private bool _isCourse;
+        private bool _isSubject;
+        private bool _isRoom;
+        private bool _isSection;
         private bool isCodeManuallyEdited = false;
         private bool isCodeFocused = false;
         private string originalName = string.Empty;
         private string originalCode = string.Empty;
+
+        private Point _originalDescriptionLocation;
+        private bool _positionsInitialized = false;
 
         public event Action DataSaved;
 
@@ -30,32 +40,101 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
             InitializeComponent();
             isCodeManuallyEdited = false;
             SetAddMode();
+            _originalDescriptionLocation = lblDescription.Location;
+            _positionsInitialized = true;
         }
 
-        public void SetMode(bool ISCourse)
+        public void SetMode(bool isCourse, bool isSubject, bool isRoom, bool isSection)
         {
-            isCourse = ISCourse;
-            // Update UI labels based on mode
-            SetAddMode(); // Reset to add mode when changing types
+            Debug.WriteLine($"[AE] SetMode - C:{isCourse} S:{isSubject} R:{isRoom} Sec:{isSection}");
+
+            // Reset all flags
+            _isCourse = isCourse;
+            _isSubject = isSubject;
+            _isRoom = isRoom;
+            _isSection = isSection;
+
+            UpdateLabels();
+            UpdateCodeVisibility();
+        }
+
+        private void UpdateLabels()
+        {
+            if (_isCourse)
+            {
+                lblCourseSubj.Text = "Add Course";
+                lblName.Text = "Course Name";
+            }
+            else if (_isSubject)
+            {
+                lblCourseSubj.Text = "Add Subject";
+                lblName.Text = "Subject Name";
+            }
+            else if (_isRoom)
+            {
+                lblCourseSubj.Text = "Add Room";
+                lblName.Text = "Room Name";
+            }
+            else if (_isSection)
+            {
+                lblCourseSubj.Text = "Add Section";
+                lblName.Text = "Section Name";
+            }
+
+            lblErrorCode.Text = lblErrorCourse.Text = lblformError.Text = "";
+        }
+
+        private void UpdateCodeVisibility()
+        {
+            // Store original position first time
+            if (!_positionsInitialized)
+            {
+                _originalDescriptionLocation = lblDescription.Location;
+                _positionsInitialized = true;
+            }
+
+            bool showCode = (_isCourse || _isSubject);
+            lblCode.Visible = txtCode.Visible = lblErrorCode.Visible = showCode;
+
+            // Adjust description position based on code visibility
+            if (showCode)
+            {
+                // Reset to original position
+                lblDescription.Location = _originalDescriptionLocation;
+                txtDescription.Location = new Point(_originalDescriptionLocation.X,
+                    _originalDescriptionLocation.Y + 25);
+            }
+            else
+            {
+                // Move up to where code fields would be
+                int newY = txtName.Bottom + 15;
+                lblDescription.Location = new Point(lblDescription.Left, newY);
+                txtDescription.Location = new Point(txtDescription.Left, newY + 25);
+            }
+
+            Debug.WriteLine($"[Layout] Description position: {txtDescription.Location}");
         }
 
         public void SetAddMode()
         {
+            Debug.WriteLine($"[AE] SetAddMode - Current mode: {lblCourseSubj.Text}");
+
             IsEditMode = false;
             currentId = -1;
             btnSave.Text = "Add";
-            lblCourseSubj.Text = isCourse ? "Add Course" : "Add Subject";
-            lblName.Text = isCourse ? "Course Name" : "Subject Name";
-            btnCancel.Visible = false;
+
+            // Update labels based on current mode
+            lblCourseSubj.Text = _isCourse ? "Add Course" :
+                                _isSubject ? "Add Subject" :
+                                _isRoom ? "Add Room" :
+                                "Add Section";
 
             // Clear fields
             txtName.Text = txtDescription.Text = "";
-            txtCode.Text = isCourse ? "Suggested: CRS001" : "Suggested: SUB001";
-            txtCode.ForeColor = Color.Gray;
-            txtCode.Tag = null;
-            isCodeManuallyEdited = false;
-            isCodeFocused = false;
-            lblformError.Text = lblErrorCourse.Text = lblErrorCode.Text = string.Empty;
+            txtCode.Text = "Auto-generate if empty";
+            txtCode.ForeColor = SystemColors.GrayText;
+
+            if (_isRoom || _isSection) txtCode.Text = ""; // Clear code for rooms/sections
         }
 
         public void SetEditMode(int id, DataRow data)
@@ -63,19 +142,34 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
             IsEditMode = true;
             currentId = id;
             btnSave.Text = "Update";
-            lblCourseSubj.Text = isCourse ? "Edit Course" : "Edit Subject";
-            lblName.Text = isCourse ? "Course Name" : "Subject Name";
-            btnCancel.Visible = true;
 
-            // Populate fields from the DataRow
-            // Use different column names based on whether we're editing Course or Subject
-            txtName.Text = data[isCourse ? "course_name" : "subject_name"].ToString();
-            txtCode.Text = data[isCourse ? "course_code" : "subject_code"].ToString();
-            txtCode.ForeColor = SystemColors.WindowText;
-            originalName = txtName.Text;
-            originalCode = txtCode.Text;
+            // Update labels based on mode
+            lblCourseSubj.Text = _isCourse ? "Edit Course" :
+                                _isSubject ? "Edit Subject" :
+                                _isRoom ? "Edit Room" :
+                                "Edit Section";
+
+            // Load data based on mode
+            if (_isCourse)
+            {
+                txtName.Text = data["course_name"].ToString();
+                txtCode.Text = data["course_code"].ToString();
+            }
+            else if (_isSubject)
+            {
+                txtName.Text = data["subject_name"].ToString();
+                txtCode.Text = data["subject_code"].ToString();
+            }
+            else if (_isRoom)
+            {
+                txtName.Text = data["room_name"].ToString();
+            }
+            else if (_isSection)
+            {
+                txtName.Text = data["section_name"].ToString();
+            }
+
             txtDescription.Text = data["description"].ToString();
-            lblErrorCode.Text = lblErrorCourse.Text = string.Empty; // Clear any previous errors
         }
 
         private void AE_CourseSubj_Load(object sender, EventArgs e)
@@ -150,28 +244,37 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
 
         private void UpdateCodeSuggestion()
         {
-            if (!isCodeManuallyEdited && !isCodeFocused)
+            try
             {
-                string finalCode;
+                Debug.WriteLine("[AE_CourseSubj] Updating code suggestion");
 
-                if (string.IsNullOrWhiteSpace(txtName.Text))
+                if (!isCodeManuallyEdited && !isCodeFocused && (_isCourse || _isSubject))
                 {
-                    // Default suggestion when name is empty
-                    finalCode = isCourse ? "Suggested: CRS001" : "Suggested: SUB001";
-                }
-                else
-                {
-                    // Generate suggestion based on database
-                    finalCode = $"Suggested: {GenerateFinalCode(GenerateBaseCode(txtName.Text, isCourse), isCourse)}";
-                }
+                    string finalCode;
 
-                // Only update if different from current text
-                if (txtCode.Text != finalCode)
-                {
-                    txtCode.Text = finalCode;
-                    txtCode.ForeColor = Color.Gray;
-                    txtCode.Tag = finalCode; // Store for comparison
+                    if (string.IsNullOrWhiteSpace(txtName.Text))
+                    {
+                        finalCode = _isCourse ? "Suggested: CRS001" : "Suggested: SUB001";
+                        Debug.WriteLine("[AE_CourseSubj] Using default code suggestion");
+                    }
+                    else
+                    {
+                        string baseCode = GenerateBaseCode(txtName.Text, _isCourse);
+                        finalCode = $"Suggested: {GenerateFinalCode(baseCode, _isCourse)}";
+                        Debug.WriteLine($"[AE_CourseSubj] Generated code: {finalCode}");
+                    }
+
+                    if (txtCode.Text != finalCode)
+                    {
+                        txtCode.Text = finalCode;
+                        txtCode.ForeColor = Color.Gray;
+                        txtCode.Tag = finalCode;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[AE_CourseSubj] Code suggestion error: {ex.Message}");
             }
         }
 
@@ -233,25 +336,64 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
 
         private bool CheckForDuplicateName(string name)
         {
-            string table = isCourse ? "courses" : "subjects";
-            string nameField = isCourse ? "course_name" : "subject_name";
+            try
+            {
+                Debug.WriteLine($"[Duplicate Check] Starting check for: {name}");
 
-            string query = $@"SELECT COUNT(*) FROM {table}
-                     WHERE {nameField} = @name AND id != @id";
+                // 1. Determine table and column names
+                string table = "";
+                string nameField = "";
 
-            MySqlParameter[] parameters = {
-        new MySqlParameter("@name", name),
-        new MySqlParameter("@id", IsEditMode ? currentId : -1)
-    };
+                if (_isCourse)
+                {
+                    table = "courses";
+                    nameField = "course_name";
+                }
+                else if (_isSubject)
+                {
+                    table = "subjects";
+                    nameField = "subject_name";
+                }
+                else if (_isRoom)
+                {
+                    table = "rooms";
+                    nameField = "room_name";
+                }
+                else if (_isSection)
+                {
+                    table = "sections";
+                    nameField = "section_name";
+                }
 
-            int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(query, parameters));
-            return count > 0;
+                Debug.WriteLine($"[Duplicate Check] Using table: {table}, column: {nameField}");
+
+                // 2. Build parameterized query
+                string query = $@"SELECT COUNT(*) FROM {table}
+                        WHERE {nameField} = @name
+                        {(IsEditMode ? "AND id != @id" : "")}";
+
+                MySqlParameter[] parameters = {
+            new MySqlParameter("@name", name),
+            new MySqlParameter("@id", IsEditMode ? currentId : -1)
+        };
+
+                // 3. Execute query
+                int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(query, parameters));
+                Debug.WriteLine($"[Duplicate Check] Found {count} matching records");
+
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Duplicate Check] ERROR: {ex.Message}");
+                return false;
+            }
         }
 
         private bool CheckForDuplicateCode(string code)
         {
-            string table = isCourse ? "courses" : "subjects";
-            string codeField = isCourse ? "course_code" : "subject_code";
+            string table = _isCourse ? "courses" : "subjects";
+            string codeField = _isCourse ? "course_code" : "subject_code";
 
             string query = $@"SELECT COUNT(*) FROM {table}
                      WHERE {codeField} = @code AND id != @id";
@@ -267,9 +409,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
 
         private void SearchInParent(string searchText)
         {
-            // Get reference to parent form
-            Control parent = this.Parent; // Replace with actual type
+            string searchField = _isCourse ? "course_name" :
+                                _isSubject ? "subject_name" :
+                                _isRoom ? "room_name" :
+                                "section_name";
 
+            string entityType = _isCourse ? "Course" :
+                               _isSubject ? "Subject" :
+                               _isRoom ? "Room" : "Section";
+
+            Debug.WriteLine($"[Search] Looking for {entityType} with: {searchText}");
+
+            Control parent = this.Parent;
             while (parent != null && !(parent is ListCRUD))
             {
                 parent = parent.Parent;
@@ -277,87 +428,150 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
 
             if (parent is ListCRUD listParent)
             {
+                // Pass both search text and field to parent
                 listParent.PerformSearch(searchText);
+                Debug.WriteLine($"[Search] Sent search to ListCRUD: {searchText} in {searchField}");
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            lblErrorCode.Text = lblErrorCourse.Text = lblformError.Text = "";
-
-            if (string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                lblErrorCourse.Text = "Name is required";
-                return;
-            }
-
-            // Validate code (if manually entered)
-            string code = txtCode.Text.StartsWith("Suggested:")
-                ? GenerateFinalCode(GenerateBaseCode(txtName.Text, isCourse), isCourse)
-                : txtCode.Text.Trim().ToUpper();
-
-            if (CheckForDuplicateName(txtName.Text.Trim()) &&
-                (!IsEditMode || txtName.Text.Trim() != originalName))
-            {
-                lblErrorCourse.Text = $"{txtName.Text} already exists";
-                return;
-            }
-
-            if (!txtCode.Text.StartsWith("Suggested:") && CheckForDuplicateCode(code) &&
-                (!IsEditMode || code != originalCode))
-            {
-                lblErrorCode.Text = $"{code} already exists";
-                return;
-            }
             try
             {
-                string query;
+                Debug.WriteLine("[AE_CourseSubj] Save started");
+
+                string name = txtName.Text.Trim();
+                string desc = txtDescription.Text.Trim();
+                string code = "";
+
+                // Code handling for Courses/Subjects
+                if (_isCourse || _isSubject)
+                {
+                    Debug.WriteLine("[AE_CourseSubj] Handling code for course/subject");
+                    code = txtCode.Text.StartsWith("Suggested:")
+                        ? GenerateFinalCode(GenerateBaseCode(name, _isCourse), _isCourse)
+                        : txtCode.Text.Trim().ToUpper();
+
+                    Debug.WriteLine($"[AE_CourseSubj] Final code: {code}");
+
+                    if (string.IsNullOrEmpty(code))
+                    {
+                        Debug.WriteLine("[AE_CourseSubj] Code validation failed");
+                        lblErrorCode.Text = "Code is required";
+                        return;
+                    }
+                }
+
+                // Common validation
+                if (string.IsNullOrEmpty(name))
+                {
+                    Debug.WriteLine("[AE_CourseSubj] Name validation failed");
+                    lblErrorCourse.Text = "Name is required";
+                    return;
+                }
+
+                // Build query based on type
+                string query = "";
                 MySqlParameter[] parameters;
 
                 if (IsEditMode)
                 {
-                    query = isCourse ?
-                        @"UPDATE courses SET
-                  course_name = @name,
-                  course_code = @code,
-                  description = @desc
-                  WHERE id = @id" :
-                        @"UPDATE subjects SET
-                  subject_name = @name,
-                  subject_code = @code,
-                  description = @desc
-                  WHERE id = @id";
-
-                    parameters = new MySqlParameter[]
+                    Debug.WriteLine("[AE_CourseSubj] Building UPDATE query");
+                    if (_isCourse)
                     {
-                new MySqlParameter("@name", txtName.Text),
-                new MySqlParameter("@code", code),
-                new MySqlParameter("@desc", txtDescription.Text),
+                        query = @"UPDATE courses SET
+                        course_name = @name,
+                        course_code = @code,
+                        description = @desc
+                        WHERE id = @id";
+                    }
+                    else if (_isSubject)
+                    {
+                        query = @"UPDATE subjects SET
+                         subject_name = @name,
+                         subject_code = @code,
+                         description = @desc
+                         WHERE id = @id";
+                    }
+                    else if (_isRoom)
+                    {
+                        query = @"UPDATE rooms SET
+                         room_name = @name,
+                         description = @desc
+                         WHERE id = @id";
+                    }
+                    else if (_isSection)
+                    {
+                        query = @"UPDATE sections SET
+                         section_name = @name,
+                         description = @desc
+                         WHERE id = @id";
+                    }
+
+                    parameters = new MySqlParameter[] {
+                new MySqlParameter("@name", name),
+                new MySqlParameter("@desc", desc),
                 new MySqlParameter("@id", currentId)
-                    };
+            };
+
+                    // Add code parameter for courses/subjects
+                    if (_isCourse || _isSubject)
+                    {
+                        parameters = parameters.Append(new MySqlParameter("@code", code)).ToArray();
+                    }
                 }
                 else
                 {
-                    query = isCourse ?
-                        @"INSERT INTO courses (course_name, course_code, description)
-                  VALUES (@name, @code, @desc)" :
-                        @"INSERT INTO subjects (subject_name, subject_code, description)
-                  VALUES (@name, @code, @desc)";
-
-                    parameters = new MySqlParameter[]
+                    Debug.WriteLine("[AE_CourseSubj] Building INSERT query");
+                    if (_isCourse)
                     {
-                new MySqlParameter("@name", txtName.Text),
-                new MySqlParameter("@code", code),
-                new MySqlParameter("@desc", txtDescription.Text)
-                    };
+                        query = @"INSERT INTO courses
+                        (course_name, course_code, description)
+                        VALUES (@name, @code, @desc)";
+                    }
+                    else if (_isSubject)
+                    {
+                        query = @"INSERT INTO subjects
+                         (subject_name, subject_code, description)
+                         VALUES (@name, @code, @desc)";
+                    }
+                    else if (_isRoom)
+                    {
+                        query = @"INSERT INTO rooms
+                         (room_name, description)
+                         VALUES (@name, @desc)";
+                    }
+                    else if (_isSection)
+                    {
+                        query = @"INSERT INTO sections
+                         (section_name, description)
+                         VALUES (@name, @desc)";
+                    }
+
+                    parameters = new MySqlParameter[] {
+                new MySqlParameter("@name", name),
+                new MySqlParameter("@desc", desc)
+            };
+
+                    // Add code parameter for courses/subjects
+                    if (_isCourse || _isSubject)
+                    {
+                        parameters = parameters.Append(new MySqlParameter("@code", code)).ToArray();
+                    }
                 }
 
-                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                Debug.WriteLine($"[AE_CourseSubj] Executing query: {query}");
+                Debug.WriteLine($"[AE_CourseSubj] Parameters: {string.Join(", ", parameters.Select(p => $"{p.ParameterName}={p.Value}"))}");
+
+                int result = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                Debug.WriteLine($"[AE_CourseSubj] Query executed. Rows affected: {result}");
+
                 DataSaved?.Invoke();
                 SetAddMode();
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"[AE_CourseSubj] ERROR: {ex.Message}");
                 lblformError.Text = $"Error: {ex.Message}";
             }
         }
@@ -369,38 +583,40 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System.AddEdit_userCont
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-            if (IsEditMode)
-            {
-            }
+            Debug.WriteLine($"[Validation] Name text changed: {txtName.Text}");
+
+            // Clear previous errors
+            lblErrorCourse.Text = "";
+            SearchInParent("");
+
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                // Reset to default when name is empty
                 UpdateCodeSuggestion();
-                SearchInParent("");
-                lblErrorCourse.Text = "";
                 return;
             }
 
-            if (!isCodeManuallyEdited && !isCodeFocused)
+            // Real-time duplicate check for all types
+            bool isDuplicate = CheckForDuplicateName(txtName.Text.Trim());
+            string entityType = _isCourse ? "Course" :
+                               _isSubject ? "Subject" :
+                               _isRoom ? "Room" : "Section";
+
+            if (isDuplicate)
             {
-                UpdateCodeSuggestion();
+                lblErrorCourse.Text = $"{entityType} already exists!";
+                SearchInParent(txtName.Text.Trim());
+                Debug.WriteLine($"[Validation] Duplicate {entityType} detected in real-time");
+            }
+            else
+            {
+                SearchInParent("");
+                Debug.WriteLine($"[Validation] No duplicate {entityType} found");
             }
 
-            if (!string.IsNullOrWhiteSpace(txtName.Text))
+            // Auto-suggest code only for Courses/Subjects
+            if (!isCodeManuallyEdited && !isCodeFocused && (_isCourse || _isSubject))
             {
-                bool isDuplicate = CheckForDuplicateName(txtName.Text.Trim());
-                lblErrorCourse.Text = isDuplicate ?
-                    $"{txtName.Text} already exists" : "";
-
-                if (isDuplicate)
-                {
-                    SearchInParent(txtName.Text.Trim());
-                }
-                else
-                {
-                    lblErrorCourse.Text = "";
-                    SearchInParent("");
-                }
+                UpdateCodeSuggestion();
             }
         }
     }

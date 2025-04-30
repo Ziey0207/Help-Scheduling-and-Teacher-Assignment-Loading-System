@@ -15,7 +15,14 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
     public partial class ListCRUD : UserControl
     {
         private enum ListType
-        { Faculty = 0, Admin = 1, Course = 2, Subject = 3 }
+        {
+            Faculty = 0,
+            Admin = 1,
+            Course = 2,
+            Subject = 3,
+            Room = 4,
+            Section = 5
+        }
 
         private ListType _currentListType;
 
@@ -33,7 +40,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             InitializeComponent();
             ApplyDarkModeTableStyle(); // Updated to use dark theme
             ConfigureSelectionBehavior();
-
             _currentListType = (ListType)listType;
 
             switch (_currentListType)
@@ -58,7 +64,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     txtHeaderMain.Text = "Courses List";
 
                     AE_CourseSubj CoursesAE = new AE_CourseSubj();
-                    CoursesAE.SetMode(true); // Set to course mode
+                    CoursesAE.SetMode(true, false, false, false); // Set to course mode
                     CoursesAE.DataSaved += () => LoadData();
 
                     AddEditArea.Controls.Add(CoursesAE);
@@ -68,10 +74,26 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     txtHeaderMain.Text = "Subjects List";
 
                     AE_CourseSubj SubjectsAE = new AE_CourseSubj();
-                    SubjectsAE.SetMode(false); // Set to subject mode
+                    SubjectsAE.SetMode(false, true, false, false); // Set to subject mode
                     SubjectsAE.DataSaved += () => LoadData();
 
                     AddEditArea.Controls.Add(SubjectsAE);
+                    break;
+
+                case ListType.Room:
+                    txtHeaderMain.Text = "Room List";
+                    var roomAE = new AE_CourseSubj();
+                    roomAE.SetMode(false, false, true, false); // Room mode
+                    roomAE.DataSaved += () => LoadData();
+                    AddEditArea.Controls.Add(roomAE);
+                    break;
+
+                case ListType.Section:
+                    txtHeaderMain.Text = "Section List";
+                    var sectionAE = new AE_CourseSubj();
+                    sectionAE.SetMode(false, false, false, true); // Section mode
+                    sectionAE.DataSaved += () => LoadData();
+                    AddEditArea.Controls.Add(sectionAE);
                     break;
             }
             LoadData();
@@ -209,6 +231,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                         : @"SELECT id, subject_code, subject_name, description FROM subjects
                            WHERE subject_name LIKE @searchText OR description LIKE @searchText OR subject_code LIKE @searchtext";
 
+                case ListType.Room:
+                    return string.IsNullOrEmpty(searchText)
+                        ? "SELECT id, room_name, description FROM rooms"
+                        : @"SELECT id, room_name, description FROM rooms
+                   WHERE room_name LIKE @searchText OR description LIKE @searchText";
+
+                case ListType.Section:
+                    return string.IsNullOrEmpty(searchText)
+                        ? "SELECT id, section_name, description FROM sections"
+                        : @"SELECT id, section_name, description FROM sections
+                   WHERE section_name LIKE @searchText OR description LIKE @searchText";
+
                 default:
                     return string.Empty;
             }
@@ -297,6 +331,24 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     AddColumn("id", "ID", 50, false);
                     AddColumn("subject_code", "Code", 100);
                     AddColumn("subject_name", "Subject Name", 200, true, DataGridViewAutoSizeColumnMode.Fill);
+                    AddColumn("description", "Description", 300, true, DataGridViewAutoSizeColumnMode.Fill);
+
+                    dataGridView1.Columns.Add(CreateActionButtonColumn("Edit", "✏", "Edit record"));
+                    dataGridView1.Columns.Add(CreateActionButtonColumn("Delete", "🗑", "Delete record"));
+                    break;
+
+                case ListType.Room:
+                    AddColumn("id", "ID", 50, false);
+                    AddColumn("room_name", "Room Name", 200, true, DataGridViewAutoSizeColumnMode.Fill);
+                    AddColumn("description", "Description", 300, true, DataGridViewAutoSizeColumnMode.Fill);
+
+                    dataGridView1.Columns.Add(CreateActionButtonColumn("Edit", "✏", "Edit record"));
+                    dataGridView1.Columns.Add(CreateActionButtonColumn("Delete", "🗑", "Delete record"));
+                    break;
+
+                case ListType.Section:
+                    AddColumn("id", "ID", 50, false);
+                    AddColumn("section_name", "Section Name", 200, true, DataGridViewAutoSizeColumnMode.Fill);
                     AddColumn("description", "Description", 300, true, DataGridViewAutoSizeColumnMode.Fill);
 
                     dataGridView1.Columns.Add(CreateActionButtonColumn("Edit", "✏", "Edit record"));

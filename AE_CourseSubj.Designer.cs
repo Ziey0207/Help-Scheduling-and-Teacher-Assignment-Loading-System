@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.panel1 = new ReaLTaiizor.Controls.Panel();
+            this.lblErrorCode = new System.Windows.Forms.Label();
+            this.lblCode = new System.Windows.Forms.Label();
+            this.txtCode = new ReaLTaiizor.Controls.HopeTextBox();
             this.lblformError = new System.Windows.Forms.Label();
             this.lblErrorCourse = new System.Windows.Forms.Label();
             this.btnCancel = new ReaLTaiizor.Controls.ParrotButton();
             this.btnSave = new ReaLTaiizor.Controls.ParrotButton();
             this.txtDescription = new ReaLTaiizor.Controls.HopeTextBox();
             this.txtName = new ReaLTaiizor.Controls.HopeTextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.lblCourseSubj = new System.Windows.Forms.Label();
-            this.txtCode = new ReaLTaiizor.Controls.HopeTextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblErrorCode = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +48,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
             this.panel1.Controls.Add(this.lblErrorCode);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.lblCode);
             this.panel1.Controls.Add(this.txtCode);
             this.panel1.Controls.Add(this.lblformError);
             this.panel1.Controls.Add(this.lblErrorCourse);
@@ -56,7 +56,7 @@
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Controls.Add(this.txtDescription);
             this.panel1.Controls.Add(this.txtName);
-            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.lblDescription);
             this.panel1.Controls.Add(this.lblName);
             this.panel1.Controls.Add(this.lblCourseSubj);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -69,6 +69,60 @@
             this.panel1.TabIndex = 0;
             this.panel1.Text = "panel1";
             // 
+            // lblErrorCode
+            // 
+            this.lblErrorCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblErrorCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblErrorCode.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblErrorCode.ForeColor = System.Drawing.Color.White;
+            this.lblErrorCode.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblErrorCode.Location = new System.Drawing.Point(198, 149);
+            this.lblErrorCode.Margin = new System.Windows.Forms.Padding(10);
+            this.lblErrorCode.Name = "lblErrorCode";
+            this.lblErrorCode.Size = new System.Drawing.Size(181, 23);
+            this.lblErrorCode.TabIndex = 54;
+            this.lblErrorCode.Text = "asdasd";
+            this.lblErrorCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblCode
+            // 
+            this.lblCode.AutoSize = true;
+            this.lblCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblCode.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCode.ForeColor = System.Drawing.Color.White;
+            this.lblCode.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblCode.Location = new System.Drawing.Point(15, 150);
+            this.lblCode.Margin = new System.Windows.Forms.Padding(10);
+            this.lblCode.Name = "lblCode";
+            this.lblCode.Size = new System.Drawing.Size(47, 18);
+            this.lblCode.TabIndex = 53;
+            this.lblCode.Text = "Code";
+            this.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtCode
+            // 
+            this.txtCode.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtCode.BackColor = System.Drawing.Color.White;
+            this.txtCode.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
+            this.txtCode.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.txtCode.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
+            this.txtCode.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtCode.ForeColor = System.Drawing.Color.Black;
+            this.txtCode.Hint = "";
+            this.txtCode.Location = new System.Drawing.Point(18, 181);
+            this.txtCode.MaxLength = 32767;
+            this.txtCode.Multiline = false;
+            this.txtCode.Name = "txtCode";
+            this.txtCode.PasswordChar = '\0';
+            this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtCode.SelectedText = "";
+            this.txtCode.SelectionLength = 0;
+            this.txtCode.SelectionStart = 0;
+            this.txtCode.Size = new System.Drawing.Size(361, 35);
+            this.txtCode.TabIndex = 52;
+            this.txtCode.TabStop = false;
+            this.txtCode.UseSystemPasswordChar = false;
+            // 
             // lblformError
             // 
             this.lblformError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -79,11 +133,10 @@
             this.lblformError.Location = new System.Drawing.Point(18, 534);
             this.lblformError.Margin = new System.Windows.Forms.Padding(10);
             this.lblformError.Name = "lblformError";
-            this.lblformError.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblformError.Size = new System.Drawing.Size(354, 23);
             this.lblformError.TabIndex = 51;
             this.lblformError.Text = "asdasd";
-            this.lblformError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblformError.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblErrorCourse
             // 
@@ -92,14 +145,13 @@
             this.lblErrorCourse.Font = new System.Drawing.Font("Arial", 10F);
             this.lblErrorCourse.ForeColor = System.Drawing.Color.White;
             this.lblErrorCourse.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblErrorCourse.Location = new System.Drawing.Point(150, 59);
+            this.lblErrorCourse.Location = new System.Drawing.Point(195, 63);
             this.lblErrorCourse.Margin = new System.Windows.Forms.Padding(10);
             this.lblErrorCourse.Name = "lblErrorCourse";
-            this.lblErrorCourse.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblErrorCourse.Size = new System.Drawing.Size(232, 23);
+            this.lblErrorCourse.Size = new System.Drawing.Size(184, 23);
             this.lblErrorCourse.TabIndex = 49;
             this.lblErrorCourse.Text = "asdasd";
-            this.lblErrorCourse.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblErrorCourse.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnCancel
             // 
@@ -206,20 +258,20 @@
             this.txtName.UseSystemPasswordChar = false;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
-            // label3
+            // lblDescription
             // 
-            this.label3.AutoSize = true;
-            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label3.Font = new System.Drawing.Font("Arial", 12F);
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label3.Location = new System.Drawing.Point(15, 229);
-            this.label3.Margin = new System.Windows.Forms.Padding(10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 18);
-            this.label3.TabIndex = 29;
-            this.label3.Text = "Description";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblDescription.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblDescription.ForeColor = System.Drawing.Color.White;
+            this.lblDescription.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblDescription.Location = new System.Drawing.Point(15, 229);
+            this.lblDescription.Margin = new System.Windows.Forms.Padding(10);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(88, 18);
+            this.lblDescription.TabIndex = 29;
+            this.lblDescription.Text = "Description";
+            this.lblDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblName
             // 
@@ -251,61 +303,6 @@
             this.lblCourseSubj.Text = "Add Course/Subj";
             this.lblCourseSubj.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtCode
-            // 
-            this.txtCode.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtCode.BackColor = System.Drawing.Color.White;
-            this.txtCode.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
-            this.txtCode.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.txtCode.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
-            this.txtCode.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCode.ForeColor = System.Drawing.Color.Black;
-            this.txtCode.Hint = "";
-            this.txtCode.Location = new System.Drawing.Point(18, 181);
-            this.txtCode.MaxLength = 32767;
-            this.txtCode.Multiline = false;
-            this.txtCode.Name = "txtCode";
-            this.txtCode.PasswordChar = '\0';
-            this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtCode.SelectedText = "";
-            this.txtCode.SelectionLength = 0;
-            this.txtCode.SelectionStart = 0;
-            this.txtCode.Size = new System.Drawing.Size(361, 35);
-            this.txtCode.TabIndex = 52;
-            this.txtCode.TabStop = false;
-            this.txtCode.UseSystemPasswordChar = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Font = new System.Drawing.Font("Arial", 12F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label1.Location = new System.Drawing.Point(15, 150);
-            this.label1.Margin = new System.Windows.Forms.Padding(10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 18);
-            this.label1.TabIndex = 53;
-            this.label1.Text = "Code";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblErrorCode
-            // 
-            this.lblErrorCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblErrorCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblErrorCode.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblErrorCode.ForeColor = System.Drawing.Color.White;
-            this.lblErrorCode.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.lblErrorCode.Location = new System.Drawing.Point(150, 150);
-            this.lblErrorCode.Margin = new System.Windows.Forms.Padding(10);
-            this.lblErrorCode.Name = "lblErrorCode";
-            this.lblErrorCode.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblErrorCode.Size = new System.Drawing.Size(232, 23);
-            this.lblErrorCode.TabIndex = 54;
-            this.lblErrorCode.Text = "asdasd";
-            this.lblErrorCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // AE_CourseSubj
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -329,12 +326,12 @@
         private ReaLTaiizor.Controls.ParrotButton btnSave;
         private ReaLTaiizor.Controls.HopeTextBox txtDescription;
         private ReaLTaiizor.Controls.HopeTextBox txtName;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblCourseSubj;
         private System.Windows.Forms.Label lblErrorCourse;
         private System.Windows.Forms.Label lblformError;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCode;
         private ReaLTaiizor.Controls.HopeTextBox txtCode;
         private System.Windows.Forms.Label lblErrorCode;
     }

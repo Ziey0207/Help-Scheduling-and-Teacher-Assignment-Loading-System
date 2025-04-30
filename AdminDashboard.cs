@@ -32,7 +32,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             Faculty,
             Users,
             Schedule,
-            room
+            Room,    // New
+            Section,  // New
+            ViewRooms
         }
 
         public AdminDashboard(string sessionToken = null)
@@ -108,14 +110,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     contentControl = CreateHomeArea();
                     break;
 
-                case ContentArea.Course:
-                    contentControl = new ListCRUD(2); // 2 for Course
-                    break;
-
-                case ContentArea.Subject:
-                    contentControl = new ListCRUD(3); // 3 for Subject
-                    break;
-
                 case ContentArea.Faculty:
                     contentControl = new ListCRUD(0); // 0 for Faculty
                     break;
@@ -124,11 +118,27 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     contentControl = new ListCRUD(1); // 1 for Users
                     break;
 
+                case ContentArea.Course:
+                    contentControl = new ListCRUD(2); // 2 for Course
+                    break;
+
+                case ContentArea.Subject:
+                    contentControl = new ListCRUD(3); // 3 for Subject
+                    break;
+
+                case ContentArea.Room:
+                    contentControl = new ListCRUD(4); // 4 = Room
+                    break;
+
+                case ContentArea.Section:
+                    contentControl = new ListCRUD(5); // 5 = Section
+                    break;
+
                 case ContentArea.Schedule:
                     contentControl = new Calendar();
                     break;
 
-                case ContentArea.room:
+                case ContentArea.ViewRooms:
                     contentControl = new room();
                     break;
             }
@@ -161,7 +171,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void btnSchedule_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Schedule);
 
-        private void btnRoom_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.room);
+        private void btnRoom_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Room);
+
+        private void btnSection_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.Section);
+
+        private void btnViewRooms_Click(object sender, EventArgs e) => ShowContentArea(ContentArea.ViewRooms);
 
         private void AdminDashboard_FormClosing(object sender, FormClosingEventArgs e)
         {

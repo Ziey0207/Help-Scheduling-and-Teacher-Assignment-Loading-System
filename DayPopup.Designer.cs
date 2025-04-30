@@ -30,6 +30,8 @@
         {
             this.airForm1 = new ReaLTaiizor.Forms.AirForm();
             this.panel1 = new ReaLTaiizor.Controls.Panel();
+            this.cmbCourse = new ReaLTaiizor.Controls.HopeComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.cmbSubjects = new ReaLTaiizor.Controls.HopeComboBox();
             this.cmbTeachers = new ReaLTaiizor.Controls.HopeComboBox();
             this.airButton3 = new ReaLTaiizor.Controls.AirButton();
@@ -39,13 +41,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtTimeOut = new ReaLTaiizor.Controls.HopeTextBox();
             this.cmbRooms = new ReaLTaiizor.Controls.HopeComboBox();
-            this.txtTimeIn = new ReaLTaiizor.Controls.HopeTextBox();
             this.btnSave = new ReaLTaiizor.Controls.AirButton();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
-            this.cmbCourse = new ReaLTaiizor.Controls.HopeComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmbSections = new ReaLTaiizor.Controls.HopeComboBox();
+            this.cmbTimeIn = new ReaLTaiizor.Controls.HopeComboBox();
+            this.cmbTimeOut = new ReaLTaiizor.Controls.HopeComboBox();
             this.airForm1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -80,6 +82,10 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.cmbTimeOut);
+            this.panel1.Controls.Add(this.cmbTimeIn);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.cmbSections);
             this.panel1.Controls.Add(this.cmbCourse);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.cmbSubjects);
@@ -91,9 +97,7 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.txtTimeOut);
             this.panel1.Controls.Add(this.cmbRooms);
-            this.panel1.Controls.Add(this.txtTimeIn);
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.EdgeColor = System.Drawing.Color.White;
@@ -104,6 +108,30 @@
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 15;
             this.panel1.Text = "panel1";
+            // 
+            // cmbCourse
+            // 
+            this.cmbCourse.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbCourse.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCourse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbCourse.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbCourse.FormattingEnabled = true;
+            this.cmbCourse.ItemHeight = 30;
+            this.cmbCourse.Location = new System.Drawing.Point(11, 168);
+            this.cmbCourse.Name = "cmbCourse";
+            this.cmbCourse.Size = new System.Drawing.Size(272, 36);
+            this.cmbCourse.TabIndex = 13;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial", 10F);
+            this.label6.Location = new System.Drawing.Point(12, 149);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 16);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Course";
             // 
             // cmbSubjects
             // 
@@ -153,7 +181,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial", 10F);
-            this.label5.Location = new System.Drawing.Point(552, 82);
+            this.label5.Location = new System.Drawing.Point(551, 149);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 16);
             this.label5.TabIndex = 11;
@@ -164,7 +192,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 10F);
-            this.label4.Location = new System.Drawing.Point(416, 82);
+            this.label4.Location = new System.Drawing.Point(415, 149);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 16);
             this.label4.TabIndex = 10;
@@ -216,30 +244,6 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Subject";
             // 
-            // txtTimeOut
-            // 
-            this.txtTimeOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTimeOut.BackColor = System.Drawing.Color.White;
-            this.txtTimeOut.BaseColor = System.Drawing.Color.White;
-            this.txtTimeOut.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.txtTimeOut.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
-            this.txtTimeOut.Font = new System.Drawing.Font("Arial", 10F);
-            this.txtTimeOut.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
-            this.txtTimeOut.Hint = "";
-            this.txtTimeOut.Location = new System.Drawing.Point(555, 101);
-            this.txtTimeOut.MaxLength = 32767;
-            this.txtTimeOut.Multiline = false;
-            this.txtTimeOut.Name = "txtTimeOut";
-            this.txtTimeOut.PasswordChar = '\0';
-            this.txtTimeOut.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtTimeOut.SelectedText = "";
-            this.txtTimeOut.SelectionLength = 0;
-            this.txtTimeOut.SelectionStart = 0;
-            this.txtTimeOut.Size = new System.Drawing.Size(130, 32);
-            this.txtTimeOut.TabIndex = 5;
-            this.txtTimeOut.TabStop = false;
-            this.txtTimeOut.UseSystemPasswordChar = false;
-            // 
             // cmbRooms
             // 
             this.cmbRooms.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -254,30 +258,6 @@
             this.cmbRooms.Name = "cmbRooms";
             this.cmbRooms.Size = new System.Drawing.Size(265, 36);
             this.cmbRooms.TabIndex = 3;
-            // 
-            // txtTimeIn
-            // 
-            this.txtTimeIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTimeIn.BackColor = System.Drawing.Color.White;
-            this.txtTimeIn.BaseColor = System.Drawing.Color.White;
-            this.txtTimeIn.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.txtTimeIn.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
-            this.txtTimeIn.Font = new System.Drawing.Font("Arial", 10F);
-            this.txtTimeIn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
-            this.txtTimeIn.Hint = "";
-            this.txtTimeIn.Location = new System.Drawing.Point(419, 101);
-            this.txtTimeIn.MaxLength = 32767;
-            this.txtTimeIn.Multiline = false;
-            this.txtTimeIn.Name = "txtTimeIn";
-            this.txtTimeIn.PasswordChar = '\0';
-            this.txtTimeIn.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtTimeIn.SelectedText = "";
-            this.txtTimeIn.SelectionLength = 0;
-            this.txtTimeIn.SelectionStart = 0;
-            this.txtTimeIn.Size = new System.Drawing.Size(130, 32);
-            this.txtTimeIn.TabIndex = 1;
-            this.txtTimeIn.TabStop = false;
-            this.txtTimeIn.UseSystemPasswordChar = false;
             // 
             // btnSave
             // 
@@ -305,29 +285,61 @@
             this.dgvEvents.TabIndex = 14;
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
             // 
-            // cmbCourse
+            // label7
             // 
-            this.cmbCourse.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cmbCourse.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbCourse.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCourse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbCourse.Font = new System.Drawing.Font("Arial", 10F);
-            this.cmbCourse.FormattingEnabled = true;
-            this.cmbCourse.ItemHeight = 30;
-            this.cmbCourse.Location = new System.Drawing.Point(11, 168);
-            this.cmbCourse.Name = "cmbCourse";
-            this.cmbCourse.Size = new System.Drawing.Size(272, 36);
-            this.cmbCourse.TabIndex = 13;
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial", 10F);
+            this.label7.Location = new System.Drawing.Point(416, 82);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(54, 16);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Section";
             // 
-            // label6
+            // cmbSections
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial", 10F);
-            this.label6.Location = new System.Drawing.Point(12, 149);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 16);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Course";
+            this.cmbSections.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSections.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbSections.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbSections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSections.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbSections.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbSections.FormattingEnabled = true;
+            this.cmbSections.ItemHeight = 30;
+            this.cmbSections.Location = new System.Drawing.Point(419, 101);
+            this.cmbSections.Name = "cmbSections";
+            this.cmbSections.Size = new System.Drawing.Size(265, 36);
+            this.cmbSections.TabIndex = 15;
+            // 
+            // cmbTimeIn
+            // 
+            this.cmbTimeIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTimeIn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbTimeIn.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbTimeIn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTimeIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbTimeIn.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbTimeIn.FormattingEnabled = true;
+            this.cmbTimeIn.ItemHeight = 30;
+            this.cmbTimeIn.Location = new System.Drawing.Point(419, 168);
+            this.cmbTimeIn.Name = "cmbTimeIn";
+            this.cmbTimeIn.Size = new System.Drawing.Size(129, 36);
+            this.cmbTimeIn.TabIndex = 17;
+            // 
+            // cmbTimeOut
+            // 
+            this.cmbTimeOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTimeOut.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbTimeOut.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbTimeOut.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTimeOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbTimeOut.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbTimeOut.FormattingEnabled = true;
+            this.cmbTimeOut.ItemHeight = 30;
+            this.cmbTimeOut.Location = new System.Drawing.Point(554, 168);
+            this.cmbTimeOut.Name = "cmbTimeOut";
+            this.cmbTimeOut.Size = new System.Drawing.Size(130, 36);
+            this.cmbTimeOut.TabIndex = 18;
             // 
             // DayPopup
             // 
@@ -356,11 +368,9 @@
 
         private ReaLTaiizor.Forms.AirForm airForm1;
         private ReaLTaiizor.Controls.AirButton btnSave;
-        private ReaLTaiizor.Controls.HopeTextBox txtTimeOut;
         private ReaLTaiizor.Controls.HopeComboBox cmbTeachers;
         private ReaLTaiizor.Controls.HopeComboBox cmbRooms;
         private ReaLTaiizor.Controls.HopeComboBox cmbSubjects;
-        private ReaLTaiizor.Controls.HopeTextBox txtTimeIn;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private ReaLTaiizor.Controls.AirButton airButton2;
@@ -372,5 +382,9 @@
         private ReaLTaiizor.Controls.Panel panel1;
         private ReaLTaiizor.Controls.HopeComboBox cmbCourse;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private ReaLTaiizor.Controls.HopeComboBox cmbSections;
+        private ReaLTaiizor.Controls.HopeComboBox cmbTimeOut;
+        private ReaLTaiizor.Controls.HopeComboBox cmbTimeIn;
     }
 }

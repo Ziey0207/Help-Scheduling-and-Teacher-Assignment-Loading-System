@@ -122,6 +122,12 @@
     <Compile Include="AE_Faculty.Designer.cs">
       <DependentUpon>AE_Faculty.cs</DependentUpon>
     </Compile>
+    <Compile Include="AE_RoomSect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AE_RoomSect.Designer.cs">
+      <DependentUpon>AE_RoomSect.cs</DependentUpon>
+    </Compile>
     <Compile Include="AE_User.cs">
       <SubType>UserControl</SubType>
     </Compile>
