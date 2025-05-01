@@ -30,6 +30,10 @@
         {
             this.airForm1 = new ReaLTaiizor.Forms.AirForm();
             this.panel1 = new ReaLTaiizor.Controls.Panel();
+            this.cmbTimeOut = new ReaLTaiizor.Controls.HopeComboBox();
+            this.cmbTimeIn = new ReaLTaiizor.Controls.HopeComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmbSections = new ReaLTaiizor.Controls.HopeComboBox();
             this.cmbCourse = new ReaLTaiizor.Controls.HopeComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cmbSubjects = new ReaLTaiizor.Controls.HopeComboBox();
@@ -44,10 +48,6 @@
             this.cmbRooms = new ReaLTaiizor.Controls.HopeComboBox();
             this.btnSave = new ReaLTaiizor.Controls.AirButton();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbSections = new ReaLTaiizor.Controls.HopeComboBox();
-            this.cmbTimeIn = new ReaLTaiizor.Controls.HopeComboBox();
-            this.cmbTimeOut = new ReaLTaiizor.Controls.HopeComboBox();
             this.airForm1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvents)).BeginInit();
@@ -108,6 +108,63 @@
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 15;
             this.panel1.Text = "panel1";
+            // 
+            // cmbTimeOut
+            // 
+            this.cmbTimeOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTimeOut.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbTimeOut.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbTimeOut.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTimeOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbTimeOut.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbTimeOut.FormattingEnabled = true;
+            this.cmbTimeOut.ItemHeight = 30;
+            this.cmbTimeOut.Location = new System.Drawing.Point(554, 168);
+            this.cmbTimeOut.Name = "cmbTimeOut";
+            this.cmbTimeOut.Size = new System.Drawing.Size(130, 36);
+            this.cmbTimeOut.TabIndex = 18;
+            // 
+            // cmbTimeIn
+            // 
+            this.cmbTimeIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTimeIn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbTimeIn.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbTimeIn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTimeIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbTimeIn.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbTimeIn.FormattingEnabled = true;
+            this.cmbTimeIn.ItemHeight = 30;
+            this.cmbTimeIn.Location = new System.Drawing.Point(419, 168);
+            this.cmbTimeIn.Name = "cmbTimeIn";
+            this.cmbTimeIn.Size = new System.Drawing.Size(129, 36);
+            this.cmbTimeIn.TabIndex = 17;
+            this.cmbTimeIn.SelectedIndexChanged += new System.EventHandler(this.cmbTimeIn_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial", 10F);
+            this.label7.Location = new System.Drawing.Point(416, 82);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(54, 16);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Section";
+            // 
+            // cmbSections
+            // 
+            this.cmbSections.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSections.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbSections.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbSections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSections.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbSections.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbSections.FormattingEnabled = true;
+            this.cmbSections.ItemHeight = 30;
+            this.cmbSections.Location = new System.Drawing.Point(419, 101);
+            this.cmbSections.Name = "cmbSections";
+            this.cmbSections.Size = new System.Drawing.Size(265, 36);
+            this.cmbSections.TabIndex = 15;
             // 
             // cmbCourse
             // 
@@ -284,62 +341,6 @@
             this.dgvEvents.Size = new System.Drawing.Size(689, 281);
             this.dgvEvents.TabIndex = 14;
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial", 10F);
-            this.label7.Location = new System.Drawing.Point(416, 82);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(54, 16);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "Section";
-            // 
-            // cmbSections
-            // 
-            this.cmbSections.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbSections.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cmbSections.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbSections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSections.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbSections.Font = new System.Drawing.Font("Arial", 10F);
-            this.cmbSections.FormattingEnabled = true;
-            this.cmbSections.ItemHeight = 30;
-            this.cmbSections.Location = new System.Drawing.Point(419, 101);
-            this.cmbSections.Name = "cmbSections";
-            this.cmbSections.Size = new System.Drawing.Size(265, 36);
-            this.cmbSections.TabIndex = 15;
-            // 
-            // cmbTimeIn
-            // 
-            this.cmbTimeIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbTimeIn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cmbTimeIn.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbTimeIn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTimeIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbTimeIn.Font = new System.Drawing.Font("Arial", 10F);
-            this.cmbTimeIn.FormattingEnabled = true;
-            this.cmbTimeIn.ItemHeight = 30;
-            this.cmbTimeIn.Location = new System.Drawing.Point(419, 168);
-            this.cmbTimeIn.Name = "cmbTimeIn";
-            this.cmbTimeIn.Size = new System.Drawing.Size(129, 36);
-            this.cmbTimeIn.TabIndex = 17;
-            // 
-            // cmbTimeOut
-            // 
-            this.cmbTimeOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbTimeOut.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cmbTimeOut.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbTimeOut.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTimeOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbTimeOut.Font = new System.Drawing.Font("Arial", 10F);
-            this.cmbTimeOut.FormattingEnabled = true;
-            this.cmbTimeOut.ItemHeight = 30;
-            this.cmbTimeOut.Location = new System.Drawing.Point(554, 168);
-            this.cmbTimeOut.Name = "cmbTimeOut";
-            this.cmbTimeOut.Size = new System.Drawing.Size(130, 36);
-            this.cmbTimeOut.TabIndex = 18;
             // 
             // DayPopup
             // 

@@ -22,6 +22,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private DateTime currentDate;
         private int currentEventId = -1;
         private ErrorProvider errorProvider = new ErrorProvider();
+        private DateTime? selectedTimeIn = null;
 
         private class TimeSlot
         {
@@ -48,6 +49,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             cmbTeachers.SelectedIndexChanged += async (s, e) => await LoadTimeOptionsAsync();
             cmbCourse.SelectedIndexChanged += async (s, e) => await LoadTimeOptionsAsync();
             cmbSections.SelectedIndexChanged += async (s, e) => await LoadTimeOptionsAsync();
+            cmbTimeIn.SelectedIndexChanged += cmbTimeIn_SelectedIndexChanged; // Add this line
         }
 
         private void DayPopup_Load(object sender, EventArgs e)
@@ -201,10 +203,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void PopulateTimeCombos(List<TimeSlot> slots)
         {
+            cmbTimeIn.Items.Clear();
             foreach (var slot in slots)
             {
                 cmbTimeIn.Items.Add(slot.Start.ToString("h:mm tt"));
-                cmbTimeOut.Items.Add(slot.End.ToString("h:mm tt"));
             }
         }
 
@@ -418,34 +420,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             errorProvider.Clear();
         }
 
-        private void TimeInput_Validating(object sender, CancelEventArgs e)
-        {
-            var control = sender as Control;
-            if (control == null) return;
-
-            if (!IsValidTimeFormat(control.Text))
-            {
-                errorProvider.SetError(control, "Invalid time format (HH:MM AM/PM)");
-            }
-            else
-            {
-                errorProvider.SetError(control, "");
-            }
-        }
-
-        private void ComboBox_Validating(object sender, CancelEventArgs e)
-        {
-            var combo = (ComboBox)sender;
-            if (combo.SelectedIndex == -1)
-            {
-                errorProvider.SetError(combo, "Please select an option");
-            }
-            else
-            {
-                errorProvider.SetError(combo, "");
-            }
-        }
-
         private bool IsValidTimeFormat(string input)
         {
             return Regex.IsMatch(input.Trim(),
@@ -455,6 +429,58 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void airForm1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void cmbTimeIn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DateTime.TryParseExact(cmbTimeIn.Text, "h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime timeIn))
+            {
+                selectedTimeIn = timeIn;
+                _ = LoadTimeOutOptionsAsync(); // Load Time Out based on selected Time In
+            }
+            else
+            {
+                selectedTimeIn = null;
+            }
+        }
+
+        private async Task LoadTimeOutOptionsAsync()
+        {
+            try
+            {
+                cmbTimeOut.Items.Clear();
+                if (!selectedTimeIn.HasValue || !ValidatePrerequisites()) return;
+
+                var existingSlots = await GetExistingTimeSlotsAsync();
+                var allSlots = GenerateDaySlots(currentDate);
+                var availableSlots = FilterAvailableSlots(allSlots, existingSlots);
+
+                // Find next conflicting slot after selected Time In
+                var nextConflict = existingSlots
+                    .Where(s => s.Start > selectedTimeIn.Value)
+                    .OrderBy(s => s.Start)
+                    .FirstOrDefault();
+
+                DateTime maxEnd = nextConflict != null
+                    ? nextConflict.Start
+                    : currentDate.Date.AddDays(1).AddMinutes(-1);
+
+                // Generate valid Time Out slots
+                var validEndSlots = availableSlots
+                    .Where(slot => slot.Start >= selectedTimeIn && slot.End <= maxEnd)
+                    .ToList();
+
+                foreach (var slot in validEndSlots)
+                {
+                    cmbTimeOut.Items.Add(slot.End.ToString("h:mm tt"));
+                }
+
+                Debug.WriteLine($"[Time Out Load] Found {validEndSlots.Count} valid end slots");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Time Out Load Error] {ex.Message}");
+            }
         }
     }
 }
