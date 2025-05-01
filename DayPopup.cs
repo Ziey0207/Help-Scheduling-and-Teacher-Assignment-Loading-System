@@ -23,6 +23,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private int currentEventId = -1;
         private ErrorProvider errorProvider = new ErrorProvider();
         private DateTime? selectedTimeIn = null;
+        private bool isTimeInChangeHandled = false; // Add this flag
 
         private class TimeSlot
         {
@@ -187,6 +188,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     var start = DateTime.ParseExact(reader["time_in"].ToString(), "h:mm tt", CultureInfo.InvariantCulture);
                     var end = DateTime.ParseExact(reader["time_out"].ToString(), "h:mm tt", CultureInfo.InvariantCulture);
                     existingSlots.Add(new TimeSlot(start, end));
+                    Debug.WriteLine($"[DB Existing Slot] {start:hh:mm tt} - {end:hh:mm tt}"); // Log DB entries
                 }
             }
             return existingSlots;
@@ -196,8 +198,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             return allSlots.Where(slot =>
                 !existingSlots.Any(existing =>
-                    slot.Start < existing.End &&
-                    existing.Start < slot.End))
+                {
+                    bool isOverlap = slot.Start < existing.End && existing.Start < slot.End;
+                    if (isOverlap) Debug.WriteLine($"[Overlap] Slot {slot.Start:hh:mm tt}-{slot.End:hh:mm tt} overlaps with existing {existing.Start:hh:mm tt}-{existing.End:hh:mm tt}");
+                    return isOverlap;
+                }))
                 .ToList();
         }
 
@@ -431,16 +436,28 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
         }
 
-        private void cmbTimeIn_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cmbTimeIn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (DateTime.TryParseExact(cmbTimeIn.Text, "h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime timeIn))
+            if (isTimeInChangeHandled || cmbTimeIn.SelectedIndex == -1) return;
+
+            isTimeInChangeHandled = true; // Block re-entrancy
+
+            try
             {
-                selectedTimeIn = timeIn;
-                _ = LoadTimeOutOptionsAsync(); // Load Time Out based on selected Time In
+                if (DateTime.TryParseExact(cmbTimeIn.Text, "h:mm tt",
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime timeIn))
+                {
+                    selectedTimeIn = timeIn;
+                    await LoadTimeOutOptionsAsync();
+                }
+                else
+                {
+                    selectedTimeIn = null;
+                }
             }
-            else
+            finally
             {
-                selectedTimeIn = null;
+                isTimeInChangeHandled = false; // Reset flag
             }
         }
 
@@ -455,7 +472,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 var allSlots = GenerateDaySlots(currentDate);
                 var availableSlots = FilterAvailableSlots(allSlots, existingSlots);
 
-                // Find next conflicting slot after selected Time In
+                // Log existing slots for debugging
+                Debug.WriteLine($"[Time Out Load] Existing Slots:");
+                foreach (var slot in existingSlots)
+                {
+                    Debug.WriteLine($"Existing: {slot.Start:hh:mm tt} - {slot.End:hh:mm tt}");
+                }
+
+                // Log available slots for debugging
+                Debug.WriteLine($"[Time Out Load] Available Slots:");
+                foreach (var slot in availableSlots)
+                {
+                    Debug.WriteLine($"Available: {slot.Start:hh:mm tt} - {slot.End:hh:mm tt}");
+                }
+
+                // Rest of the code...
                 var nextConflict = existingSlots
                     .Where(s => s.Start > selectedTimeIn.Value)
                     .OrderBy(s => s.Start)
@@ -465,14 +496,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     ? nextConflict.Start
                     : currentDate.Date.AddDays(1).AddMinutes(-1);
 
-                // Generate valid Time Out slots
                 var validEndSlots = availableSlots
                     .Where(slot => slot.Start >= selectedTimeIn && slot.End <= maxEnd)
                     .ToList();
 
+                // Log validEndSlots details
+                Debug.WriteLine($"[Time Out Load] Valid End Slots (Count: {validEndSlots.Count}):");
+                foreach (var slot in validEndSlots)
+                {
+                    Debug.WriteLine($"Valid End Slot: {slot.Start:hh:mm tt} -> {slot.End:hh:mm tt}");
+                }
+
                 foreach (var slot in validEndSlots)
                 {
                     cmbTimeOut.Items.Add(slot.End.ToString("h:mm tt"));
+                    Debug.WriteLine($"[Time Out Added] {slot.End.ToString("h:mm tt")}"); // Track added items
                 }
 
                 Debug.WriteLine($"[Time Out Load] Found {validEndSlots.Count} valid end slots");
