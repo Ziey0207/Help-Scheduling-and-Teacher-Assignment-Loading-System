@@ -32,8 +32,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             public TimeSlot(DateTime start, DateTime end)
             {
-                Start = start.Date == end.Date ? start : start.Date;
-                End = end.Date == start.Date ? end : start.Date.AddDays(1).AddMinutes(-1);
+                Start = start;
+                End = end;
             }
         }
 
@@ -115,23 +115,41 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
-                Debug.WriteLine("[Time Load] Starting time slot generation...");
+                Debug.WriteLine($"[Time Load] === STARTING TIME IN GENERATION ===");
+                Debug.WriteLine($"[Time Load] Selected values - Room: {cmbRooms.Text}, Teacher: {cmbTeachers.Text}, Course: {cmbCourse.Text}, Section: {cmbSections.Text}");
 
                 cmbTimeIn.Items.Clear();
                 cmbTimeOut.Items.Clear();
 
-                if (!ValidatePrerequisites()) return;
+                if (!ValidatePrerequisites())
+                {
+                    Debug.WriteLine($"[Time Load] Aborted - missing prerequisites");
+                    return;
+                }
 
+                Debug.WriteLine($"[Time Load] Fetching existing slots...");
                 var existingSlots = await GetExistingTimeSlotsAsync();
+
+                Debug.WriteLine($"[Time Load] Generated all possible slots:");
                 var allSlots = GenerateDaySlots(currentDate);
+                foreach (var slot in allSlots)
+                {
+                    Debug.WriteLine($"- {slot.Start:t} to {slot.End:t}");
+                }
+
                 var availableSlots = FilterAvailableSlots(allSlots, existingSlots);
+                Debug.WriteLine($"[Time Load] Available slots after filtering:");
+                foreach (var slot in availableSlots)
+                {
+                    Debug.WriteLine($"- {slot.Start:t} to {slot.End:t}");
+                }
 
                 PopulateTimeCombos(availableSlots);
-                Debug.WriteLine($"[Time Load] Found {availableSlots.Count} available slots");
+                Debug.WriteLine($"[Time Load] Total available slots: {availableSlots.Count}");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[Time Load Error] {ex.Message}");
+                Debug.WriteLine($"[Time Load Error] {ex.ToString()}");
                 MessageBox.Show("Error loading time options");
             }
         }
@@ -148,11 +166,13 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             return isValid;
         }
 
-        private List<TimeSlot> GenerateDaySlots(DateTime date)
+        private List<TimeSlot> GenerateDaySlots(DateTime date, DateTime? startFrom = null)
         {
             var slots = new List<TimeSlot>();
-            var current = date.Date;
+            var current = startFrom ?? date.Date;
             var dayEnd = date.Date.AddDays(1).AddMinutes(-1);
+
+            Debug.WriteLine($"[Slot Gen] Generating slots from {current:t} to {dayEnd:t}");
 
             while (current < dayEnd)
             {
@@ -161,6 +181,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 slots.Add(new TimeSlot(current, end));
                 current = end;
             }
+
+            Debug.WriteLine($"[Slot Gen] Generated {slots.Count} slots");
             return slots;
         }
 
@@ -168,27 +190,40 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             var parameters = new[]
             {
-                new MySqlParameter("@date", currentDate.Date),
-                new MySqlParameter("@room", cmbRooms.Text),
-                new MySqlParameter("@teacher", cmbTeachers.Text),
-                new MySqlParameter("@course", cmbCourse.Text),
-                new MySqlParameter("@section", cmbSections.Text)
-            };
+        new MySqlParameter("@date", currentDate.Date),
+        new MySqlParameter("@room", cmbRooms.Text),
+        new MySqlParameter("@teacher", cmbTeachers.Text),
+        new MySqlParameter("@course", cmbCourse.Text),
+        new MySqlParameter("@section", cmbSections.Text)
+    };
 
             var existingSlots = new List<TimeSlot>();
             using (var reader = await DatabaseHelper.ExecuteReaderAsync(
-                @"SELECT time_in, time_out FROM schedules
-                WHERE date = @date
-                AND (room = @room
-                     OR teacher = @teacher
-                     OR (course_code = @course AND section = @section))", parameters))
+                @"SELECT DATE_FORMAT(time_in, '%h:%i %p') as time_in,
+                 DATE_FORMAT(time_out, '%h:%i %p') as time_out
+          FROM schedules
+          WHERE date = @date
+          AND (room = @room
+               OR teacher = @teacher
+               OR (course_code = @course AND section = @section))", parameters))
             {
                 while (await reader.ReadAsync())
                 {
-                    var start = DateTime.ParseExact(reader["time_in"].ToString(), "h:mm tt", CultureInfo.InvariantCulture);
-                    var end = DateTime.ParseExact(reader["time_out"].ToString(), "h:mm tt", CultureInfo.InvariantCulture);
-                    existingSlots.Add(new TimeSlot(start, end));
-                    Debug.WriteLine($"[DB Existing Slot] {start:hh:mm tt} - {end:hh:mm tt}"); // Log DB entries
+                    string timeInStr = reader["time_in"].ToString();
+                    string timeOutStr = reader["time_out"].ToString();
+
+                    if (DateTime.TryParseExact(timeInStr, "h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime timeIn) &&
+                        DateTime.TryParseExact(timeOutStr, "h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime timeOut))
+                    {
+                        DateTime start = currentDate.Date.Add(timeIn.TimeOfDay);
+                        DateTime end = currentDate.Date.Add(timeOut.TimeOfDay);
+                        existingSlots.Add(new TimeSlot(start, end));
+                        Debug.WriteLine($"[DB Existing Slot] {start:t} - {end:t}");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"[DB Error] Failed to parse time: {timeInStr} or {timeOutStr}");
+                    }
                 }
             }
             return existingSlots;
@@ -199,8 +234,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             return allSlots.Where(slot =>
                 !existingSlots.Any(existing =>
                 {
-                    bool isOverlap = slot.Start <= existing.End && existing.Start <= slot.End;
-                    if (isOverlap) Debug.WriteLine($"[Overlap] Slot {slot.Start:hh:mm tt}-{slot.End:hh:mm tt} overlaps with existing {existing.Start:hh:mm tt}-{existing.End:hh:mm tt}");
+                    bool isOverlap = slot.Start < existing.End && existing.Start < slot.End;
+                    if (isOverlap) Debug.WriteLine($"[Overlap] Slot {slot.Start:t}-{slot.End:t} overlaps with existing {existing.Start:t}-{existing.End:t}");
                     return isOverlap;
                 }))
                 .ToList();
@@ -219,6 +254,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
+                dgvEvents.SelectionChanged -= dgvEvents_SelectionChanged;
+
                 // Load data from database
                 var parameters = new[] { new MySqlParameter("@selectedDate", currentDate.Date) };
                 DataTable dt = new DataTable();
@@ -235,12 +272,20 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
                 // Bind data to grid
                 dgvEvents.DataSource = dt;
+                dgvEvents.ClearSelection();
+                dgvEvents.CurrentCell = null; // Remove focus from any cell
+
                 Debug.WriteLine($"[Load] Loaded {dt.Rows.Count} events");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[Load Error] {ex.Message}");
                 MessageBox.Show($"Error loading events: {ex.Message}");
+            }
+            finally
+            {
+                // Reattach the SelectionChanged event
+                dgvEvents.SelectionChanged += dgvEvents_SelectionChanged;
             }
         }
 
@@ -319,6 +364,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             dgvEvents.EnableHeadersVisualStyles = false;
             dgvEvents.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
             dgvEvents.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            // Remove row highlight color when not focused
+            dgvEvents.DefaultCellStyle.SelectionBackColor = Color.White;
+            dgvEvents.DefaultCellStyle.SelectionForeColor = Color.Black;
         }
 
         private void AddTimeColumn(string name, string dataProperty, string header)
@@ -341,22 +390,94 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private bool TryParseTimes(out DateTime start, out DateTime end)
         {
             start = end = DateTime.MinValue;
-            var formatValid = DateTime.TryParseExact(cmbTimeIn.Text, "h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out start) &&
-                            DateTime.TryParseExact(cmbTimeOut.Text, "h:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out end);
 
-            if (!formatValid || start >= end)
+            // Check if time-in is selected
+            if (string.IsNullOrEmpty(cmbTimeIn.Text))
             {
-                MessageBox.Show("Invalid time range");
+                MessageBox.Show("Please select a start time");
                 return false;
             }
+
+            // Check if time-out is selected
+            if (string.IsNullOrEmpty(cmbTimeOut.Text))
+            {
+                MessageBox.Show("Please select an end time");
+                return false;
+            }
+
+            // Parse the time strings
+            bool validTimeIn = DateTime.TryParseExact(cmbTimeIn.Text, "h:mm tt",
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out start);
+
+            bool validTimeOut = DateTime.TryParseExact(cmbTimeOut.Text, "h:mm tt",
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out end);
+
+            if (!validTimeIn || !validTimeOut)
+            {
+                Debug.WriteLine($"[Time Parse] Invalid time format - Start: {cmbTimeIn.Text}, End: {cmbTimeOut.Text}");
+                MessageBox.Show("Invalid time format");
+                return false;
+            }
+
+            // Combine with current date
+            start = currentDate.Date.Add(start.TimeOfDay);
+            end = currentDate.Date.Add(end.TimeOfDay);
+
+            Debug.WriteLine($"[Time Parse] Parsed times - Start: {start:yyyy-MM-dd HH:mm:ss}, End: {end:yyyy-MM-dd HH:mm:ss}");
+
+            // Ensure end is after start
+            if (start >= end)
+            {
+                MessageBox.Show("End time must be after start time");
+                return false;
+            }
+
             return true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (!ValidateInputs() || !TryParseTimes(out DateTime start, out DateTime end)) return;
-            if (!CheckForConflicts(start, end)) return;
-            SaveSchedule(start, end);
+            try
+            {
+                Debug.WriteLine("[Save] Save button clicked");
+
+                // First check prerequisites
+                if (!ValidatePrerequisites())
+                {
+                    MessageBox.Show("Please complete all required fields");
+                    return;
+                }
+
+                // Then validate inputs
+                if (!ValidateInputs())
+                {
+                    Debug.WriteLine("[Save] Input validation failed");
+                    return;
+                }
+
+                // Then parse times
+                if (!TryParseTimes(out DateTime start, out DateTime end))
+                {
+                    Debug.WriteLine("[Save] Time parsing failed");
+                    return;
+                }
+
+                // Check for conflicts
+                if (!CheckForConflicts(start, end))
+                {
+                    Debug.WriteLine("[Save] Conflict check failed");
+                    return;
+                }
+
+                // Save the schedule
+                SaveSchedule(start, end);
+                Debug.WriteLine("[Save] Schedule saved successfully");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Save Error] {ex.Message}");
+                MessageBox.Show($"Error saving schedule: {ex.Message}");
+            }
         }
 
         private bool ValidateInputs()
@@ -378,7 +499,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
 
             // Get the ID directly from the selected row
-            var selectedId = Convert.ToInt32(dgvEvents.SelectedRows[0].Cells["id"].Value);
+            var selectedId = Convert.ToInt32(dgvEvents.SelectedRows[0].Cells["colID"].Value);
 
             if (MessageBox.Show("Delete this event?", "Confirm",
                 MessageBoxButtons.YesNo) != DialogResult.Yes)
@@ -407,49 +528,63 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
-                Debug.WriteLine($"[Conflict Check] Checking for {cmbCourse.Text}-{cmbSections.Text}");
+                Debug.WriteLine($"[Conflict Check] Checking conflicts for {newStart:t} - {newEnd:t}");
 
                 var parameters = new[]
                 {
-                    new MySqlParameter("@date", currentDate.Date),
-                    new MySqlParameter("@room", cmbRooms.Text),
-                    new MySqlParameter("@teacher", cmbTeachers.Text),
-                    new MySqlParameter("@course", cmbCourse.Text),
-                    new MySqlParameter("@section", cmbSections.Text),
-                    new MySqlParameter("@newStart", newStart.ToString("HH:mm")),
-                    new MySqlParameter("@newEnd", newEnd.ToString("HH:mm")),
-                    new MySqlParameter("@id", currentEventId)
-                };
+            new MySqlParameter("@date", currentDate.Date),
+            new MySqlParameter("@room", cmbRooms.Text),
+            new MySqlParameter("@teacher", cmbTeachers.Text),
+            new MySqlParameter("@course", cmbCourse.Text),
+            new MySqlParameter("@section", cmbSections.Text),
+            new MySqlParameter("@newStart", newStart.TimeOfDay),
+            new MySqlParameter("@newEnd", newEnd.TimeOfDay),
+            new MySqlParameter("@id", currentEventId)
+        };
 
-                var conflictChecks = new[]
+                // Unified conflict check query with IFNULL to handle NULL values
+                string conflictQuery = @"
+            SELECT
+                IFNULL(SUM(IF(room = @room, 1, 0)), 0) AS room_conflict,
+                IFNULL(SUM(IF(teacher = @teacher, 1, 0)), 0) AS teacher_conflict,
+                IFNULL(SUM(IF(course_code = @course AND section = @section, 1, 0)), 0) AS section_conflict
+            FROM schedules
+            WHERE date = @date
+            AND id != @id
+            AND (
+                (time_in < @newEnd AND time_out > @newStart)
+            )";
+
+                using (var reader = DatabaseHelper.ExecuteReader(conflictQuery, parameters))
                 {
-                    ("room", @"SELECT COUNT(*) FROM schedules
-                             WHERE date = @date AND room = @room AND id != @id
-                             AND (time_in < @newEnd AND time_out > @newStart)"),
-                    ("teacher", @"SELECT COUNT(*) FROM schedules
-                                 WHERE date = @date AND teacher = @teacher AND id != @id
-                                 AND (time_in < @newEnd AND time_out > @newStart)"),
-                    ("course-section", @"SELECT COUNT(*) FROM schedules
-                                       WHERE date = @date AND course_code = @course
-                                       AND section = @section AND id != @id
-                                       AND (time_in < @newEnd AND time_out > @newStart)")
-                };
+                    if (reader.Read())
+                    {
+                        // Safely convert values with null handling
+                        int roomConflict = reader["room_conflict"] == DBNull.Value ? 0 : Convert.ToInt32(reader["room_conflict"]);
+                        int teacherConflict = reader["teacher_conflict"] == DBNull.Value ? 0 : Convert.ToInt32(reader["teacher_conflict"]);
+                        int sectionConflict = reader["section_conflict"] == DBNull.Value ? 0 : Convert.ToInt32(reader["section_conflict"]);
 
-                var conflicts = conflictChecks
-                    .Where(check => Convert.ToInt32(DatabaseHelper.ExecuteScalar(check.Item2, parameters)) > 0)
-                    .Select(check => check.Item1)
-                    .ToList();
+                        Debug.WriteLine($"[Conflict Check] Found conflicts - Room: {roomConflict}, Teacher: {teacherConflict}, Section: {sectionConflict}");
 
-                if (conflicts.Count > 0)
-                {
-                    MessageBox.Show($"Conflict detected: {string.Join(", ", conflicts)}");
-                    return false;
+                        List<string> conflicts = new List<string>();
+                        if (roomConflict > 0) conflicts.Add("Room");
+                        if (teacherConflict > 0) conflicts.Add("Teacher");
+                        if (sectionConflict > 0) conflicts.Add("Section");
+
+                        if (conflicts.Count > 0)
+                        {
+                            MessageBox.Show($"Conflict detected with: {string.Join(", ", conflicts)}");
+                            return false;
+                        }
+                    }
                 }
+                Debug.WriteLine("[Conflict Check] No conflicts found");
                 return true;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[Conflict Check Error] {ex.Message}");
+                MessageBox.Show($"Error checking for conflicts: {ex.Message}");
                 return false;
             }
         }
@@ -466,8 +601,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     new MySqlParameter("@section", cmbSections.Text),
                     new MySqlParameter("@room", cmbRooms.Text),
                     new MySqlParameter("@date", currentDate.Date),
-                    new MySqlParameter("@timeIn", start.ToString("h:mm tt")),
-                    new MySqlParameter("@timeOut", end.ToString("h:mm tt")),
+                    new MySqlParameter("@timeIn", start.TimeOfDay),
+                    new MySqlParameter("@timeOut", end.TimeOfDay),
                     new MySqlParameter("@id", currentEventId)
                 };
 
@@ -503,14 +638,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             if (dgvEvents.SelectedRows.Count == 0) return;
 
             var row = dgvEvents.SelectedRows[0];
-            currentEventId = Convert.ToInt32(row.Cells["colID"].Value); // Already fixed
-            cmbSubjects.Text = row.Cells["colSubject"].Value?.ToString(); // Use DataGridView column name
-            cmbTeachers.Text = row.Cells["colTeacher"].Value?.ToString(); // Not "teacher"
-            cmbCourse.Text = row.Cells["colCourse"].Value?.ToString();    // Not "course_code"
-            cmbRooms.Text = row.Cells["colRoom"].Value?.ToString();       // Not "room"
-            cmbSections.Text = row.Cells["colSection"].Value?.ToString(); // Not "section"
-            cmbTimeIn.Text = row.Cells["colTimeIn"].Value?.ToString();    // Not "time_in"
-            cmbTimeOut.Text = row.Cells["colTimeOut"].Value?.ToString();  // Not "time_out"
+            currentEventId = Convert.ToInt32(row.Cells["colID"].Value);
+
+            // Map values using DataGridView column names
+            cmbSubjects.Text = row.Cells["colSubject"].Value?.ToString();
+            cmbTeachers.Text = row.Cells["colTeacher"].Value?.ToString();
+            cmbCourse.Text = row.Cells["colCourse"].Value?.ToString();
+            cmbRooms.Text = row.Cells["colRoom"].Value?.ToString();
+            cmbSections.Text = row.Cells["colSection"].Value?.ToString();
+
+            // Handle Time In/Out
+            string storedTimeIn = row.Cells["colTimeIn"].Value?.ToString();
+            string storedTimeOut = row.Cells["colTimeOut"].Value?.ToString();
         }
 
         private void ClearForm()
@@ -539,26 +678,49 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private async void cmbTimeIn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (isTimeInChangeHandled || cmbTimeIn.SelectedIndex == -1) return;
+            Debug.WriteLine($"[Time In] Selection changed: {cmbTimeIn.Text}");
 
-            isTimeInChangeHandled = true; // Block re-entrancy
+            if (isTimeInChangeHandled || string.IsNullOrEmpty(cmbTimeIn.Text))
+            {
+                Debug.WriteLine("[Time In] Change already handled or empty text, skipping");
+                return;
+            }
 
             try
             {
+                isTimeInChangeHandled = true;
+                Debug.WriteLine("[Time In] Set handling flag");
+
                 if (DateTime.TryParseExact(cmbTimeIn.Text, "h:mm tt",
                     CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime timeIn))
                 {
+                    Debug.WriteLine($"[Time In] Valid time parsed: {timeIn:t}");
                     selectedTimeIn = timeIn;
+
+                    // Clear time-out dropdown first
+                    cmbTimeOut.Items.Clear();
+                    cmbTimeOut.Text = "";
+
+                    // Now load time-out options
                     await LoadTimeOutOptionsAsync();
                 }
                 else
                 {
+                    Debug.WriteLine($"[Time In] WARNING: Failed to parse time: '{cmbTimeIn.Text}'");
                     selectedTimeIn = null;
+                    cmbTimeOut.Items.Clear();
+                    cmbTimeOut.Text = "";
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Time In] ERROR: {ex.Message}");
+                MessageBox.Show($"Error processing time selection: {ex.Message}");
             }
             finally
             {
-                isTimeInChangeHandled = false; // Reset flag
+                isTimeInChangeHandled = false;
+                Debug.WriteLine("[Time In] Cleared handling flag");
             }
         }
 
@@ -566,60 +728,100 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
+                Debug.WriteLine($"[Time Out] === STARTING TIME OUT GENERATION ===");
                 cmbTimeOut.Items.Clear();
-                if (!selectedTimeIn.HasValue || !ValidatePrerequisites()) return;
 
+                if (!selectedTimeIn.HasValue || !ValidatePrerequisites())
+                {
+                    Debug.WriteLine($"[Time Out] Prerequisites not met or no selected time in");
+                    return;
+                }
+
+                // Get the full datetime for the selected time (combine current date with selected time)
+                DateTime fullSelectedTimeIn = currentDate.Date.Add(selectedTimeIn.Value.TimeOfDay);
+                Debug.WriteLine($"[Time Out] Selected time in: {fullSelectedTimeIn:yyyy-MM-dd HH:mm:ss}");
+
+                // 1. Get existing slots
                 var existingSlots = await GetExistingTimeSlotsAsync();
-                var allSlots = GenerateDaySlots(currentDate);
-                var availableSlots = FilterAvailableSlots(allSlots, existingSlots);
+                Debug.WriteLine($"[Time Out] Retrieved {existingSlots.Count} existing slots");
 
-                // Log existing slots for debugging
-                Debug.WriteLine($"[Time Out Load] Existing Slots:");
-                foreach (var slot in existingSlots)
+                // 2. Generate possible end times
+                var possibleEndTimes = new List<DateTime>();
+                DateTime currentEnd = fullSelectedTimeIn.AddMinutes(TIME_INTERVAL);
+                DateTime dayEnd = currentDate.Date.AddDays(1).AddMinutes(-1);
+
+                Debug.WriteLine($"[Time Out] Generating possible end times from {currentEnd:HH:mm} to {dayEnd:HH:mm}");
+
+                while (currentEnd <= dayEnd)
                 {
-                    Debug.WriteLine($"Existing: {slot.Start:hh:mm tt} - {slot.End:hh:mm tt}");
+                    possibleEndTimes.Add(currentEnd);
+                    currentEnd = currentEnd.AddMinutes(TIME_INTERVAL);
+                }
+                Debug.WriteLine($"[Time Out] Generated {possibleEndTimes.Count} possible end times");
+
+                // 3. Check each potential slot
+                int availableCount = 0;
+                foreach (var endTime in possibleEndTimes)
+                {
+                    var potentialSlot = new TimeSlot(fullSelectedTimeIn, endTime);
+
+                    bool hasConflict = existingSlots.Any(existing =>
+                    {
+                        bool conflict = potentialSlot.Start < existing.End && existing.Start < potentialSlot.End;
+                        if (conflict)
+                        {
+                            Debug.WriteLine($"[Time Out] Conflict: {potentialSlot.Start:HH:mm}-{potentialSlot.End:HH:mm} conflicts with {existing.Start:HH:mm}-{existing.End:HH:mm}");
+                        }
+                        return conflict;
+                    });
+
+                    if (!hasConflict)
+                    {
+                        cmbTimeOut.Items.Add(endTime.ToString("h:mm tt"));
+                        availableCount++;
+                        Debug.WriteLine($"[Time Out] Added valid end time: {endTime:h:mm tt}");
+                    }
                 }
 
-                // Log available slots for debugging
-                Debug.WriteLine($"[Time Out Load] Available Slots:");
-                foreach (var slot in availableSlots)
+                Debug.WriteLine($"[Time Out] Added {availableCount} valid end times to dropdown");
+
+                // Set the first item as selected if available
+                if (cmbTimeOut.Items.Count > 0)
                 {
-                    Debug.WriteLine($"Available: {slot.Start:hh:mm tt} - {slot.End:hh:mm tt}");
+                    cmbTimeOut.SelectedIndex = 0;
+                    Debug.WriteLine($"[Time Out] Auto-selected first available end time");
                 }
-
-                // Rest of the code...
-                var nextConflict = existingSlots
-                    .Where(s => s.Start > selectedTimeIn.Value)
-                    .OrderBy(s => s.Start)
-                    .FirstOrDefault();
-
-                DateTime maxEnd = nextConflict != null
-                    ? nextConflict.Start
-                    : currentDate.Date.AddDays(1).AddMinutes(-1);
-
-                var validEndSlots = availableSlots
-                    .Where(slot => slot.Start >= selectedTimeIn && slot.End <= maxEnd)
-                    .ToList();
-
-                // Log validEndSlots details
-                Debug.WriteLine($"[Time Out Load] Valid End Slots (Count: {validEndSlots.Count}):");
-                foreach (var slot in validEndSlots)
-                {
-                    Debug.WriteLine($"Valid End Slot: {slot.Start:hh:mm tt} -> {slot.End:hh:mm tt}");
-                }
-
-                foreach (var slot in validEndSlots)
-                {
-                    cmbTimeOut.Items.Add(slot.End.ToString("h:mm tt"));
-                    Debug.WriteLine($"[Time Out Added] {slot.End.ToString("h:mm tt")}"); // Track added items
-                }
-
-                Debug.WriteLine($"[Time Out Load] Found {validEndSlots.Count} valid end slots");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[Time Out Load Error] {ex.Message}");
+                Debug.WriteLine($"[Time Out Error] {ex.ToString()}");
+                MessageBox.Show($"Error loading time options: {ex.Message}");
             }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            // Reset event ID
+            currentEventId = -1;
+
+            // Clear combobox selections
+            cmbSubjects.SelectedIndex = -1;
+            cmbTeachers.SelectedIndex = -1;
+            cmbCourse.SelectedIndex = -1;
+            cmbRooms.SelectedIndex = -1;
+            cmbSections.SelectedIndex = -1;
+            cmbTimeIn.SelectedIndex = -1;
+            cmbTimeOut.SelectedIndex = -1;
+
+            // Clear text in comboboxes (if any)
+            cmbTimeIn.Text = "";
+            cmbTimeOut.Text = "";
+
+            // Deselect DataGridView row
+            dgvEvents.ClearSelection();
+
+            // Remove error highlights
+            errorProvider.Clear();
         }
     }
 }

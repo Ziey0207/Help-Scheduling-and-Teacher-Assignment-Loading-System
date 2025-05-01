@@ -41,7 +41,7 @@
             this.airButton3 = new ReaLTaiizor.Controls.AirButton();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.airButton2 = new ReaLTaiizor.Controls.AirButton();
+            this.btnClear = new ReaLTaiizor.Controls.AirButton();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -93,7 +93,7 @@
             this.panel1.Controls.Add(this.airButton3);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.airButton2);
+            this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -255,20 +255,21 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Time In";
             // 
-            // airButton2
+            // btnClear
             // 
-            this.airButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.airButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.airButton2.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
-            this.airButton2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.airButton2.Image = null;
-            this.airButton2.Location = new System.Drawing.Point(771, 224);
-            this.airButton2.Name = "airButton2";
-            this.airButton2.NoRounding = false;
-            this.airButton2.Size = new System.Drawing.Size(63, 28);
-            this.airButton2.TabIndex = 9;
-            this.airButton2.Text = "Clear";
-            this.airButton2.Transparent = false;
+            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClear.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClear.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
+            this.btnClear.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnClear.Image = null;
+            this.btnClear.Location = new System.Drawing.Point(771, 224);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.NoRounding = false;
+            this.btnClear.Size = new System.Drawing.Size(63, 28);
+            this.btnClear.TabIndex = 9;
+            this.btnClear.Text = "Clear";
+            this.btnClear.Transparent = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // label3
             // 
@@ -374,7 +375,7 @@
         private ReaLTaiizor.Controls.HopeComboBox cmbSubjects;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private ReaLTaiizor.Controls.AirButton airButton2;
+        private ReaLTaiizor.Controls.AirButton btnClear;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
