@@ -252,48 +252,97 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void LoadEvents()
         {
+            Debug.WriteLine("[LoadEvents] Starting to load events");
+
             try
             {
+                // Detach event handlers to prevent recursive calls
+                Debug.WriteLine("[LoadEvents] Detaching selection changed event");
                 dgvEvents.SelectionChanged -= dgvEvents_SelectionChanged;
 
-                // Load data from database
+                // Format the times directly in SQL
                 var parameters = new[] { new MySqlParameter("@selectedDate", currentDate.Date) };
+                Debug.WriteLine($"[LoadEvents] Loading events for date: {currentDate.Date:yyyy-MM-dd}");
+
+                string query = @"
+            SELECT
+                id,
+                course_code,
+                section,
+                subject,
+                teacher,
+                room,
+                time_in,
+                time_out,
+                CONCAT(DATE_FORMAT(time_in, '%h:%i %p'), ' - ', DATE_FORMAT(time_out, '%h:%i %p')) as time_range
+            FROM schedules
+            WHERE date = @selectedDate
+            ORDER BY time_in";
+
+                Debug.WriteLine($"[LoadEvents] Executing query: {query}");
                 DataTable dt = new DataTable();
 
-                using (var reader = DatabaseHelper.ExecuteReader(
-                    @"SELECT id, course_code, section, subject, teacher, room, time_in, time_out
-            FROM schedules WHERE date = @selectedDate", parameters))
+                using (var reader = DatabaseHelper.ExecuteReader(query, parameters))
                 {
+                    Debug.WriteLine("[LoadEvents] Loading data into DataTable");
                     dt.Load(reader);
+                    Debug.WriteLine($"[LoadEvents] DataTable loaded with {dt.Rows.Count} rows");
+
+                    // Display column names for debugging
+                    Debug.WriteLine("[LoadEvents] Columns in DataTable:");
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        Debug.WriteLine($"[LoadEvents]   {col.ColumnName}");
+                    }
+
+                    // Display a sample row for debugging
+                    if (dt.Rows.Count > 0)
+                    {
+                        Debug.WriteLine("[LoadEvents] Sample row data:");
+                        foreach (DataColumn col in dt.Columns)
+                        {
+                            Debug.WriteLine($"[LoadEvents]   {col.ColumnName}: {dt.Rows[0][col]}");
+                        }
+                    }
                 }
 
                 // Configure DataGridView before binding data
+                Debug.WriteLine("[LoadEvents] Configuring DataGridView");
                 ConfigureDataGridView();
 
                 // Bind data to grid
+                Debug.WriteLine("[LoadEvents] Setting DataGridView DataSource");
                 dgvEvents.DataSource = dt;
+
+                // Clear selection
                 dgvEvents.ClearSelection();
                 dgvEvents.CurrentCell = null; // Remove focus from any cell
+                Debug.WriteLine("[LoadEvents] Selection cleared");
 
-                Debug.WriteLine($"[Load] Loaded {dt.Rows.Count} events");
+                Debug.WriteLine($"[LoadEvents] Successfully loaded {dt.Rows.Count} events");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[Load Error] {ex.Message}");
+                Debug.WriteLine($"[LoadEvents] ERROR: {ex.Message}");
+                Debug.WriteLine($"[LoadEvents] Stack trace: {ex.StackTrace}");
                 MessageBox.Show($"Error loading events: {ex.Message}");
             }
             finally
             {
                 // Reattach the SelectionChanged event
+                Debug.WriteLine("[LoadEvents] Reattaching selection changed event");
                 dgvEvents.SelectionChanged += dgvEvents_SelectionChanged;
             }
         }
 
         private void ConfigureDataGridView()
         {
+            Debug.WriteLine("[ConfigureDataGridView] Starting grid configuration");
+
             // Disable auto-generation to maintain control
             dgvEvents.AutoGenerateColumns = false;
             dgvEvents.Columns.Clear();
+            Debug.WriteLine("[ConfigureDataGridView] Cleared existing columns");
 
             // Prevent row height changes
             dgvEvents.AllowUserToResizeRows = false;
@@ -317,7 +366,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Name = "colCourse",
                 DataPropertyName = "course_code",
                 HeaderText = "Course",
-                Width = 100
             });
 
             dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
@@ -325,7 +373,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Name = "colSection",
                 DataPropertyName = "section",
                 HeaderText = "Section",
-                Width = 80
             });
 
             dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
@@ -333,7 +380,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Name = "colSubject",
                 DataPropertyName = "subject",
                 HeaderText = "Subject",
-                Width = 150,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
 
@@ -342,8 +388,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Name = "colTeacher",
                 DataPropertyName = "teacher",
                 HeaderText = "Teacher",
-                Width = 150,
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells
             });
 
             dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
@@ -351,12 +396,35 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Name = "colRoom",
                 DataPropertyName = "room",
                 HeaderText = "Room",
-                Width = 80
             });
 
-            // Time columns with formatting
-            AddTimeColumn("colTimeIn", "time_in", "Start Time");
-            AddTimeColumn("colTimeOut", "time_out", "End Time");
+            // Add the time range column
+            Debug.WriteLine("[ConfigureDataGridView] Adding time range column");
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTimeRange",
+                DataPropertyName = "time_range",  // This will bind directly to our SQL-generated column
+                HeaderText = "Class Time",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+            });
+
+            // Keep the original time columns but make them invisible - needed for data operations
+            Debug.WriteLine("[ConfigureDataGridView] Adding hidden time columns");
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTimeIn",
+                DataPropertyName = "time_in",
+                HeaderText = "Time In",
+                Visible = false
+            });
+
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTimeOut",
+                DataPropertyName = "time_out",
+                HeaderText = "Time Out",
+                Visible = false
+            });
 
             // Styling
             dgvEvents.AllowUserToAddRows = false;
@@ -368,6 +436,152 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             // Remove row highlight color when not focused
             dgvEvents.DefaultCellStyle.SelectionBackColor = Color.White;
             dgvEvents.DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            Debug.WriteLine("[ConfigureDataGridView] Grid configuration complete");
+        }
+
+        private void AddCombinedTimeColumn()
+        {
+            Debug.WriteLine("[AddCombinedTimeColumn] Adding time column");
+
+            // Keep the original time columns but make them invisible for data binding
+            Debug.WriteLine("[AddCombinedTimeColumn] Adding hidden time_in column for data binding");
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTimeIn",
+                DataPropertyName = "time_in",
+                HeaderText = "Time In",
+                Visible = false
+            });
+
+            Debug.WriteLine("[AddCombinedTimeColumn] Adding hidden time_out column for data binding");
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTimeOut",
+                DataPropertyName = "time_out",
+                HeaderText = "Time Out",
+                Visible = false
+            });
+
+            // Add the combined time column
+            Debug.WriteLine("[AddCombinedTimeColumn] Adding visible time_range column");
+            var timeColumn = new DataGridViewTextBoxColumn
+            {
+                Name = "colTime",
+                DataPropertyName = "time_range",
+                HeaderText = "Class Time",
+                Width = 140,
+                ReadOnly = true
+            };
+
+            // Set up cell formatting
+            timeColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Add the column to the grid
+            dgvEvents.Columns.Add(timeColumn);
+
+            Debug.WriteLine("[AddCombinedTimeColumn] Setting up DataBindingComplete event");
+            // Remove any existing event handlers to prevent duplicates
+            dgvEvents.DataBindingComplete -= DgvEvents_DataBindingComplete;
+            dgvEvents.DataBindingComplete += DgvEvents_DataBindingComplete;
+
+            Debug.WriteLine("[AddCombinedTimeColumn] Time column added successfully");
+        }
+
+        private void DgvEvents_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            Debug.WriteLine("[DataBindingComplete] Data binding complete event triggered");
+            Debug.WriteLine($"[DataBindingComplete] Row count: {dgvEvents.Rows.Count}");
+
+            try
+            {
+                // Process each row in the grid
+                foreach (DataGridViewRow row in dgvEvents.Rows)
+                {
+                    Debug.WriteLine($"[DataBindingComplete] Processing row {row.Index}");
+
+                    // Log the value of each cell to debug
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        Debug.WriteLine($"[DataBindingComplete] Cell {cell.OwningColumn.Name}: {cell.Value}");
+                    }
+
+                    // Check if the time_range column already has data
+                    if (row.Cells["colTime"].Value != null && !string.IsNullOrEmpty(row.Cells["colTime"].Value.ToString()))
+                    {
+                        Debug.WriteLine($"[DataBindingComplete] Row {row.Index} already has time_range: {row.Cells["colTime"].Value}");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"[DataBindingComplete] Row {row.Index} needs time formatting");
+
+                        // Check if the time cells exist and have data
+                        if (row.Cells["colTimeIn"] != null && row.Cells["colTimeOut"] != null &&
+                            row.Cells["colTimeIn"].Value != null && row.Cells["colTimeOut"].Value != null)
+                        {
+                            Debug.WriteLine($"[DataBindingComplete] Row {row.Index} has time values: In={row.Cells["colTimeIn"].Value}, Out={row.Cells["colTimeOut"].Value}");
+
+                            // Format the time values
+                            try
+                            {
+                                DateTime timeIn = Convert.ToDateTime(row.Cells["colTimeIn"].Value);
+                                DateTime timeOut = Convert.ToDateTime(row.Cells["colTimeOut"].Value);
+
+                                string formattedTimeIn = timeIn.ToString("h:mm tt");
+                                string formattedTimeOut = timeOut.ToString("h:mm tt");
+
+                                string combinedTime = $"{formattedTimeIn} - {formattedTimeOut}";
+                                Debug.WriteLine($"[DataBindingComplete] Row {row.Index} formatted time: {combinedTime}");
+
+                                row.Cells["colTime"].Value = combinedTime;
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine($"[DataBindingComplete] Error formatting time for row {row.Index}: {ex.Message}");
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine($"[DataBindingComplete] Row {row.Index} missing time data");
+                        }
+                    }
+                }
+                Debug.WriteLine("[DataBindingComplete] Completed processing all rows");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[DataBindingComplete] Error in data binding event: {ex.Message}");
+                Debug.WriteLine($"[DataBindingComplete] Stack trace: {ex.StackTrace}");
+            }
+        }
+
+        private void FormatCombinedTimeColumn()
+        {
+            try
+            {
+                // Process each row in the grid
+                foreach (DataGridViewRow row in dgvEvents.Rows)
+                {
+                    if (row.Cells["time_in"].Value != null && row.Cells["time_out"].Value != null)
+                    {
+                        // Get time values from the hidden columns
+                        DateTime timeIn = Convert.ToDateTime(row.Cells["time_in"].Value);
+                        DateTime timeOut = Convert.ToDateTime(row.Cells["time_out"].Value);
+
+                        // Format the time values
+                        string formattedTimeIn = timeIn.ToString("h:mm tt");
+                        string formattedTimeOut = timeOut.ToString("h:mm tt");
+
+                        // Set the combined time string
+                        row.Cells["colTime"].Value = $"{formattedTimeIn} - {formattedTimeOut}";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Format Time Error] {ex.Message}");
+                // Don't show error message to prevent user confusion
+            }
         }
 
         private void AddTimeColumn(string name, string dataProperty, string header)
@@ -377,12 +591,12 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Name = name,
                 DataPropertyName = dataProperty,
                 HeaderText = header,
-                Width = 80
+                Width = 100
             };
 
-            // Format time display
-            col.DefaultCellStyle.Format = "t";  // Short time format
-            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            // Format time display with custom 12-hour format
+            col.DefaultCellStyle.Format = "h:mm tt";  // 12-hour format with AM/PM
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             dgvEvents.Columns.Add(col);
         }
