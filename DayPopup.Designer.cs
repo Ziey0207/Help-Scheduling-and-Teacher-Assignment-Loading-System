@@ -70,7 +70,7 @@
             this.airForm1.NoRounding = false;
             this.airForm1.Padding = new System.Windows.Forms.Padding(10);
             this.airForm1.Sizable = true;
-            this.airForm1.Size = new System.Drawing.Size(709, 600);
+            this.airForm1.Size = new System.Drawing.Size(859, 622);
             this.airForm1.SmartBounds = true;
             this.airForm1.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.airForm1.TabIndex = 0;
@@ -101,10 +101,10 @@
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.EdgeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(10, 38);
+            this.panel1.Location = new System.Drawing.Point(10, 60);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(5);
-            this.panel1.Size = new System.Drawing.Size(689, 271);
+            this.panel1.Size = new System.Drawing.Size(839, 271);
             this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.panel1.TabIndex = 15;
             this.panel1.Text = "panel1";
@@ -119,7 +119,7 @@
             this.cmbTimeOut.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbTimeOut.FormattingEnabled = true;
             this.cmbTimeOut.ItemHeight = 30;
-            this.cmbTimeOut.Location = new System.Drawing.Point(554, 168);
+            this.cmbTimeOut.Location = new System.Drawing.Point(704, 168);
             this.cmbTimeOut.Name = "cmbTimeOut";
             this.cmbTimeOut.Size = new System.Drawing.Size(130, 36);
             this.cmbTimeOut.TabIndex = 18;
@@ -134,7 +134,7 @@
             this.cmbTimeIn.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbTimeIn.FormattingEnabled = true;
             this.cmbTimeIn.ItemHeight = 30;
-            this.cmbTimeIn.Location = new System.Drawing.Point(419, 168);
+            this.cmbTimeIn.Location = new System.Drawing.Point(569, 168);
             this.cmbTimeIn.Name = "cmbTimeIn";
             this.cmbTimeIn.Size = new System.Drawing.Size(129, 36);
             this.cmbTimeIn.TabIndex = 17;
@@ -145,7 +145,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial", 10F);
-            this.label7.Location = new System.Drawing.Point(416, 82);
+            this.label7.Location = new System.Drawing.Point(566, 82);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(54, 16);
             this.label7.TabIndex = 16;
@@ -161,7 +161,7 @@
             this.cmbSections.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbSections.FormattingEnabled = true;
             this.cmbSections.ItemHeight = 30;
-            this.cmbSections.Location = new System.Drawing.Point(419, 101);
+            this.cmbSections.Location = new System.Drawing.Point(569, 101);
             this.cmbSections.Name = "cmbSections";
             this.cmbSections.Size = new System.Drawing.Size(265, 36);
             this.cmbSections.TabIndex = 15;
@@ -238,7 +238,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial", 10F);
-            this.label5.Location = new System.Drawing.Point(551, 149);
+            this.label5.Location = new System.Drawing.Point(701, 149);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 16);
             this.label5.TabIndex = 11;
@@ -249,7 +249,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 10F);
-            this.label4.Location = new System.Drawing.Point(415, 149);
+            this.label4.Location = new System.Drawing.Point(565, 149);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 16);
             this.label4.TabIndex = 10;
@@ -262,7 +262,7 @@
             this.airButton2.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
             this.airButton2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.airButton2.Image = null;
-            this.airButton2.Location = new System.Drawing.Point(621, 224);
+            this.airButton2.Location = new System.Drawing.Point(771, 224);
             this.airButton2.Name = "airButton2";
             this.airButton2.NoRounding = false;
             this.airButton2.Size = new System.Drawing.Size(63, 28);
@@ -275,7 +275,7 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 10F);
-            this.label3.Location = new System.Drawing.Point(416, 15);
+            this.label3.Location = new System.Drawing.Point(566, 15);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 16);
             this.label3.TabIndex = 8;
@@ -311,7 +311,7 @@
             this.cmbRooms.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbRooms.FormattingEnabled = true;
             this.cmbRooms.ItemHeight = 30;
-            this.cmbRooms.Location = new System.Drawing.Point(419, 34);
+            this.cmbRooms.Location = new System.Drawing.Point(569, 34);
             this.cmbRooms.Name = "cmbRooms";
             this.cmbRooms.Size = new System.Drawing.Size(265, 36);
             this.cmbRooms.TabIndex = 3;
@@ -323,7 +323,7 @@
             this.btnSave.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSave.Image = null;
-            this.btnSave.Location = new System.Drawing.Point(548, 224);
+            this.btnSave.Location = new System.Drawing.Point(698, 224);
             this.btnSave.Name = "btnSave";
             this.btnSave.NoRounding = false;
             this.btnSave.Size = new System.Drawing.Size(67, 28);
@@ -336,9 +336,9 @@
             // 
             this.dgvEvents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEvents.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvEvents.Location = new System.Drawing.Point(10, 309);
+            this.dgvEvents.Location = new System.Drawing.Point(10, 331);
             this.dgvEvents.Name = "dgvEvents";
-            this.dgvEvents.Size = new System.Drawing.Size(689, 281);
+            this.dgvEvents.Size = new System.Drawing.Size(839, 281);
             this.dgvEvents.TabIndex = 14;
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
             // 
@@ -346,7 +346,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 600);
+            this.ClientSize = new System.Drawing.Size(859, 622);
             this.Controls.Add(this.airForm1);
             this.Font = new System.Drawing.Font("Arial", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

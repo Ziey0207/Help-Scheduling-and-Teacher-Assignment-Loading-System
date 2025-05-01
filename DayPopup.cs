@@ -199,7 +199,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             return allSlots.Where(slot =>
                 !existingSlots.Any(existing =>
                 {
-                    bool isOverlap = slot.Start < existing.End && existing.Start < slot.End;
+                    bool isOverlap = slot.Start <= existing.End && existing.Start <= slot.End;
                     if (isOverlap) Debug.WriteLine($"[Overlap] Slot {slot.Start:hh:mm tt}-{slot.End:hh:mm tt} overlaps with existing {existing.Start:hh:mm tt}-{existing.End:hh:mm tt}");
                     return isOverlap;
                 }))
@@ -219,22 +219,123 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
+                // Load data from database
                 var parameters = new[] { new MySqlParameter("@selectedDate", currentDate.Date) };
+                DataTable dt = new DataTable();
+
                 using (var reader = DatabaseHelper.ExecuteReader(
                     @"SELECT id, course_code, section, subject, teacher, room, time_in, time_out
-                    FROM schedules WHERE date = @selectedDate", parameters))
+            FROM schedules WHERE date = @selectedDate", parameters))
                 {
-                    var dt = new DataTable();
                     dt.Load(reader);
-                    dgvEvents.DataSource = dt;
                 }
-                Debug.WriteLine($"[Load] Loaded {dgvEvents.Rows.Count} events");
+
+                // Configure DataGridView before binding data
+                ConfigureDataGridView();
+
+                // Bind data to grid
+                dgvEvents.DataSource = dt;
+                Debug.WriteLine($"[Load] Loaded {dt.Rows.Count} events");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[Load Error] {ex.Message}");
                 MessageBox.Show($"Error loading events: {ex.Message}");
             }
+        }
+
+        private void ConfigureDataGridView()
+        {
+            // Disable auto-generation to maintain control
+            dgvEvents.AutoGenerateColumns = false;
+            dgvEvents.Columns.Clear();
+
+            // Prevent row height changes
+            dgvEvents.AllowUserToResizeRows = false;
+            dgvEvents.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
+            // Prevent column width changes
+            dgvEvents.AllowUserToResizeColumns = false;
+            dgvEvents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            // Create and configure columns manually
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colID",
+                DataPropertyName = "id",
+                HeaderText = "ID",
+                Visible = false  // Hide ID as it's for internal use
+            });
+
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colCourse",
+                DataPropertyName = "course_code",
+                HeaderText = "Course",
+                Width = 100
+            });
+
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colSection",
+                DataPropertyName = "section",
+                HeaderText = "Section",
+                Width = 80
+            });
+
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colSubject",
+                DataPropertyName = "subject",
+                HeaderText = "Subject",
+                Width = 150,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTeacher",
+                DataPropertyName = "teacher",
+                HeaderText = "Teacher",
+                Width = 150,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colRoom",
+                DataPropertyName = "room",
+                HeaderText = "Room",
+                Width = 80
+            });
+
+            // Time columns with formatting
+            AddTimeColumn("colTimeIn", "time_in", "Start Time");
+            AddTimeColumn("colTimeOut", "time_out", "End Time");
+
+            // Styling
+            dgvEvents.AllowUserToAddRows = false;
+            dgvEvents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvEvents.EnableHeadersVisualStyles = false;
+            dgvEvents.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+            dgvEvents.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+        }
+
+        private void AddTimeColumn(string name, string dataProperty, string header)
+        {
+            var col = new DataGridViewTextBoxColumn
+            {
+                Name = name,
+                DataPropertyName = dataProperty,
+                HeaderText = header,
+                Width = 80
+            };
+
+            // Format time display
+            col.DefaultCellStyle.Format = "t";  // Short time format
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+            dgvEvents.Columns.Add(col);
         }
 
         private bool TryParseTimes(out DateTime start, out DateTime end)
@@ -402,14 +503,14 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             if (dgvEvents.SelectedRows.Count == 0) return;
 
             var row = dgvEvents.SelectedRows[0];
-            currentEventId = Convert.ToInt32(row.Cells["id"].Value);
-            cmbSubjects.Text = row.Cells["subject"].Value?.ToString();
-            cmbTeachers.Text = row.Cells["teacher"].Value?.ToString();
-            cmbCourse.Text = row.Cells["course_code"].Value?.ToString();
-            cmbRooms.Text = row.Cells["room"].Value?.ToString();
-            cmbSections.Text = row.Cells["section"].Value?.ToString();
-            cmbTimeIn.Text = row.Cells["time_in"].Value?.ToString();
-            cmbTimeOut.Text = row.Cells["time_out"].Value?.ToString();
+            currentEventId = Convert.ToInt32(row.Cells["colID"].Value); // Already fixed
+            cmbSubjects.Text = row.Cells["colSubject"].Value?.ToString(); // Use DataGridView column name
+            cmbTeachers.Text = row.Cells["colTeacher"].Value?.ToString(); // Not "teacher"
+            cmbCourse.Text = row.Cells["colCourse"].Value?.ToString();    // Not "course_code"
+            cmbRooms.Text = row.Cells["colRoom"].Value?.ToString();       // Not "room"
+            cmbSections.Text = row.Cells["colSection"].Value?.ToString(); // Not "section"
+            cmbTimeIn.Text = row.Cells["colTimeIn"].Value?.ToString();    // Not "time_in"
+            cmbTimeOut.Text = row.Cells["colTimeOut"].Value?.ToString();  // Not "time_out"
         }
 
         private void ClearForm()
