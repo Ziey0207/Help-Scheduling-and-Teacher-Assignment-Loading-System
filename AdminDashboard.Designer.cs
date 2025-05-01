@@ -209,7 +209,7 @@
             // 
             this.btnRoom.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
             this.btnRoom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnRoom.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.menu_book_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
+            this.btnRoom.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.door_back_50dp_FFFFFF_FILL0_wght400_GRAD0_opsz48;
             this.btnRoom.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
             this.btnRoom.ButtonText = "Room    List";
             this.btnRoom.ClickBackColor = System.Drawing.Color.WhiteSmoke;
@@ -236,7 +236,7 @@
             // 
             this.btnSection.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
             this.btnSection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSection.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.menu_book_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24;
+            this.btnSection.ButtonImage = global::Help_Scheduling_and_Teacher_Assignment_Loading_System.Properties.Resources.groups_50dp_FFFFFF_FILL0_wght400_GRAD0_opsz48;
             this.btnSection.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
             this.btnSection.ButtonText = "Section List";
             this.btnSection.ClickBackColor = System.Drawing.Color.WhiteSmoke;

@@ -30,12 +30,14 @@
         {
             this.panel1 = new ReaLTaiizor.Controls.Panel();
             this.lblDay = new System.Windows.Forms.Label();
+            this.flpSchedules = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.panel1.Controls.Add(this.flpSchedules);
             this.panel1.Controls.Add(this.lblDay);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.EdgeColor = System.Drawing.Color.Silver;
@@ -49,15 +51,25 @@
             // 
             // lblDay
             // 
-            this.lblDay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDay.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblDay.Location = new System.Drawing.Point(0, 0);
+            this.lblDay.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblDay.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDay.Location = new System.Drawing.Point(5, 5);
             this.lblDay.Name = "lblDay";
-            this.lblDay.Size = new System.Drawing.Size(140, 140);
+            this.lblDay.Size = new System.Drawing.Size(130, 17);
             this.lblDay.TabIndex = 0;
             this.lblDay.Text = "HI";
+            this.lblDay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // flpSchedules
+            // 
+            this.flpSchedules.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpSchedules.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpSchedules.Location = new System.Drawing.Point(5, 22);
+            this.flpSchedules.Margin = new System.Windows.Forms.Padding(0);
+            this.flpSchedules.Name = "flpSchedules";
+            this.flpSchedules.Size = new System.Drawing.Size(130, 113);
+            this.flpSchedules.TabIndex = 1;
+            this.flpSchedules.WrapContents = false;
             // 
             // Day
             // 
@@ -76,5 +88,6 @@
 
         private ReaLTaiizor.Controls.Panel panel1;
         private System.Windows.Forms.Label lblDay;
+        private System.Windows.Forms.FlowLayoutPanel flpSchedules;
     }
 }

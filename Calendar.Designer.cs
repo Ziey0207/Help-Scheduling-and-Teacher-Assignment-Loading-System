@@ -190,10 +190,10 @@
             this.btnShowAll.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.btnShowAll.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
             this.btnShowAll.InfoColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.btnShowAll.Location = new System.Drawing.Point(235, 7);
+            this.btnShowAll.Location = new System.Drawing.Point(235, 5);
             this.btnShowAll.Name = "btnShowAll";
-            this.btnShowAll.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.btnShowAll.Size = new System.Drawing.Size(120, 29);
+            this.btnShowAll.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.btnShowAll.Size = new System.Drawing.Size(89, 29);
             this.btnShowAll.SuccessColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
             this.btnShowAll.TabIndex = 48;
             this.btnShowAll.Text = "Show All";
@@ -235,15 +235,15 @@
             this.btnPrev.ClickTextColor = System.Drawing.Color.White;
             this.btnPrev.CornerRadius = 10;
             this.btnPrev.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrev.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.btnPrev.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrev.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
             this.btnPrev.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnPrev.HoverTextColor = System.Drawing.Color.White;
             this.btnPrev.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnPrev.Location = new System.Drawing.Point(940, 5);
+            this.btnPrev.Location = new System.Drawing.Point(996, 5);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Padding = new System.Windows.Forms.Padding(5);
-            this.btnPrev.Size = new System.Drawing.Size(106, 34);
+            this.btnPrev.Size = new System.Drawing.Size(80, 34);
             this.btnPrev.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.btnPrev.TabIndex = 45;
             this.btnPrev.TextColor = System.Drawing.Color.White;
@@ -263,15 +263,15 @@
             this.btnNext.ClickTextColor = System.Drawing.Color.White;
             this.btnNext.CornerRadius = 10;
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNext.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.btnNext.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNext.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
             this.btnNext.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnNext.HoverTextColor = System.Drawing.Color.White;
             this.btnNext.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnNext.Location = new System.Drawing.Point(1052, 5);
+            this.btnNext.Location = new System.Drawing.Point(1083, 5);
             this.btnNext.Name = "btnNext";
             this.btnNext.Padding = new System.Windows.Forms.Padding(5);
-            this.btnNext.Size = new System.Drawing.Size(106, 34);
+            this.btnNext.Size = new System.Drawing.Size(80, 34);
             this.btnNext.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.btnNext.TabIndex = 44;
             this.btnNext.TextColor = System.Drawing.Color.White;
@@ -282,9 +282,9 @@
             // lblMonthYear
             // 
             this.lblMonthYear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMonthYear.Font = new System.Drawing.Font("Arial", 15F);
+            this.lblMonthYear.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMonthYear.ForeColor = System.Drawing.Color.White;
-            this.lblMonthYear.Location = new System.Drawing.Point(769, 5);
+            this.lblMonthYear.Location = new System.Drawing.Point(827, 5);
             this.lblMonthYear.Name = "lblMonthYear";
             this.lblMonthYear.Padding = new System.Windows.Forms.Padding(5);
             this.lblMonthYear.Size = new System.Drawing.Size(165, 34);

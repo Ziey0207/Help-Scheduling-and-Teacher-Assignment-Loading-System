@@ -16,13 +16,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 {
     public partial class Calendar : UserControl
     {
+        private System.Windows.Forms.Panel loadingOverlay;
         private DateTime currentDate;
         private Timer searchDelayTimer;
         private bool showAllMode = false;
+        private Dictionary<DateTime, List<Schedule>> monthlySchedules;
 
         public Calendar()
         {
             InitializeComponent();
+            InitializeLoadingOverlay();
             InitializeCalendar();
             SetupSearchComponents();
 
@@ -36,6 +39,17 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             calendarGrid.ColumnCount = 0;
             calendarGrid.RowCount = 0;
             currentDate = DateTime.Now;
+        }
+
+        private void InitializeLoadingOverlay()
+        {
+            loadingOverlay = new System.Windows.Forms.Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.White,
+                Visible = false
+            };
+            Controls.Add(loadingOverlay);
         }
 
         private void SetupSearchComponents()
@@ -217,8 +231,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                         Teacher = reader.GetString("teacher"),
                         Date = reader.GetDateTime("date"),
                         Room = reader.GetString("room"),
-                        TimeIn = reader.GetString("time_in"),
-                        TimeOut = reader.GetString("time_out")
+                        TimeIn = reader.GetTimeSpan("time_in"),
+                        TimeOut = reader.GetTimeSpan("time_out"),
                     });
                 }
                 return results;
@@ -270,48 +284,78 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
-        private void GenerateCalendar(int year, int month)
+        private async void GenerateCalendar(int year, int month)
         {
-            calendarGrid.Controls.Clear();
-            calendarGrid.RowStyles.Clear();
-            calendarGrid.ColumnStyles.Clear();
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            loadingOverlay.Visible = true;
+            calendarGrid.Visible = false;
+            dayNamesPanel.Visible = false;
+            this.SuspendLayout();
 
-            // Setup columns
-            for (int i = 0; i < 7; i++)
+            try
             {
-                calendarGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / 7));
-            }
+                // Async data loading
+                await Task.Run(() => LoadMonthlySchedules());
 
-            DateTime firstDay = new DateTime(year, month, 1);
-            int daysInMonth = DateTime.DaysInMonth(year, month);
-            int firstDayOfWeek = (int)firstDay.DayOfWeek;
+                // Batch control creation
+                var days = new List<Day>();
+                DateTime firstDay = new DateTime(year, month, 1);
+                int daysInMonth = DateTime.DaysInMonth(year, month);
+                int firstDayOfWeek = (int)firstDay.DayOfWeek;
+                int weeks = (int)Math.Ceiling((firstDayOfWeek + daysInMonth) / 7.0);
+                DateTime currentDate = firstDay.AddDays(-firstDayOfWeek);
 
-            int weeks = (int)Math.Ceiling((firstDayOfWeek + daysInMonth) / 7.0);
-            calendarGrid.RowCount = weeks;
-
-            // Setup rows
-            for (int i = 0; i < weeks; i++)
-            {
-                calendarGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / weeks));
-            }
-
-            DateTime currentDate = firstDay.AddDays(-firstDayOfWeek);
-
-            for (int i = 0; i < weeks * 7; i++)
-            {
-                int row = i / 7;
-                int col = i % 7;
-
-                Day dayControl = new Day
+                // Create all day controls first
+                for (int i = 0; i < weeks * 7; i++)
                 {
-                    Dock = DockStyle.Fill,
-                    DayNumber = currentDate.Day,
-                    IsCurrentMonth = currentDate.Month == month,
-                    Date = currentDate // Set the date property
-                };
+                    var day = new Day
+                    {
+                        Dock = DockStyle.Fill,
+                        DayNumber = currentDate.Day,
+                        IsCurrentMonth = currentDate.Month == month,
+                        Date = currentDate
+                    };
 
-                calendarGrid.Controls.Add(dayControl, col, row);
-                currentDate = currentDate.AddDays(1);
+                    if (monthlySchedules.TryGetValue(currentDate.Date, out var dateSchedules))
+                        day.LoadSchedules(dateSchedules);
+
+                    days.Add(day);
+                    currentDate = currentDate.AddDays(1);
+                }
+
+                // Bulk UI update
+                Invoke((MethodInvoker)delegate
+                {
+                    calendarGrid.Controls.Clear();
+                    calendarGrid.ColumnStyles.Clear();
+                    calendarGrid.RowStyles.Clear();
+
+                    // Setup grid structure
+                    calendarGrid.ColumnCount = 7;
+                    calendarGrid.RowCount = weeks;
+
+                    for (int i = 0; i < 7; i++)
+                        calendarGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / 7));
+
+                    for (int i = 0; i < weeks; i++)
+                        calendarGrid.RowStyles.Add(new RowStyle(SizeType.Percent, 100f / weeks));
+
+                    // Add all days at once
+                    calendarGrid.Controls.AddRange(days.ToArray());
+                });
+            }
+            finally
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    loadingOverlay.Visible = false;
+                    calendarGrid.Visible = true;
+                    dayNamesPanel.Visible = true;
+                    this.ResumeLayout(true);
+                });
+
+                sw.Stop();
+                Debug.WriteLine($"[Performance] Calendar loaded in {sw.ElapsedMilliseconds}ms");
             }
         }
 
@@ -332,6 +376,63 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             currentDate = currentDate.AddMonths(1);
             GenerateCalendar(currentDate.Year, currentDate.Month);
             UpdateMonthLabel();
+        }
+
+        private void LoadMonthlySchedules()
+        {
+            monthlySchedules = GetMonthlySchedules(currentDate);
+        }
+
+        private Dictionary<DateTime, List<Schedule>> GetMonthlySchedules(DateTime month)
+        {
+            var schedules = new Dictionary<DateTime, List<Schedule>>();
+
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                conn.Open();
+                var cmd = new MySqlCommand(
+                    @"SELECT date, time_in, time_out, teacher, section, room
+              FROM schedules
+              WHERE YEAR(date) = @year AND MONTH(date) = @month",
+                    conn);
+                cmd.Parameters.AddWithValue("@year", month.Year);
+                cmd.Parameters.AddWithValue("@month", month.Month);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            var date = reader.GetDateTime("date").Date;
+                            var section = reader.GetString("section");
+                            var room = reader.GetString("room");
+
+                            Debug.WriteLine($"[DB DATA] Date: {date:yyyy-MM-dd} | " +
+                   $"Section: {section} | Room: {room}");
+
+                            if (!schedules.ContainsKey(date))
+                            {
+                                schedules[date] = new List<Schedule>();
+                            }
+
+                            schedules[date].Add(new Schedule
+                            {
+                                TimeIn = reader.GetTimeSpan("time_in"),
+                                TimeOut = reader.GetTimeSpan("time_out"),
+                                Teacher = reader.GetString("teacher"),
+                                Section = section,
+                                Room = room
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"[ERROR] Reading record: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            return schedules;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)

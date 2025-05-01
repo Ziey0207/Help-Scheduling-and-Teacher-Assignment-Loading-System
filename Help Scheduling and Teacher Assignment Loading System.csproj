@@ -392,6 +392,7 @@
     <None Include="Resources\120352507_175623534137466_5950447378052295425_n__1_-removebg-preview_upscayl_1x_upscayl-standard-4x.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\groups_50dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" />
     <None Include="Resources\hide-solid-24.png" />
     <None Include="Resources\show-solid-24.png" />
     <None Include="Resources\ViewIcon.png" />
@@ -404,6 +405,10 @@
     <None Include="Resources\education.png" />
     <None Include="Resources\classroom-line-icon-vector-55623931-removebg-preview.png" />
     <None Include="Resources\classroom.png" />
+    <None Include="Resources\door_front_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Include="Resources\door_front_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Include="Resources\door_back_25dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Include="Resources\door_back_50dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" />
     <Content Include="Resources\eye-regular.svg" />
     <Content Include="Resources\eye-slash-regular.svg" />
     <Content Include="Resources\eye-slash-solid.png" />

@@ -70,6 +70,15 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
+        private void CloseDayPopups()
+        {
+            var openPopups = Application.OpenForms.OfType<DayPopup>().ToList();
+            foreach (var popup in openPopups)
+            {
+                popup.Close();
+            }
+        }
+
         private void Logout()
         {
             Debug.WriteLine("Logout initiated");
@@ -99,6 +108,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void ShowContentArea(ContentArea area)
         {
+            CloseDayPopups();
+
             // Clear current content
             SwitchingArea.Controls.Clear();
 
