@@ -42,7 +42,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             InitializeComponent();
             _currentSessionToken = sessionToken;
             _adminId = DatabaseHelper.GetAdminIdBySession(sessionToken) ?? -1;
-
             InitializeSessionTracking();
             ShowContentArea(ContentArea.Home);
         }

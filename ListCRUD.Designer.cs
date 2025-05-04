@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.SwitchArea = new ReaLTaiizor.Controls.Panel();
             this.lblErrorSearch = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -36,8 +36,10 @@
             this.txtSearch = new ReaLTaiizor.Controls.HopeTextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.txtHeaderMain = new System.Windows.Forms.Label();
+            this.panel1 = new ReaLTaiizor.Controls.Panel();
             this.SwitchArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // SwitchArea
@@ -46,13 +48,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SwitchArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.SwitchArea.Controls.Add(this.panel1);
             this.SwitchArea.Controls.Add(this.lblErrorSearch);
             this.SwitchArea.Controls.Add(this.label1);
             this.SwitchArea.Controls.Add(this.AddEditArea);
             this.SwitchArea.Controls.Add(this.txtSearch);
-            this.SwitchArea.Controls.Add(this.dataGridView1);
             this.SwitchArea.Controls.Add(this.txtHeaderMain);
-            this.SwitchArea.EdgeColor = System.Drawing.Color.Black;
+            this.SwitchArea.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.SwitchArea.Location = new System.Drawing.Point(0, 0);
             this.SwitchArea.Margin = new System.Windows.Forms.Padding(2);
             this.SwitchArea.Name = "SwitchArea";
@@ -66,7 +68,7 @@
             // 
             this.lblErrorSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblErrorSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lblErrorSearch.Font = new System.Drawing.Font("Arial", 15F);
+            this.lblErrorSearch.Font = new System.Drawing.Font("Arial", 12F);
             this.lblErrorSearch.ForeColor = System.Drawing.Color.White;
             this.lblErrorSearch.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.lblErrorSearch.Location = new System.Drawing.Point(277, 10);
@@ -81,13 +83,13 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Font = new System.Drawing.Font("Arial", 15F);
+            this.label1.Font = new System.Drawing.Font("Arial", 12F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.label1.Location = new System.Drawing.Point(1095, 10);
+            this.label1.Location = new System.Drawing.Point(1108, 10);
             this.label1.Margin = new System.Windows.Forms.Padding(10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 23);
+            this.label1.Size = new System.Drawing.Size(58, 18);
             this.label1.TabIndex = 72;
             this.label1.Text = "Search";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -100,7 +102,6 @@
             this.AddEditArea.EdgeColor = System.Drawing.Color.Transparent;
             this.AddEditArea.Location = new System.Drawing.Point(768, 82);
             this.AddEditArea.Name = "AddEditArea";
-            this.AddEditArea.Padding = new System.Windows.Forms.Padding(5);
             this.AddEditArea.Size = new System.Drawing.Size(399, 622);
             this.AddEditArea.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.AddEditArea.TabIndex = 71;
@@ -113,7 +114,7 @@
             this.txtSearch.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
             this.txtSearch.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
             this.txtSearch.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
-            this.txtSearch.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtSearch.Font = new System.Drawing.Font("Arial", 10F);
             this.txtSearch.ForeColor = System.Drawing.Color.Black;
             this.txtSearch.Hint = "";
             this.txtSearch.Location = new System.Drawing.Point(768, 41);
@@ -126,7 +127,7 @@
             this.txtSearch.SelectedText = "";
             this.txtSearch.SelectionLength = 0;
             this.txtSearch.SelectionStart = 0;
-            this.txtSearch.Size = new System.Drawing.Size(399, 35);
+            this.txtSearch.Size = new System.Drawing.Size(399, 32);
             this.txtSearch.TabIndex = 20;
             this.txtSearch.TabStop = false;
             this.txtSearch.UseSystemPasswordChar = false;
@@ -134,28 +135,26 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 8.25F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Arial", 8.25F);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.ColumnHeadersHeight = 30;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.GridColor = System.Drawing.Color.White;
-            this.dataGridView1.Location = new System.Drawing.Point(10, 41);
+            this.dataGridView1.Location = new System.Drawing.Point(5, 5);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(749, 664);
+            this.dataGridView1.Size = new System.Drawing.Size(742, 657);
             this.dataGridView1.TabIndex = 11;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -167,16 +166,32 @@
             // 
             this.txtHeaderMain.AutoSize = true;
             this.txtHeaderMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.txtHeaderMain.Font = new System.Drawing.Font("Arial", 15F);
+            this.txtHeaderMain.Font = new System.Drawing.Font("Arial", 12F);
             this.txtHeaderMain.ForeColor = System.Drawing.Color.White;
             this.txtHeaderMain.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.txtHeaderMain.Location = new System.Drawing.Point(6, 10);
+            this.txtHeaderMain.Location = new System.Drawing.Point(7, 10);
             this.txtHeaderMain.Margin = new System.Windows.Forms.Padding(10);
             this.txtHeaderMain.Name = "txtHeaderMain";
-            this.txtHeaderMain.Size = new System.Drawing.Size(41, 23);
+            this.txtHeaderMain.Size = new System.Drawing.Size(33, 18);
             this.txtHeaderMain.TabIndex = 10;
             this.txtHeaderMain.Text = "List";
             this.txtHeaderMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            this.panel1.Controls.Add(this.dataGridView1);
+            this.panel1.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.panel1.Location = new System.Drawing.Point(10, 41);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(5);
+            this.panel1.Size = new System.Drawing.Size(752, 667);
+            this.panel1.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.panel1.TabIndex = 74;
+            this.panel1.Text = "panel1";
             // 
             // ListCRUD
             // 
@@ -191,6 +206,7 @@
             this.SwitchArea.ResumeLayout(false);
             this.SwitchArea.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -204,5 +220,6 @@
         private ReaLTaiizor.Controls.Panel AddEditArea;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblErrorSearch;
+        private ReaLTaiizor.Controls.Panel panel1;
     }
 }

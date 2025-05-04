@@ -77,7 +77,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         public void UpdatePopupTitle(DateTime date)
         {
             currentDate = date;
-            airForm1.Text = $"Day Events of {date:dd MMMM yyyy}";
+            airForm1.Text = $"Schedule/s of {date:dd MMMM yyyy}";
             LoadComboBoxData();
             LoadEvents();
         }

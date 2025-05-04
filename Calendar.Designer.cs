@@ -41,6 +41,7 @@
             this.btnPrev = new ReaLTaiizor.Controls.ParrotButton();
             this.btnNext = new ReaLTaiizor.Controls.ParrotButton();
             this.lblMonthYear = new System.Windows.Forms.Label();
+            this.btnAddSched = new ReaLTaiizor.Controls.ParrotButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -54,7 +55,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(51)))), ((int)(((byte)(63)))));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.panel1.Controls.Add(this.splitContainer1);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -114,11 +115,11 @@
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.Teal;
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.panel3.Controls.Add(this.calendarGrid);
             this.panel3.Controls.Add(this.dayNamesPanel);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(41)))), ((int)(((byte)(50)))));
+            this.panel3.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(5);
@@ -134,6 +135,7 @@
             this.calendarGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.calendarGrid.Location = new System.Drawing.Point(5, 37);
             this.calendarGrid.Name = "calendarGrid";
+            this.calendarGrid.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             this.calendarGrid.RowCount = 1;
             this.calendarGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 618F));
             this.calendarGrid.Size = new System.Drawing.Size(1156, 617);
@@ -141,7 +143,7 @@
             // 
             // dayNamesPanel
             // 
-            this.dayNamesPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.dayNamesPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
             this.dayNamesPanel.ColumnCount = 1;
             this.dayNamesPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1156F));
             this.dayNamesPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -163,16 +165,18 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(15)))), ((int)(((byte)(64)))));
+            this.panel2.Controls.Add(this.btnAddSched);
             this.panel2.Controls.Add(this.btnShowAll);
             this.panel2.Controls.Add(this.txtSearch);
             this.panel2.Controls.Add(this.btnPrev);
             this.panel2.Controls.Add(this.btnNext);
             this.panel2.Controls.Add(this.lblMonthYear);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(41)))), ((int)(((byte)(50)))));
+            this.panel2.EdgeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.panel2.Font = new System.Drawing.Font("Arial", 10F);
             this.panel2.Location = new System.Drawing.Point(5, 5);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 20);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(5);
             this.panel2.Size = new System.Drawing.Size(1166, 47);
@@ -182,18 +186,19 @@
             // 
             // btnShowAll
             // 
+            this.btnShowAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnShowAll.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
             this.btnShowAll.ButtonType = ReaLTaiizor.Util.HopeButtonType.Primary;
             this.btnShowAll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnShowAll.DangerColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
             this.btnShowAll.DefaultColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnShowAll.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.btnShowAll.HoverTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
+            this.btnShowAll.Font = new System.Drawing.Font("Arial", 10F);
+            this.btnShowAll.HoverTextColor = System.Drawing.Color.White;
             this.btnShowAll.InfoColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.btnShowAll.Location = new System.Drawing.Point(235, 5);
+            this.btnShowAll.Location = new System.Drawing.Point(235, 7);
             this.btnShowAll.Name = "btnShowAll";
             this.btnShowAll.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.btnShowAll.Size = new System.Drawing.Size(89, 29);
+            this.btnShowAll.Size = new System.Drawing.Size(89, 30);
             this.btnShowAll.SuccessColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(194)))), ((int)(((byte)(58)))));
             this.btnShowAll.TabIndex = 48;
             this.btnShowAll.Text = "Show All";
@@ -202,11 +207,12 @@
             // 
             // txtSearch
             // 
+            this.txtSearch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.txtSearch.BackColor = System.Drawing.Color.White;
             this.txtSearch.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(55)))), ((int)(((byte)(66)))));
             this.txtSearch.BorderColorA = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
             this.txtSearch.BorderColorB = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
-            this.txtSearch.Font = new System.Drawing.Font("Arial", 9F);
+            this.txtSearch.Font = new System.Drawing.Font("Arial", 10F);
             this.txtSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
             this.txtSearch.Hint = "";
             this.txtSearch.Location = new System.Drawing.Point(5, 6);
@@ -218,14 +224,14 @@
             this.txtSearch.SelectedText = "";
             this.txtSearch.SelectionLength = 0;
             this.txtSearch.SelectionStart = 0;
-            this.txtSearch.Size = new System.Drawing.Size(224, 30);
+            this.txtSearch.Size = new System.Drawing.Size(224, 32);
             this.txtSearch.TabIndex = 47;
             this.txtSearch.TabStop = false;
             this.txtSearch.UseSystemPasswordChar = false;
             // 
             // btnPrev
             // 
-            this.btnPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrev.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnPrev.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.btnPrev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnPrev.ButtonImage = null;
@@ -233,17 +239,16 @@
             this.btnPrev.ButtonText = "Previous";
             this.btnPrev.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
             this.btnPrev.ClickTextColor = System.Drawing.Color.White;
-            this.btnPrev.CornerRadius = 10;
+            this.btnPrev.CornerRadius = 5;
             this.btnPrev.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrev.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrev.Font = new System.Drawing.Font("Arial", 10F);
             this.btnPrev.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
             this.btnPrev.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnPrev.HoverTextColor = System.Drawing.Color.White;
             this.btnPrev.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnPrev.Location = new System.Drawing.Point(996, 5);
+            this.btnPrev.Location = new System.Drawing.Point(991, 7);
             this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Padding = new System.Windows.Forms.Padding(5);
-            this.btnPrev.Size = new System.Drawing.Size(80, 34);
+            this.btnPrev.Size = new System.Drawing.Size(80, 30);
             this.btnPrev.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.btnPrev.TabIndex = 45;
             this.btnPrev.TextColor = System.Drawing.Color.White;
@@ -253,7 +258,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNext.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnNext.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.btnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnNext.ButtonImage = null;
@@ -261,17 +266,16 @@
             this.btnNext.ButtonText = "Next";
             this.btnNext.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
             this.btnNext.ClickTextColor = System.Drawing.Color.White;
-            this.btnNext.CornerRadius = 10;
+            this.btnNext.CornerRadius = 5;
             this.btnNext.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNext.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNext.Font = new System.Drawing.Font("Arial", 10F);
             this.btnNext.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
             this.btnNext.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnNext.HoverTextColor = System.Drawing.Color.White;
             this.btnNext.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnNext.Location = new System.Drawing.Point(1083, 5);
+            this.btnNext.Location = new System.Drawing.Point(1078, 7);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Padding = new System.Windows.Forms.Padding(5);
-            this.btnNext.Size = new System.Drawing.Size(80, 34);
+            this.btnNext.Size = new System.Drawing.Size(80, 30);
             this.btnNext.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.btnNext.TabIndex = 44;
             this.btnNext.TextColor = System.Drawing.Color.White;
@@ -281,16 +285,42 @@
             // 
             // lblMonthYear
             // 
-            this.lblMonthYear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblMonthYear.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMonthYear.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblMonthYear.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblMonthYear.ForeColor = System.Drawing.Color.White;
-            this.lblMonthYear.Location = new System.Drawing.Point(827, 5);
+            this.lblMonthYear.Location = new System.Drawing.Point(800, 7);
             this.lblMonthYear.Name = "lblMonthYear";
             this.lblMonthYear.Padding = new System.Windows.Forms.Padding(5);
-            this.lblMonthYear.Size = new System.Drawing.Size(165, 34);
+            this.lblMonthYear.Size = new System.Drawing.Size(190, 30);
             this.lblMonthYear.TabIndex = 0;
             this.lblMonthYear.Text = "Month/year";
             this.lblMonthYear.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnAddSched
+            // 
+            this.btnAddSched.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnAddSched.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.btnAddSched.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnAddSched.ButtonImage = null;
+            this.btnAddSched.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.btnAddSched.ButtonText = "+ Schedule";
+            this.btnAddSched.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
+            this.btnAddSched.ClickTextColor = System.Drawing.Color.White;
+            this.btnAddSched.CornerRadius = 5;
+            this.btnAddSched.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddSched.Font = new System.Drawing.Font("Arial", 10F);
+            this.btnAddSched.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnAddSched.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.btnAddSched.HoverTextColor = System.Drawing.Color.White;
+            this.btnAddSched.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.btnAddSched.Location = new System.Drawing.Point(330, 7);
+            this.btnAddSched.Name = "btnAddSched";
+            this.btnAddSched.Size = new System.Drawing.Size(80, 30);
+            this.btnAddSched.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.btnAddSched.TabIndex = 49;
+            this.btnAddSched.TextColor = System.Drawing.Color.White;
+            this.btnAddSched.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.btnAddSched.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             // 
             // Calendar
             // 
@@ -328,5 +358,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ReaLTaiizor.Controls.ParrotButton btnPrev;
         private ReaLTaiizor.Controls.HopeButton btnShowAll;
+        private ReaLTaiizor.Controls.ParrotButton btnAddSched;
     }
 }

@@ -304,9 +304,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                         DataPropertyName = "password",
                         Width = 150,
                         AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+
                         DefaultCellStyle = new DataGridViewCellStyle
                         {
                             Alignment = DataGridViewContentAlignment.MiddleCenter,
+
                             ForeColor = Color.Silver,
                             Font = new Font("Arial", 8)
                         }
@@ -339,7 +341,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
                 case ListType.Room:
                     AddColumn("id", "ID", 50, false);
-                    AddColumn("room_name", "Room Name", 200, true, DataGridViewAutoSizeColumnMode.Fill);
+                    AddColumn("room_name", "Room Name", 200, true, DataGridViewAutoSizeColumnMode.DisplayedCells);
                     AddColumn("description", "Description", 300, true, DataGridViewAutoSizeColumnMode.Fill);
 
                     dataGridView1.Columns.Add(CreateActionButtonColumn("Edit", "✏", "Edit record"));
@@ -348,7 +350,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
                 case ListType.Section:
                     AddColumn("id", "ID", 50, false);
-                    AddColumn("section_name", "Section Name", 200, true, DataGridViewAutoSizeColumnMode.Fill);
+                    AddColumn("section_name", "Section Name", 200, true, DataGridViewAutoSizeColumnMode.DisplayedCells);
                     AddColumn("description", "Description", 300, true, DataGridViewAutoSizeColumnMode.Fill);
 
                     dataGridView1.Columns.Add(CreateActionButtonColumn("Edit", "✏", "Edit record"));

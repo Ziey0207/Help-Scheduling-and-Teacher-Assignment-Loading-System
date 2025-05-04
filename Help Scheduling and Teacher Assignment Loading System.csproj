@@ -392,6 +392,7 @@
     <None Include="Resources\120352507_175623534137466_5950447378052295425_n__1_-removebg-preview_upscayl_1x_upscayl-standard-4x.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\home_16dp_FFFFFF_FILL0_wght200_GRAD200_opsz20.png" />
     <None Include="Resources\groups_50dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png" />
     <None Include="Resources\hide-solid-24.png" />
     <None Include="Resources\show-solid-24.png" />
