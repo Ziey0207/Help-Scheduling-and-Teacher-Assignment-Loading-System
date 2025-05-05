@@ -32,8 +32,8 @@
             this.panel2 = new ReaLTaiizor.Controls.Panel();
             this.panel1 = new ReaLTaiizor.Controls.Panel();
             this.flpDays = new System.Windows.Forms.FlowLayoutPanel();
-            this.chkTue = new ReaLTaiizor.Controls.HopeCheckBox();
             this.chkMon = new ReaLTaiizor.Controls.HopeCheckBox();
+            this.chkTue = new ReaLTaiizor.Controls.HopeCheckBox();
             this.chkWed = new ReaLTaiizor.Controls.HopeCheckBox();
             this.chkThu = new ReaLTaiizor.Controls.HopeCheckBox();
             this.chkFri = new ReaLTaiizor.Controls.HopeCheckBox();
@@ -164,26 +164,6 @@
             this.flpDays.Size = new System.Drawing.Size(218, 165);
             this.flpDays.TabIndex = 35;
             // 
-            // chkTue
-            // 
-            this.chkTue.AutoSize = true;
-            this.chkTue.CheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.chkTue.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkTue.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(198)))), ((int)(((byte)(202)))));
-            this.chkTue.DisabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(187)))), ((int)(((byte)(189)))));
-            this.chkTue.Enable = true;
-            this.chkTue.EnabledCheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
-            this.chkTue.EnabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
-            this.chkTue.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
-            this.chkTue.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.chkTue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
-            this.chkTue.Location = new System.Drawing.Point(3, 34);
-            this.chkTue.Name = "chkTue";
-            this.chkTue.Size = new System.Drawing.Size(92, 20);
-            this.chkTue.TabIndex = 23;
-            this.chkTue.Text = "Tuesday";
-            this.chkTue.UseVisualStyleBackColor = true;
-            // 
             // chkMon
             // 
             this.chkMon.AutoSize = true;
@@ -203,6 +183,26 @@
             this.chkMon.TabIndex = 22;
             this.chkMon.Text = "Monday";
             this.chkMon.UseVisualStyleBackColor = true;
+            // 
+            // chkTue
+            // 
+            this.chkTue.AutoSize = true;
+            this.chkTue.CheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.chkTue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkTue.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(198)))), ((int)(((byte)(202)))));
+            this.chkTue.DisabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(187)))), ((int)(((byte)(189)))));
+            this.chkTue.Enable = true;
+            this.chkTue.EnabledCheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(158)))), ((int)(((byte)(255)))));
+            this.chkTue.EnabledStringColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
+            this.chkTue.EnabledUncheckedColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(158)))), ((int)(((byte)(161)))));
+            this.chkTue.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.chkTue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(49)))), ((int)(((byte)(51)))));
+            this.chkTue.Location = new System.Drawing.Point(3, 34);
+            this.chkTue.Name = "chkTue";
+            this.chkTue.Size = new System.Drawing.Size(92, 20);
+            this.chkTue.TabIndex = 23;
+            this.chkTue.Text = "Tuesday";
+            this.chkTue.UseVisualStyleBackColor = true;
             // 
             // chkWed
             // 

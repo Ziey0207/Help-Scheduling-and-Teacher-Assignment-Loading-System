@@ -25,6 +25,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private DateTime? selectedTimeIn = null;
         private bool isTimeInChangeHandled = false; // Add this flag
 
+        // Add these new class fields
+        private bool isRecurring = false;
+
+        private List<DateTime> recurringDates = new List<DateTime>();
+
         private class TimeSlot
         {
             public DateTime Start { get; }
@@ -51,10 +56,13 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             cmbCourse.SelectedIndexChanged += async (s, e) => await LoadTimeOptionsAsync();
             cmbSections.SelectedIndexChanged += async (s, e) => await LoadTimeOptionsAsync();
             cmbTimeIn.SelectedIndexChanged += cmbTimeIn_SelectedIndexChanged; // Add this line
+            // New frequency change handler
+            cmbFrequency.SelectedIndexChanged += FrequencyChanged;
         }
 
         private void DayPopup_Load(object sender, EventArgs e)
         {
+            cmbFrequency.SelectedIndex = 0; // Default to "Single"
             LoadComboBoxData();
             LoadEvents();
         }
@@ -265,19 +273,20 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Debug.WriteLine($"[LoadEvents] Loading events for date: {currentDate.Date:yyyy-MM-dd}");
 
                 string query = @"
-            SELECT
-                id,
-                course_code,
-                section,
-                subject,
-                teacher,
-                room,
-                time_in,
-                time_out,
-                CONCAT(DATE_FORMAT(time_in, '%h:%i %p'), ' - ', DATE_FORMAT(time_out, '%h:%i %p')) as time_range
-            FROM schedules
-            WHERE date = @selectedDate
-            ORDER BY time_in";
+    SELECT
+        id,
+        course_code,
+        section,
+        subject,
+        teacher,
+        room,
+        time_in,
+        time_out,
+        CONCAT(DATE_FORMAT(time_in, '%h:%i %p'), ' - ', DATE_FORMAT(time_out, '%h:%i %p')) as time_range,
+        weekly_group_id
+    FROM schedules
+    WHERE date = @selectedDate
+    ORDER BY time_in";
 
                 Debug.WriteLine($"[LoadEvents] Executing query: {query}");
                 DataTable dt = new DataTable();
@@ -423,6 +432,13 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Name = "colTimeOut",
                 DataPropertyName = "time_out",
                 HeaderText = "Time Out",
+                Visible = false
+            });
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colWeeklyGroupId",
+                DataPropertyName = "weekly_group_id",
+                HeaderText = "Weekly Group ID",
                 Visible = false
             });
 
@@ -706,34 +722,71 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvEvents.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Please select an event to delete");
-                return;
-            }
+            if (dgvEvents.SelectedRows.Count == 0) return;
 
-            // Get the ID directly from the selected row
-            var selectedId = Convert.ToInt32(dgvEvents.SelectedRows[0].Cells["colID"].Value);
-
-            if (MessageBox.Show("Delete this event?", "Confirm",
-                MessageBoxButtons.YesNo) != DialogResult.Yes)
-                return;
+            var selectedRow = dgvEvents.SelectedRows[0];
+            var selectedId = Convert.ToInt32(selectedRow.Cells["colID"].Value);
+            var weeklyGroupId = selectedRow.Cells["colWeeklyGroupId"].Value?.ToString();
 
             try
             {
-                var parameters = new[] {
-            new MySqlParameter("@id", selectedId)
-        };
+                MySqlParameter[] parameters;
+                string query;
 
-                DatabaseHelper.ExecuteNonQuery(
-                    "DELETE FROM schedules WHERE id = @id",
-                    parameters);
+                if (!string.IsNullOrEmpty(weeklyGroupId))
+                {
+                    Debug.WriteLine($"[Delete] Recurring event detected (Weekly Group ID: {weeklyGroupId})");
 
-                LoadEvents();  // Refresh the grid
-                ClearForm();    // Clear the form
+                    var result = MessageBox.Show(
+                        "Delete this recurring event:\n[Yes] - All instances\n[No] - Just this day\n[Cancel] - Don't delete",
+                        "Confirm Delete",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Question
+                    );
+
+                    switch (result)
+                    {
+                        case DialogResult.Yes:
+                            // Delete all instances
+                            Debug.WriteLine("[Delete] User chose to delete ALL recurring instances");
+                            query = "DELETE FROM schedules WHERE weekly_group_id = @weeklyGroupId";
+                            parameters = new[] { new MySqlParameter("@weeklyGroupId", weeklyGroupId) };
+                            break;
+
+                        case DialogResult.No:
+                            // Delete single instance
+                            Debug.WriteLine("[Delete] User chose to delete SINGLE instance");
+                            query = "DELETE FROM schedules WHERE id = @id";
+                            parameters = new[] { new MySqlParameter("@id", selectedId) };
+                            break;
+
+                        default:
+                            Debug.WriteLine("[Delete] User canceled deletion");
+                            return;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("[Delete] Single event deletion requested");
+                    if (MessageBox.Show("Delete this event?", "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                        return;
+
+                    query = "DELETE FROM schedules WHERE id = @id";
+                    parameters = new[] { new MySqlParameter("@id", selectedId) };
+                }
+
+                Debug.WriteLine($"[Delete] Executing: {query}");
+                Debug.WriteLine($"[Delete] Parameters: {string.Join(", ", parameters.Select(p => $"{p.ParameterName}={p.Value}"))}");
+
+                int affectedRows = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                Debug.WriteLine($"[Delete] Deleted {affectedRows} record(s)");
+
+                LoadEvents();
+                ClearForm();
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"[Delete Error] {ex.Message}\n{ex.StackTrace}");
                 MessageBox.Show($"Error deleting event: {ex.Message}");
             }
         }
@@ -742,11 +795,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
-                Debug.WriteLine($"[Conflict Check] Checking conflicts for {newStart:t} - {newEnd:t}");
+                Debug.WriteLine($"[Conflict Check] Starting check for {(isRecurring ? "recurring" : "single")} schedule");
 
-                var parameters = new[]
-                {
-            new MySqlParameter("@date", currentDate.Date),
+                List<MySqlParameter> parameters = new List<MySqlParameter>
+        {
             new MySqlParameter("@room", cmbRooms.Text),
             new MySqlParameter("@teacher", cmbTeachers.Text),
             new MySqlParameter("@course", cmbCourse.Text),
@@ -756,29 +808,64 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             new MySqlParameter("@id", currentEventId)
         };
 
-                // Unified conflict check query with IFNULL to handle NULL values
-                string conflictQuery = @"
-            SELECT
-                IFNULL(SUM(IF(room = @room, 1, 0)), 0) AS room_conflict,
-                IFNULL(SUM(IF(teacher = @teacher, 1, 0)), 0) AS teacher_conflict,
-                IFNULL(SUM(IF(course_code = @course AND section = @section, 1, 0)), 0) AS section_conflict
-            FROM schedules
-            WHERE date = @date
-            AND id != @id
-            AND (
-                (time_in < @newEnd AND time_out > @newStart)
-            )";
+                string dateCondition = "";
+                if (isRecurring)
+                {
+                    Debug.WriteLine($"[Conflict Check] Recurring range: {dtpStartDate.Value:yyyy-MM-dd} to {dtpEndDate.Value:yyyy-MM-dd}");
 
-                using (var reader = DatabaseHelper.ExecuteReader(conflictQuery, parameters))
+                    // Add recurring-specific parameters
+                    parameters.Add(new MySqlParameter("@startDate", dtpStartDate.Value.Date));
+                    parameters.Add(new MySqlParameter("@endDate", dtpEndDate.Value.Date));
+                    parameters.Add(new MySqlParameter("@recurringDays", GetSelectedDays()));
+
+                    dateCondition = @"(
+    (s.is_recurring = 1
+        AND s.start_date <= @endDate
+        AND s.end_date >= @startDate
+        AND FIND_IN_SET(DAYNAME(s.date), @recurringDays)
+    )
+    OR
+    (s.is_recurring = 0
+        AND s.date BETWEEN @startDate AND @endDate
+        AND FIND_IN_SET(DAYNAME(s.date), @recurringDays)
+    )
+)";
+                }
+                else
+                {
+                    Debug.WriteLine($"[Conflict Check] Single date: {currentDate:yyyy-MM-dd}");
+                    parameters.Add(new MySqlParameter("@date", currentDate.Date));
+                    dateCondition = "s.date = @date";
+                }
+
+                string conflictQuery = $@"
+    SELECT
+        IFNULL(SUM(IF(s.room = @room, 1, 0)), 0) AS room_conflict,
+        IFNULL(SUM(IF(s.teacher = @teacher, 1, 0)), 0) AS teacher_conflict,
+        IFNULL(SUM(IF(s.course_code = @course AND s.section = @section, 1, 0)), 0) AS section_conflict
+    FROM schedules s
+    WHERE
+        s.id != @id
+        AND (
+            ({dateCondition})
+            AND (
+                (s.time_in < @newEnd AND s.time_out > @newStart)
+                OR (s.time_in >= @newStart AND s.time_out <= @newEnd)
+                OR (s.time_in <= @newStart AND s.time_out >= @newEnd)
+            )
+        )";
+                Debug.WriteLine($"[Conflict Check] Executing query:\n{conflictQuery}");
+                Debug.WriteLine($"[Conflict Check] Parameters:\n{string.Join("\n", parameters.Select(p => $"{p.ParameterName}: {p.Value}"))}");
+
+                using (var reader = DatabaseHelper.ExecuteReader(conflictQuery, parameters.ToArray()))
                 {
                     if (reader.Read())
                     {
-                        // Safely convert values with null handling
-                        int roomConflict = reader["room_conflict"] == DBNull.Value ? 0 : Convert.ToInt32(reader["room_conflict"]);
-                        int teacherConflict = reader["teacher_conflict"] == DBNull.Value ? 0 : Convert.ToInt32(reader["teacher_conflict"]);
-                        int sectionConflict = reader["section_conflict"] == DBNull.Value ? 0 : Convert.ToInt32(reader["section_conflict"]);
+                        int roomConflict = reader["room_conflict"] != DBNull.Value ? Convert.ToInt32(reader["room_conflict"]) : 0;
+                        int teacherConflict = reader["teacher_conflict"] != DBNull.Value ? Convert.ToInt32(reader["teacher_conflict"]) : 0;
+                        int sectionConflict = reader["section_conflict"] != DBNull.Value ? Convert.ToInt32(reader["section_conflict"]) : 0;
 
-                        Debug.WriteLine($"[Conflict Check] Found conflicts - Room: {roomConflict}, Teacher: {teacherConflict}, Section: {sectionConflict}");
+                        Debug.WriteLine($"[Conflict Check] Conflicts found - Room: {roomConflict}, Teacher: {teacherConflict}, Section: {sectionConflict}");
 
                         List<string> conflicts = new List<string>();
                         if (roomConflict > 0) conflicts.Add("Room");
@@ -787,18 +874,21 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
                         if (conflicts.Count > 0)
                         {
-                            MessageBox.Show($"Conflict detected with: {string.Join(", ", conflicts)}");
+                            string conflictMessage = $"Conflict detected on {(isRecurring ? "one or more dates" : "selected date")} with: {string.Join(", ", conflicts)}";
+                            Debug.WriteLine($"[Conflict Check] {conflictMessage}");
+                            MessageBox.Show(conflictMessage);
                             return false;
                         }
                     }
                 }
+
                 Debug.WriteLine("[Conflict Check] No conflicts found");
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[Conflict Check Error] {ex.Message}");
-                MessageBox.Show($"Error checking for conflicts: {ex.Message}");
+                Debug.WriteLine($"[Conflict Check Error] {ex.Message}\n{ex.StackTrace}");
+                MessageBox.Show($"Error checking conflicts: {ex.Message}");
                 return false;
             }
         }
@@ -807,43 +897,113 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             try
             {
-                var parameters = new[]
-                {
-                    new MySqlParameter("@subject", cmbSubjects.Text),
-                    new MySqlParameter("@teacher", cmbTeachers.Text),
-                    new MySqlParameter("@course", cmbCourse.Text),
-                    new MySqlParameter("@section", cmbSections.Text),
-                    new MySqlParameter("@room", cmbRooms.Text),
-                    new MySqlParameter("@date", currentDate.Date),
-                    new MySqlParameter("@timeIn", start.TimeOfDay),
-                    new MySqlParameter("@timeOut", end.TimeOfDay),
-                    new MySqlParameter("@id", currentEventId)
-                };
+                Debug.WriteLine("[Save] Starting save process...");
 
-                var query = currentEventId == -1 ?
-                    @"INSERT INTO schedules
-                    (course_code, section, subject, teacher, room, date, time_in, time_out)
-                    VALUES (@course, @section, @subject, @teacher, @room, @date, @timeIn, @timeOut)"
-                    :
-                    @"UPDATE schedules SET
+                // Handle date population
+                if (!isRecurring)
+                {
+                    Debug.WriteLine("[Save] Single event - adding current date");
+                    recurringDates.Clear();
+                    recurringDates.Add(currentDate);
+                }
+                else
+                {
+                    Debug.WriteLine("[Save] Generating recurring dates");
+                    GenerateRecurringDates();
+                }
+
+                Debug.WriteLine($"[Save] Saving {recurringDates.Count} date(s)");
+
+                string weeklyGroupId = null;
+                if (isRecurring)
+                {
+                    weeklyGroupId = (currentEventId == -1)
+                        ? Guid.NewGuid().ToString()
+                        : GetExistingWeeklyGroupId(currentEventId);
+                    Debug.WriteLine($"[Save] Weekly Group ID: {weeklyGroupId}");
+                }
+
+                foreach (var date in recurringDates)
+                {
+                    Debug.WriteLine($"[Save] Processing date: {date:yyyy-MM-dd}");
+
+                    var parameters = new List<MySqlParameter>
+            {
+                new MySqlParameter("@course", cmbCourse.Text),
+                new MySqlParameter("@section", cmbSections.Text),
+                new MySqlParameter("@subject", cmbSubjects.Text),
+                new MySqlParameter("@teacher", cmbTeachers.Text),
+                new MySqlParameter("@room", cmbRooms.Text),
+                new MySqlParameter("@date", date.Date),
+                new MySqlParameter("@timeIn", start.TimeOfDay),
+                new MySqlParameter("@timeOut", end.TimeOfDay),
+                new MySqlParameter("@isRecurring", isRecurring ? 1 : 0),
+                new MySqlParameter("@recurringDays", GetSelectedDays()),
+                new MySqlParameter("@startDate", dtpStartDate.Value.Date),
+                new MySqlParameter("@endDate", dtpEndDate.Value.Date),
+                new MySqlParameter("@weeklyGroupId", weeklyGroupId)
+            };
+
+                    if (currentEventId != -1)
+                    {
+                        Debug.WriteLine("[Save] Adding ID parameter for update");
+                        parameters.Add(new MySqlParameter("@id", currentEventId));
+                    }
+
+                    string query = currentEventId == -1
+                        ? @"INSERT INTO schedules
+                    (course_code, section, subject, teacher, room, date,
+                     time_in, time_out, is_recurring, recurring_days,
+                     start_date, end_date, weekly_group_id)
+                  VALUES
+                    (@course, @section, @subject, @teacher, @room, @date,
+                     @timeIn, @timeOut, @isRecurring, @recurringDays,
+                     @startDate, @endDate, @weeklyGroupId)"
+                        : @"UPDATE schedules SET
                     course_code = @course,
                     section = @section,
                     subject = @subject,
                     teacher = @teacher,
                     room = @room,
+                    date = @date,
                     time_in = @timeIn,
-                    time_out = @timeOut
-                    WHERE id = @id";
+                    time_out = @timeOut,
+                    is_recurring = @isRecurring,
+                    recurring_days = @recurringDays,
+                    start_date = @startDate,
+                    end_date = @endDate,
+                    weekly_group_id = @weeklyGroupId
+                  WHERE id = @id";
 
-                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                    Debug.WriteLine($"[Save] Executing query: {query}");
+                    Debug.WriteLine($"[Save] Parameters: {string.Join(", ", parameters.Select(p => $"{p.ParameterName}={p.Value}"))}");
+
+                    int affectedRows = DatabaseHelper.ExecuteNonQuery(query, parameters.ToArray());
+                    Debug.WriteLine($"[Save] Database operation affected {affectedRows} rows");
+                }
+
+                Debug.WriteLine("[Save] Save completed successfully");
                 LoadEvents();
                 ClearForm();
-                Debug.WriteLine($"[Save] Schedule {(currentEventId == -1 ? "created" : "updated")}");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[Save Error] {ex.Message}");
+                Debug.WriteLine($"[Save Error] Stack Trace: {ex.StackTrace}");
                 MessageBox.Show($"Error saving schedule: {ex.Message}");
+            }
+        }
+
+        private string GetExistingWeeklyGroupId(int eventId)
+        {
+            using (var reader = DatabaseHelper.ExecuteReader(
+                "SELECT weekly_group_id FROM schedules WHERE id = @id",
+                // Wrap parameter in an array
+                new MySqlParameter[] {
+            new MySqlParameter("@id", eventId)
+                }))
+            {
+                return reader.Read() ? reader["weekly_group_id"].ToString() : null;
             }
         }
 
@@ -864,6 +1024,66 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             // Handle Time In/Out
             string storedTimeIn = row.Cells["colTimeIn"].Value?.ToString();
             string storedTimeOut = row.Cells["colTimeOut"].Value?.ToString();
+        }
+
+        // New method to generate recurring dates
+        private void GenerateRecurringDates()
+        {
+            recurringDates.Clear();
+            var selectedDays = GetSelectedDaysList();
+
+            if (selectedDays.Count == 0)
+            {
+                MessageBox.Show("Please select at least one day for weekly recurrence");
+                return;
+            }
+
+            DateTime startDate = dtpStartDate.Value.Date;
+            DateTime endDate = dtpEndDate.Value.Date;
+
+            Debug.WriteLine($"[Recurrence] Generating dates from {startDate:yyyy-MM-dd} to {endDate:yyyy-MM-dd}");
+
+            // Changed to include both start and end dates in the range
+            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+            {
+                if (selectedDays.Contains(date.DayOfWeek))
+                {
+                    recurringDates.Add(date);
+                    Debug.WriteLine($"[Recurrence] Added date: {date:yyyy-MM-dd}");
+                }
+                else
+                {
+                    Debug.WriteLine($"[Recurrence] Skipped date (not selected day): {date:yyyy-MM-dd}");
+                }
+            }
+
+            // Add debug output to verify dates
+            Debug.WriteLine($"[Recurrence] Total dates generated: {recurringDates.Count}");
+            if (recurringDates.Count > 0)
+            {
+                Debug.WriteLine($"[Recurrence] First date: {recurringDates.First():yyyy-MM-dd}");
+                Debug.WriteLine($"[Recurrence] Last date: {recurringDates.Last():yyyy-MM-dd}");
+            }
+        }
+
+        // Helper method to get selected days
+        private List<DayOfWeek> GetSelectedDaysList()
+        {
+            var days = new List<DayOfWeek>();
+            if (chkMon.Checked) days.Add(DayOfWeek.Monday);
+            if (chkTue.Checked) days.Add(DayOfWeek.Tuesday);
+            if (chkWed.Checked) days.Add(DayOfWeek.Wednesday);
+            if (chkThu.Checked) days.Add(DayOfWeek.Thursday);
+            if (chkFri.Checked) days.Add(DayOfWeek.Friday);
+            if (chkSat.Checked) days.Add(DayOfWeek.Saturday);
+            if (chkSun.Checked) days.Add(DayOfWeek.Sunday);
+            return days;
+        }
+
+        // Helper method to get days as string
+        private string GetSelectedDays()
+        {
+            return string.Join(",", GetSelectedDaysList().Select(d => d.ToString()));
         }
 
         private void ClearForm()
@@ -888,6 +1108,28 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private void airForm1_Click(object sender, EventArgs e)
         {
+        }
+
+        // New method to handle frequency selection
+        private void FrequencyChanged(object sender, EventArgs e)
+        {
+            isRecurring = cmbFrequency.Text == "Weekly";
+
+            // Toggle visibility of recurring controls
+
+            if (!isRecurring)
+            {
+                recurringDates.Clear();
+                recurringDates.Add(currentDate);
+            }
+
+            dtpStartDate.Visible = isRecurring;
+            dtpEndDate.Visible = isRecurring;
+            label10.Visible = label9.Visible = isRecurring;
+            chkMon.Visible = chkTue.Visible = chkWed.Visible =
+            chkThu.Visible = chkFri.Visible = chkSat.Visible = chkSun.Visible = isRecurring;
+
+            Debug.WriteLine($"[Frequency] Changed to: {(isRecurring ? "Weekly" : "Single")}");
         }
 
         private async void cmbTimeIn_SelectedIndexChanged(object sender, EventArgs e)

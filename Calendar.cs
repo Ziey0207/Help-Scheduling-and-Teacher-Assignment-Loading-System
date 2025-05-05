@@ -95,7 +95,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             dgvSearchResults.EditMode = DataGridViewEditMode.EditProgrammatically;
 
             // Fixed dimensions and scrolling
-            dgvSearchResults.Height = (30 * 4) + dgvSearchResults.ColumnHeadersHeight;
             dgvSearchResults.ScrollBars = ScrollBars.Vertical;
             dgvSearchResults.RowTemplate.Height = 25;
             dgvSearchResults.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -207,9 +206,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private async Task<List<Schedule>> SearchSchedules(string term)
         {
+            Debug.WriteLine($"[DB] Starting search with term: {(string.IsNullOrEmpty(term) ? "<ALL>" : term)}");
+
             var parameters = new[] {
-                 new MySqlParameter("@searchTerm", $"%{term}%")
-            };
+        new MySqlParameter("@searchTerm", $"%{term}%")
+    };
 
             Debug.WriteLine($"[SQL] Executing query with term: {parameters[0].Value}");
 
@@ -235,6 +236,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                         TimeOut = reader.GetTimeSpan("time_out"),
                     });
                 }
+                Debug.WriteLine($"[DB] Search completed. Found {results.Count} records");
                 return results;
             }
         }
@@ -286,7 +288,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
         private async void GenerateCalendar(int year, int month)
         {
+            if (showAllMode) return; // Add this line to prevent conflicts
+
             var sw = System.Diagnostics.Stopwatch.StartNew();
+            Debug.WriteLine($"[PERF] Starting calendar generation for {month}/{year}");
             loadingOverlay.Visible = true;
             calendarGrid.Visible = false;
             dayNamesPanel.Visible = false;
@@ -439,8 +444,60 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
         }
 
-        private void hopeButton1_Click(object sender, EventArgs e)
+        private async void btnShowAll_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine($"[DEBUG] === SHOW ALL TOGGLE: {!showAllMode} ===");
+
+            try
+            {
+                loadingOverlay.Visible = true;
+                btnShowAll.Enabled = false;
+                Debug.WriteLine("[DEBUG] UI locked and loading started");
+
+                if (!showAllMode)
+                {
+                    // Show all schedules
+                    var results = await SearchSchedules("");
+                    Debug.WriteLine($"[DEBUG] Retrieved {results.Count} records");
+
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        dgvSearchResults.DataSource = results;
+                        splitContainer1.Panel1Collapsed = false;
+                        splitContainer1.Panel2Collapsed = true;
+                        btnShowAll.Text = "Show Calendar";
+                        Debug.WriteLine("[UI] Full schedule list displayed");
+                    });
+                }
+                else
+                {
+                    // Return to calendar
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        splitContainer1.Panel1Collapsed = true;
+                        splitContainer1.Panel2Collapsed = false;
+                        btnShowAll.Text = "Show All";
+                        GenerateCalendar(currentDate.Year, currentDate.Month);
+                        Debug.WriteLine("[UI] Calendar view restored");
+                    });
+                }
+
+                showAllMode = !showAllMode;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[ERROR] Toggle failed: {ex}");
+                MessageBox.Show("Error switching views: " + ex.Message);
+            }
+            finally
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    loadingOverlay.Visible = false;
+                    btnShowAll.Enabled = true;
+                });
+                Debug.WriteLine("[DEBUG] === TOGGLE COMPLETED ===\n");
+            }
         }
     }
 }

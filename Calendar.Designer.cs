@@ -36,12 +36,12 @@
             this.calendarGrid = new System.Windows.Forms.TableLayoutPanel();
             this.dayNamesPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new ReaLTaiizor.Controls.Panel();
+            this.btnAddSched = new ReaLTaiizor.Controls.ParrotButton();
             this.btnShowAll = new ReaLTaiizor.Controls.HopeButton();
             this.txtSearch = new ReaLTaiizor.Controls.HopeTextBox();
             this.btnPrev = new ReaLTaiizor.Controls.ParrotButton();
             this.btnNext = new ReaLTaiizor.Controls.ParrotButton();
             this.lblMonthYear = new System.Windows.Forms.Label();
-            this.btnAddSched = new ReaLTaiizor.Controls.ParrotButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -184,6 +184,32 @@
             this.panel2.TabIndex = 1;
             this.panel2.Text = "panel2";
             // 
+            // btnAddSched
+            // 
+            this.btnAddSched.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnAddSched.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
+            this.btnAddSched.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnAddSched.ButtonImage = null;
+            this.btnAddSched.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
+            this.btnAddSched.ButtonText = "+ Schedule";
+            this.btnAddSched.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
+            this.btnAddSched.ClickTextColor = System.Drawing.Color.White;
+            this.btnAddSched.CornerRadius = 5;
+            this.btnAddSched.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddSched.Font = new System.Drawing.Font("Arial", 10F);
+            this.btnAddSched.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
+            this.btnAddSched.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
+            this.btnAddSched.HoverTextColor = System.Drawing.Color.White;
+            this.btnAddSched.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
+            this.btnAddSched.Location = new System.Drawing.Point(330, 7);
+            this.btnAddSched.Name = "btnAddSched";
+            this.btnAddSched.Size = new System.Drawing.Size(80, 30);
+            this.btnAddSched.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            this.btnAddSched.TabIndex = 49;
+            this.btnAddSched.TextColor = System.Drawing.Color.White;
+            this.btnAddSched.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            this.btnAddSched.Vertical_Alignment = System.Drawing.StringAlignment.Center;
+            // 
             // btnShowAll
             // 
             this.btnShowAll.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -204,6 +230,7 @@
             this.btnShowAll.Text = "Show All";
             this.btnShowAll.TextColor = System.Drawing.Color.White;
             this.btnShowAll.WarningColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(162)))), ((int)(((byte)(60)))));
+            this.btnShowAll.Click += new System.EventHandler(this.btnShowAll_Click);
             // 
             // txtSearch
             // 
@@ -295,32 +322,6 @@
             this.lblMonthYear.TabIndex = 0;
             this.lblMonthYear.Text = "Month/year";
             this.lblMonthYear.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnAddSched
-            // 
-            this.btnAddSched.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnAddSched.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
-            this.btnAddSched.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnAddSched.ButtonImage = null;
-            this.btnAddSched.ButtonStyle = ReaLTaiizor.Controls.ParrotButton.Style.MaterialRounded;
-            this.btnAddSched.ButtonText = "+ Schedule";
-            this.btnAddSched.ClickBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(109)))), ((int)(((byte)(224)))));
-            this.btnAddSched.ClickTextColor = System.Drawing.Color.White;
-            this.btnAddSched.CornerRadius = 5;
-            this.btnAddSched.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddSched.Font = new System.Drawing.Font("Arial", 10F);
-            this.btnAddSched.Horizontal_Alignment = System.Drawing.StringAlignment.Center;
-            this.btnAddSched.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
-            this.btnAddSched.HoverTextColor = System.Drawing.Color.White;
-            this.btnAddSched.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnAddSched.Location = new System.Drawing.Point(330, 7);
-            this.btnAddSched.Name = "btnAddSched";
-            this.btnAddSched.Size = new System.Drawing.Size(80, 30);
-            this.btnAddSched.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            this.btnAddSched.TabIndex = 49;
-            this.btnAddSched.TextColor = System.Drawing.Color.White;
-            this.btnAddSched.TextRenderingType = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            this.btnAddSched.Vertical_Alignment = System.Drawing.StringAlignment.Center;
             // 
             // Calendar
             // 
