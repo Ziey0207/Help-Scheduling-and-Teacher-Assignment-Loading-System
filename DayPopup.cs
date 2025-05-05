@@ -25,6 +25,10 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         private DateTime? selectedTimeIn = null;
         private bool isTimeInChangeHandled = false; // Add this flag
 
+        private bool isShowingConflicts = false;
+
+        private List<ConflictInfo> currentConflicts = new List<ConflictInfo>();
+
         // Add these new class fields
         private bool isRecurring = false;
 
@@ -47,6 +51,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             InitializeComponent();
             SetupValidation();
             WireUpEvents();
+            SetupConflictUI(); // Add this line
         }
 
         private void WireUpEvents()
@@ -65,6 +70,11 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             cmbFrequency.SelectedIndex = 0; // Default to "Single"
             LoadComboBoxData();
             LoadEvents();
+
+            // Reset conflict state
+            isShowingConflicts = false;
+            currentConflicts.Clear();
+            btnToggleConflicts.Visible = false;
         }
 
         private void SetupValidation()
@@ -86,6 +96,13 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             currentDate = date;
             airForm1.Text = $"Schedule/s of {date:dd MMMM yyyy}";
+
+            // Reset conflict UI
+            isShowingConflicts = false;
+            currentConflicts.Clear();
+            btnToggleConflicts.Visible = false;
+            lblConflictStatus.Visible = false;
+
             LoadComboBoxData();
             LoadEvents();
         }
@@ -109,6 +126,130 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
+        private void SetupConflictUI()
+        {
+            btnToggleConflicts.Click += BtnToggleConflicts_Click;
+            // Wire up time selection events for automatic conflict checking
+            cmbTimeIn.SelectedIndexChanged += CheckForConflictsOnTimeChange;
+            cmbTimeOut.SelectedIndexChanged += CheckForConflictsOnTimeChange;
+        }
+
+        private void CheckForConflictsOnTimeChange(object sender, EventArgs e)
+        {
+            // Reset UI elements
+            lblConflictStatus.Visible = false;
+            btnToggleConflicts.Visible = false;
+
+            // Only proceed if both times are selected
+            if (cmbTimeIn.SelectedIndex != -1 && cmbTimeOut.SelectedIndex != -1 && ValidatePrerequisites())
+            {
+                if (TryParseTimes(out DateTime start, out DateTime end))
+                {
+                    // Check for conflicts
+                    currentConflicts = CheckForConflicts(start, end);
+
+                    if (currentConflicts.Count > 0)
+                    {
+                        Debug.WriteLine($"[Conflict] Found {currentConflicts.Count} conflicts");
+
+                        // Show the status label with warning
+                        lblConflictStatus.Text = $"Conflicts found! ({currentConflicts.Count})";
+                        lblConflictStatus.Visible = true;
+
+                        // Update toggle button
+                        btnToggleConflicts.Text = $"Show Conflicts";
+                        btnToggleConflicts.Visible = true;
+
+                        // If already in conflict view, refresh to show the new conflicts
+                        if (isShowingConflicts)
+                        {
+                            DisplayConflicts();
+                        }
+                    }
+                    else if (isShowingConflicts)
+                    {
+                        // No conflicts, return to normal view if needed
+                        isShowingConflicts = false;
+                        LoadEvents();
+                    }
+                }
+            }
+        }
+
+        // Event handler for the toggle conflicts button
+        private void BtnToggleConflicts_Click(object sender, EventArgs e)
+        {
+            isShowingConflicts = !isShowingConflicts;
+
+            if (isShowingConflicts)
+            {
+                DisplayConflicts();
+                btnToggleConflicts.Text = "Show Normal View";
+                btnToggleConflicts.BackColor = Color.FromArgb(255, 128, 128); // Light red
+            }
+            else
+            {
+                LoadEvents();
+                if (dgvEvents.Columns["colID"] != null)
+                    dgvEvents.Columns["colID"].Visible = false;
+                btnToggleConflicts.Text = $"Show {currentConflicts.Count} Conflicts";
+                btnToggleConflicts.BackColor = Color.FromArgb(255, 255, 192); // Light yellow
+            }
+        }
+
+        private void DisplayConflicts()
+        {
+            try
+            {
+                Debug.WriteLine("[DisplayConflicts] Starting to display conflicts");
+
+                // Clear selection and detach event to prevent side effects
+                dgvEvents.SelectionChanged -= dgvEvents_SelectionChanged;
+                dgvEvents.ClearSelection();
+
+                if (TryParseTimes(out DateTime start, out DateTime end))
+                {
+                    // Get conflict data
+                    DataTable dtConflicts = GetConflictRecords(start, end);
+
+                    // Update the DataGridView
+                    dgvEvents.DataSource = dtConflicts;
+
+                    // Style the conflict rows
+                    if (dgvEvents.Columns["colDate"] != null)
+                        dgvEvents.Columns["colDate"].Visible = true;
+
+                    if (dgvEvents.Columns["colID"] != null)
+                        dgvEvents.Columns["colID"].Visible = false;
+
+                    foreach (DataGridViewRow row in dgvEvents.Rows)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightSalmon;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+
+                    // Change header style for conflict view
+                    dgvEvents.ColumnHeadersDefaultCellStyle.BackColor = Color.DarkRed;
+
+                    Debug.WriteLine($"[DisplayConflicts] Displayed {dtConflicts.Rows.Count} conflict records");
+                }
+                else
+                {
+                    Debug.WriteLine("[DisplayConflicts] Failed to parse times");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[DisplayConflicts] ERROR: {ex.Message}");
+                MessageBox.Show($"Error displaying conflicts: {ex.Message}");
+            }
+            finally
+            {
+                // Reattach the selection event
+                dgvEvents.SelectionChanged += dgvEvents_SelectionChanged;
+            }
+        }
+
         private void LoadComboItems(string query, ComboBox combo, string name)
         {
             combo.Items.Clear();
@@ -124,7 +265,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             try
             {
                 Debug.WriteLine($"[Time Load] === STARTING TIME IN GENERATION ===");
-                Debug.WriteLine($"[Time Load] Selected values - Room: {cmbRooms.Text}, Teacher: {cmbTeachers.Text}, Course: {cmbCourse.Text}, Section: {cmbSections.Text}");
+                Debug.WriteLine($"[Time Load] Recurring mode: {isRecurring}");
 
                 cmbTimeIn.Items.Clear();
                 cmbTimeOut.Items.Clear();
@@ -135,25 +276,19 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     return;
                 }
 
-                Debug.WriteLine($"[Time Load] Fetching existing slots...");
-                var existingSlots = await GetExistingTimeSlotsAsync();
+                List<TimeSlot> allSlots = GenerateDaySlots(currentDate);
+                List<TimeSlot> existingSlots = new List<TimeSlot>();
 
-                Debug.WriteLine($"[Time Load] Generated all possible slots:");
-                var allSlots = GenerateDaySlots(currentDate);
-                foreach (var slot in allSlots)
+                if (!isRecurring) // Only check conflicts for non-recurring
                 {
-                    Debug.WriteLine($"- {slot.Start:t} to {slot.End:t}");
+                    Debug.WriteLine($"[Time Load] Loading existing slots for non-recurring");
+                    existingSlots = await GetExistingTimeSlotsAsync();
                 }
 
-                var availableSlots = FilterAvailableSlots(allSlots, existingSlots);
-                Debug.WriteLine($"[Time Load] Available slots after filtering:");
-                foreach (var slot in availableSlots)
-                {
-                    Debug.WriteLine($"- {slot.Start:t} to {slot.End:t}");
-                }
+                var availableSlots = isRecurring ? allSlots : FilterAvailableSlots(allSlots, existingSlots);
 
+                Debug.WriteLine($"[Time Load] Available slots count: {availableSlots.Count}");
                 PopulateTimeCombos(availableSlots);
-                Debug.WriteLine($"[Time Load] Total available slots: {availableSlots.Count}");
             }
             catch (Exception ex)
             {
@@ -264,6 +399,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             try
             {
+                // Reset visual styles if coming from conflict view
+                dgvEvents.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+
                 // Detach event handlers to prevent recursive calls
                 Debug.WriteLine("[LoadEvents] Detaching selection changed event");
                 dgvEvents.SelectionChanged -= dgvEvents_SelectionChanged;
@@ -275,6 +413,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 string query = @"
     SELECT
         id,
+        date,
         course_code,
         section,
         subject,
@@ -329,6 +468,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 Debug.WriteLine("[LoadEvents] Selection cleared");
 
                 Debug.WriteLine($"[LoadEvents] Successfully loaded {dt.Rows.Count} events");
+
+                if (!isShowingConflicts)
+                {
+                    btnToggleConflicts.Visible = currentConflicts.Count > 0;
+                    if (currentConflicts.Count > 0)
+                    {
+                        btnToggleConflicts.Text = $"Show {currentConflicts.Count} Conflicts";
+                        btnToggleConflicts.BackColor = Color.FromArgb(255, 255, 192);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -350,6 +499,9 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             // Disable auto-generation to maintain control
             dgvEvents.AutoGenerateColumns = false;
+            dgvEvents.ReadOnly = true; // Make the grid read-only
+            dgvEvents.EditMode = DataGridViewEditMode.EditProgrammatically; // Disable editing
+
             dgvEvents.Columns.Clear();
             Debug.WriteLine("[ConfigureDataGridView] Cleared existing columns");
 
@@ -368,6 +520,20 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 DataPropertyName = "id",
                 HeaderText = "ID",
                 Visible = false  // Hide ID as it's for internal use
+            });
+
+            dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colDate",
+                DataPropertyName = "date",
+                HeaderText = "Date",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                Visible = false,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Format = "yyyy-MM-dd",
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
             });
 
             dgvEvents.Columns.Add(new DataGridViewTextBoxColumn
@@ -444,6 +610,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             // Styling
             dgvEvents.AllowUserToAddRows = false;
+            dgvEvents.AllowUserToDeleteRows = false;
             dgvEvents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvEvents.EnableHeadersVisualStyles = false;
             dgvEvents.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
@@ -692,11 +859,38 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     return;
                 }
 
-                // Check for conflicts
-                if (!CheckForConflicts(start, end))
+                // Check for conflicts first
+                List<ConflictInfo> conflicts = CheckForConflicts(start, end);
+                if (conflicts.Count > 0)
                 {
-                    Debug.WriteLine("[Save] Conflict check failed");
-                    return;
+                    Debug.WriteLine($"[Save] Found {conflicts.Count} conflicts");
+
+                    var result = MessageBox.Show(
+                        $"There are {conflicts.Count} scheduling conflicts. View conflicts?",
+                        "Scheduling Conflicts",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Warning
+                    );
+
+                    if (result == DialogResult.Yes)
+                    {
+                        // Show conflicts in grid
+                        currentConflicts = conflicts;
+                        btnToggleConflicts.Visible = true;
+                        lblConflictStatus.Text = $"Conflicts found! ({conflicts.Count})";
+                        lblConflictStatus.Visible = true;
+
+                        if (!isShowingConflicts)
+                        {
+                            BtnToggleConflicts_Click(btnToggleConflicts, EventArgs.Empty);
+                        }
+                        return;
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        return;
+                    }
+                    // If No, continue with save
                 }
 
                 // Save the schedule
@@ -791,106 +985,142 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             }
         }
 
-        private bool CheckForConflicts(DateTime newStart, DateTime newEnd)
+        private List<ConflictInfo> CheckForConflicts(DateTime newStart, DateTime newEnd)
         {
+            var conflicts = new List<ConflictInfo>();
             try
             {
-                Debug.WriteLine($"[Conflict Check] Starting check for {(isRecurring ? "recurring" : "single")} schedule");
+                Debug.WriteLine($"[Conflict Check] Starting conflict check...");
 
-                List<MySqlParameter> parameters = new List<MySqlParameter>
-        {
-            new MySqlParameter("@room", cmbRooms.Text),
-            new MySqlParameter("@teacher", cmbTeachers.Text),
-            new MySqlParameter("@course", cmbCourse.Text),
-            new MySqlParameter("@section", cmbSections.Text),
-            new MySqlParameter("@newStart", newStart.TimeOfDay),
-            new MySqlParameter("@newEnd", newEnd.TimeOfDay),
-            new MySqlParameter("@id", currentEventId)
-        };
+                string conflictQuery = isRecurring ? GetRecurringConflictQuery() : GetSingleConflictQuery();
+                var parameters = BuildConflictParameters(newStart, newEnd);
 
-                string dateCondition = "";
-                if (isRecurring)
-                {
-                    Debug.WriteLine($"[Conflict Check] Recurring range: {dtpStartDate.Value:yyyy-MM-dd} to {dtpEndDate.Value:yyyy-MM-dd}");
-
-                    // Add recurring-specific parameters
-                    parameters.Add(new MySqlParameter("@startDate", dtpStartDate.Value.Date));
-                    parameters.Add(new MySqlParameter("@endDate", dtpEndDate.Value.Date));
-                    parameters.Add(new MySqlParameter("@recurringDays", GetSelectedDays()));
-
-                    dateCondition = @"(
-    (s.is_recurring = 1
-        AND s.start_date <= @endDate
-        AND s.end_date >= @startDate
-        AND FIND_IN_SET(DAYNAME(s.date), @recurringDays)
-    )
-    OR
-    (s.is_recurring = 0
-        AND s.date BETWEEN @startDate AND @endDate
-        AND FIND_IN_SET(DAYNAME(s.date), @recurringDays)
-    )
-)";
-                }
-                else
-                {
-                    Debug.WriteLine($"[Conflict Check] Single date: {currentDate:yyyy-MM-dd}");
-                    parameters.Add(new MySqlParameter("@date", currentDate.Date));
-                    dateCondition = "s.date = @date";
-                }
-
-                string conflictQuery = $@"
-    SELECT
-        IFNULL(SUM(IF(s.room = @room, 1, 0)), 0) AS room_conflict,
-        IFNULL(SUM(IF(s.teacher = @teacher, 1, 0)), 0) AS teacher_conflict,
-        IFNULL(SUM(IF(s.course_code = @course AND s.section = @section, 1, 0)), 0) AS section_conflict
-    FROM schedules s
-    WHERE
-        s.id != @id
-        AND (
-            ({dateCondition})
-            AND (
-                (s.time_in < @newEnd AND s.time_out > @newStart)
-                OR (s.time_in >= @newStart AND s.time_out <= @newEnd)
-                OR (s.time_in <= @newStart AND s.time_out >= @newEnd)
-            )
-        )";
                 Debug.WriteLine($"[Conflict Check] Executing query:\n{conflictQuery}");
-                Debug.WriteLine($"[Conflict Check] Parameters:\n{string.Join("\n", parameters.Select(p => $"{p.ParameterName}: {p.Value}"))}");
-
                 using (var reader = DatabaseHelper.ExecuteReader(conflictQuery, parameters.ToArray()))
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        int roomConflict = reader["room_conflict"] != DBNull.Value ? Convert.ToInt32(reader["room_conflict"]) : 0;
-                        int teacherConflict = reader["teacher_conflict"] != DBNull.Value ? Convert.ToInt32(reader["teacher_conflict"]) : 0;
-                        int sectionConflict = reader["section_conflict"] != DBNull.Value ? Convert.ToInt32(reader["section_conflict"]) : 0;
+                        DateTime date = Convert.ToDateTime(reader["date"]);
+                        TimeSpan timeIn = (TimeSpan)reader["time_in"];
+                        TimeSpan timeOut = (TimeSpan)reader["time_out"];
 
-                        Debug.WriteLine($"[Conflict Check] Conflicts found - Room: {roomConflict}, Teacher: {teacherConflict}, Section: {sectionConflict}");
-
-                        List<string> conflicts = new List<string>();
-                        if (roomConflict > 0) conflicts.Add("Room");
-                        if (teacherConflict > 0) conflicts.Add("Teacher");
-                        if (sectionConflict > 0) conflicts.Add("Section");
-
-                        if (conflicts.Count > 0)
+                        var conflict = new ConflictInfo
                         {
-                            string conflictMessage = $"Conflict detected on {(isRecurring ? "one or more dates" : "selected date")} with: {string.Join(", ", conflicts)}";
-                            Debug.WriteLine($"[Conflict Check] {conflictMessage}");
-                            MessageBox.Show(conflictMessage);
-                            return false;
-                        }
+                            Date = date, // Add date here
+                            TimeRange = $"{date.Add(timeIn):h:mm tt} - {date.Add(timeOut):h:mm tt}",
+                            Room = reader["room"].ToString(),
+                            Teacher = reader["teacher"].ToString(),
+                            CourseSection = $"{reader["course_code"]}-{reader["section"]}"
+                        };
+                        conflicts.Add(conflict);
+                        Debug.WriteLine($"[Conflict Check] Found conflict: {conflict}");
                     }
                 }
-
-                Debug.WriteLine("[Conflict Check] No conflicts found");
-                return true;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[Conflict Check Error] {ex.Message}\n{ex.StackTrace}");
-                MessageBox.Show($"Error checking conflicts: {ex.Message}");
-                return false;
             }
+            return conflicts;
+        }
+
+        private void ShowConflictPopup(List<ConflictInfo> conflicts)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("The following conflicts were found:");
+
+            foreach (var conflict in conflicts)
+            {
+                sb.AppendLine($"\nDate: {conflict.Date:yyyy-MM-dd}");
+                sb.AppendLine($"Time: {conflict.TimeRange}");
+                sb.AppendLine($"Room: {conflict.Room}");
+                sb.AppendLine($"Teacher: {conflict.Teacher}");
+                sb.AppendLine($"Course/Section: {conflict.CourseSection}");
+            }
+
+            MessageBox.Show(sb.ToString(), "Scheduling Conflicts", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        // Preserved original non-recurring conflict check logic
+        private string GetSingleConflictQuery()
+        {
+            return @"SELECT s.id, s.date, s.time_in, s.time_out, s.room, s.teacher, s.course_code, s.section, s.subject, s.weekly_group_id,
+            CONCAT(DATE_FORMAT(s.time_in, '%h:%i %p'), ' - ', DATE_FORMAT(s.time_out, '%h:%i %p')) as time_range
+            FROM schedules s
+            WHERE s.date = @date
+            AND (
+                (s.room = @room AND s.time_in < @newEnd AND s.time_out > @newStart)
+                OR (s.teacher = @teacher AND s.time_in < @newEnd AND s.time_out > @newStart)
+                OR (s.course_code = @course AND s.section = @section AND s.time_in < @newEnd AND s.time_out > @newStart)
+            )";
+        }
+
+        // New helper for recurring conflict query
+        private string GetRecurringConflictQuery()
+        {
+            return @"SELECT s.id, s.date, s.time_in, s.time_out, s.room, s.teacher, s.course_code, s.section, s.subject, s.weekly_group_id,
+            CONCAT(DATE_FORMAT(s.time_in, '%h:%i %p'), ' - ', DATE_FORMAT(s.time_out, '%h:%i %p')) as time_range
+            FROM schedules s
+            WHERE s.date BETWEEN @startDate AND @endDate
+            AND DAYOFWEEK(s.date) IN (@selectedDays)
+            AND (
+                (s.room = @room AND s.time_in < @newEnd AND s.time_out > @newStart)
+                OR (s.teacher = @teacher AND s.time_in < @newEnd AND s.time_out > @newStart)
+                OR (s.course_code = @course AND s.section = @section AND s.time_in < @newEnd AND s.time_out > @newStart)
+            )";
+        }
+
+        private DataTable GetConflictRecords(DateTime newStart, DateTime newEnd)
+        {
+            var conflictTable = new DataTable();
+
+            try
+            {
+                Debug.WriteLine($"[GetConflictRecords] Retrieving conflict records");
+
+                string conflictQuery = isRecurring ? GetRecurringConflictQuery() : GetSingleConflictQuery();
+                var parameters = BuildConflictParameters(newStart, newEnd);
+
+                using (var reader = DatabaseHelper.ExecuteReader(conflictQuery, parameters.ToArray()))
+                {
+                    conflictTable.Load(reader);
+                    Debug.WriteLine($"[GetConflictRecords] Found {conflictTable.Rows.Count} conflict records");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[GetConflictRecords] ERROR: {ex.Message}");
+            }
+
+            return conflictTable;
+        }
+
+        // Preserved parameter building with debug logging
+        private List<MySqlParameter> BuildConflictParameters(DateTime newStart, DateTime newEnd)
+        {
+            var parameters = new List<MySqlParameter>
+    {
+        new MySqlParameter("@room", cmbRooms.Text),
+        new MySqlParameter("@teacher", cmbTeachers.Text),
+        new MySqlParameter("@course", cmbCourse.Text),
+        new MySqlParameter("@section", cmbSections.Text),
+        new MySqlParameter("@newStart", newStart.TimeOfDay),
+        new MySqlParameter("@newEnd", newEnd.TimeOfDay)
+    };
+
+            if (isRecurring)
+            {
+                parameters.Add(new MySqlParameter("@startDate", dtpStartDate.Value.Date));
+                parameters.Add(new MySqlParameter("@endDate", dtpEndDate.Value.Date));
+                parameters.Add(new MySqlParameter("@selectedDays", string.Join(",", GetSelectedDaysList().Select(d => (int)d + 1))));
+            }
+            else
+            {
+                parameters.Add(new MySqlParameter("@date", currentDate.Date));
+            }
+
+            Debug.WriteLine($"[Conflict Check] Parameters:\n{string.Join("\n", parameters.Select(p => $"{p.ParameterName}={p.Value}"))}");
+            return parameters;
         }
 
         private void SaveSchedule(DateTime start, DateTime end)
@@ -898,6 +1128,16 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             try
             {
                 Debug.WriteLine("[Save] Starting save process...");
+
+                List<ConflictInfo> conflicts = CheckForConflicts(start, end);
+                if (conflicts.Count > 0)
+                {
+                    Debug.WriteLine($"[Save] Found {conflicts.Count} conflicts");
+                    ShowConflictPopup(conflicts);
+                    return;
+                }
+
+                Debug.WriteLine("[Save] No conflicts found, proceeding with save...");
 
                 // Handle date population
                 if (!isRecurring)
@@ -908,8 +1148,23 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                 }
                 else
                 {
+                    // Validate weekly requirements before generating dates
+                    if (GetSelectedDaysList().Count == 0)
+                    {
+                        MessageBox.Show("Please select at least one day for weekly recurrence");
+                        Debug.WriteLine("[Save] Aborted - no days selected for weekly recurrence");
+                        return;
+                    }
+
                     Debug.WriteLine("[Save] Generating recurring dates");
                     GenerateRecurringDates();
+
+                    if (recurringDates.Count == 0)
+                    {
+                        MessageBox.Show("No valid dates in the selected range");
+                        Debug.WriteLine("[Save] Aborted - no dates generated");
+                        return;
+                    }
                 }
 
                 Debug.WriteLine($"[Save] Saving {recurringDates.Count} date(s)");
@@ -989,7 +1244,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             catch (Exception ex)
             {
                 Debug.WriteLine($"[Save Error] {ex.Message}");
-                Debug.WriteLine($"[Save Error] Stack Trace: {ex.StackTrace}");
                 MessageBox.Show($"Error saving schedule: {ex.Message}");
             }
         }
@@ -1031,12 +1285,6 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         {
             recurringDates.Clear();
             var selectedDays = GetSelectedDaysList();
-
-            if (selectedDays.Count == 0)
-            {
-                MessageBox.Show("Please select at least one day for weekly recurrence");
-                return;
-            }
 
             DateTime startDate = dtpStartDate.Value.Date;
             DateTime endDate = dtpEndDate.Value.Date;
@@ -1113,23 +1361,53 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
         // New method to handle frequency selection
         private void FrequencyChanged(object sender, EventArgs e)
         {
-            isRecurring = cmbFrequency.Text == "Weekly";
-
-            // Toggle visibility of recurring controls
-
-            if (!isRecurring)
+            try
             {
-                recurringDates.Clear();
-                recurringDates.Add(currentDate);
+                isRecurring = cmbFrequency.Text == "Weekly";
+
+                // Toggle enabled state instead of visibility
+                dtpStartDate.Enabled = isRecurring;
+                dtpEndDate.Enabled = isRecurring;
+                label10.Enabled = label9.Enabled = isRecurring;
+
+                // Handle checkboxes
+                chkMon.Enabled = isRecurring;
+                chkTue.Enabled = isRecurring;
+                chkWed.Enabled = isRecurring;
+                chkThu.Enabled = isRecurring;
+                chkFri.Enabled = isRecurring;
+                chkSat.Enabled = isRecurring;
+                chkSun.Enabled = isRecurring;
+
+                // Visual feedback for disabled state
+                Color textColor = isRecurring ? SystemColors.WindowText : SystemColors.GrayText;
+                label10.ForeColor = textColor;
+                label9.ForeColor = textColor;
+
+                Debug.WriteLine($"[Frequency] Recurring controls {(isRecurring ? "enabled" : "disabled")}");
+                Debug.WriteLine($"[Frequency] StartDate Enabled: {dtpStartDate.Enabled}");
+                Debug.WriteLine($"[Frequency] EndDate Enabled: {dtpEndDate.Enabled}");
+                Debug.WriteLine($"[Frequency] Day Checkboxes Enabled: {chkMon.Enabled}");
+
+                // Rest of existing logic
+                if (!isRecurring)
+                {
+                    Debug.WriteLine("[Frequency] Clearing recurring dates");
+                    recurringDates.Clear();
+                }
+                else
+                {
+                    Debug.WriteLine("[Frequency] Generating recurring dates");
+                    GenerateRecurringDates();
+                }
+
+                Debug.WriteLine($"[Frequency] Switched to {(isRecurring ? "Weekly" : "Single")} mode");
+                _ = LoadTimeOptionsAsync();
             }
-
-            dtpStartDate.Visible = isRecurring;
-            dtpEndDate.Visible = isRecurring;
-            label10.Visible = label9.Visible = isRecurring;
-            chkMon.Visible = chkTue.Visible = chkWed.Visible =
-            chkThu.Visible = chkFri.Visible = chkSat.Visible = chkSun.Visible = isRecurring;
-
-            Debug.WriteLine($"[Frequency] Changed to: {(isRecurring ? "Weekly" : "Single")}");
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Frequency Error] {ex.Message}");
+            }
         }
 
         private async void cmbTimeIn_SelectedIndexChanged(object sender, EventArgs e)
@@ -1144,6 +1422,8 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             try
             {
+                Debug.WriteLine("[Time In] Selection changed started");
+
                 isTimeInChangeHandled = true;
                 Debug.WriteLine("[Time In] Set handling flag");
 
@@ -1158,6 +1438,7 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
                     cmbTimeOut.Text = "";
 
                     // Now load time-out options
+                    Debug.WriteLine("[Time In] Triggering time-out refresh");
                     await LoadTimeOutOptionsAsync();
                 }
                 else
@@ -1185,73 +1466,60 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
             try
             {
                 Debug.WriteLine($"[Time Out] === STARTING TIME OUT GENERATION ===");
-                cmbTimeOut.Items.Clear();
 
-                if (!selectedTimeIn.HasValue || !ValidatePrerequisites())
+                if (!selectedTimeIn.HasValue)
                 {
-                    Debug.WriteLine($"[Time Out] Prerequisites not met or no selected time in");
+                    Debug.WriteLine("[Time Out] No time-in selected, aborting");
                     return;
                 }
 
-                // Get the full datetime for the selected time (combine current date with selected time)
-                DateTime fullSelectedTimeIn = currentDate.Date.Add(selectedTimeIn.Value.TimeOfDay);
-                Debug.WriteLine($"[Time Out] Selected time in: {fullSelectedTimeIn:yyyy-MM-dd HH:mm:ss}");
+                // Get base time once at start
+                DateTime baseTime = currentDate.Date.Add(selectedTimeIn.Value.TimeOfDay);
+                Debug.WriteLine($"[Time Out] Base time: {baseTime:HH:mm}");
 
-                // 1. Get existing slots
-                var existingSlots = await GetExistingTimeSlotsAsync();
-                Debug.WriteLine($"[Time Out] Retrieved {existingSlots.Count} existing slots");
-
-                // 2. Generate possible end times
-                var possibleEndTimes = new List<DateTime>();
-                DateTime currentEnd = fullSelectedTimeIn.AddMinutes(TIME_INTERVAL);
-                DateTime dayEnd = currentDate.Date.AddDays(1).AddMinutes(-1);
-
-                Debug.WriteLine($"[Time Out] Generating possible end times from {currentEnd:HH:mm} to {dayEnd:HH:mm}");
-
-                while (currentEnd <= dayEnd)
+                // Offload time calculation to background thread
+                var timeOutOptions = await Task.Run(() =>
                 {
-                    possibleEndTimes.Add(currentEnd);
-                    currentEnd = currentEnd.AddMinutes(TIME_INTERVAL);
-                }
-                Debug.WriteLine($"[Time Out] Generated {possibleEndTimes.Count} possible end times");
+                    var options = new List<string>();
+                    DateTime currentSlot = baseTime.AddMinutes(TIME_INTERVAL);
+                    DateTime dayEnd = currentDate.Date.AddDays(1).AddMinutes(-1);
 
-                // 3. Check each potential slot
-                int availableCount = 0;
-                foreach (var endTime in possibleEndTimes)
-                {
-                    var potentialSlot = new TimeSlot(fullSelectedTimeIn, endTime);
+                    Debug.WriteLine($"[Time Out BG] Generating from {currentSlot:HH:mm} to {dayEnd:HH:mm}");
 
-                    bool hasConflict = existingSlots.Any(existing =>
+                    while (currentSlot <= dayEnd)
                     {
-                        bool conflict = potentialSlot.Start < existing.End && existing.Start < potentialSlot.End;
-                        if (conflict)
-                        {
-                            Debug.WriteLine($"[Time Out] Conflict: {potentialSlot.Start:HH:mm}-{potentialSlot.End:HH:mm} conflicts with {existing.Start:HH:mm}-{existing.End:HH:mm}");
-                        }
-                        return conflict;
-                    });
-
-                    if (!hasConflict)
-                    {
-                        cmbTimeOut.Items.Add(endTime.ToString("h:mm tt"));
-                        availableCount++;
-                        Debug.WriteLine($"[Time Out] Added valid end time: {endTime:h:mm tt}");
+                        options.Add(currentSlot.ToString("h:mm tt"));
+                        currentSlot = currentSlot.AddMinutes(TIME_INTERVAL);
                     }
-                }
+                    return options;
+                });
 
-                Debug.WriteLine($"[Time Out] Added {availableCount} valid end times to dropdown");
+                Debug.WriteLine($"[Time Out] Generated {timeOutOptions.Count} options");
 
-                // Set the first item as selected if available
-                if (cmbTimeOut.Items.Count > 0)
+                // Update UI on main thread
+                cmbTimeOut.BeginInvoke((Action)(() =>
                 {
-                    cmbTimeOut.SelectedIndex = 0;
-                    Debug.WriteLine($"[Time Out] Auto-selected first available end time");
-                }
+                    cmbTimeOut.Items.Clear();
+                    foreach (var option in timeOutOptions)
+                    {
+                        cmbTimeOut.Items.Add(option);
+                        Debug.WriteLine($"[Time Out UI] Added option: {option}");
+                    }
+
+                    if (cmbTimeOut.Items.Count > 0)
+                    {
+                        cmbTimeOut.SelectedIndex = 0;
+                        Debug.WriteLine($"[Time Out UI] Auto-selected: {cmbTimeOut.Text}");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("[Time Out UI] No valid time-out options");
+                    }
+                }));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[Time Out Error] {ex.ToString()}");
-                MessageBox.Show($"Error loading time options: {ex.Message}");
+                Debug.WriteLine($"[Time Out Error] {ex.Message}");
             }
         }
 
@@ -1278,6 +1546,18 @@ namespace Help_Scheduling_and_Teacher_Assignment_Loading_System
 
             // Remove error highlights
             errorProvider.Clear();
+        }
+
+        private class ConflictInfo
+        {
+            public DateTime Date { get; set; }
+            public string TimeRange { get; set; }
+            public string Room { get; set; }
+            public string Teacher { get; set; }
+            public string CourseSection { get; set; }
+
+            public override string ToString() =>
+                $"{Date:yyyy-MM-dd} | {TimeRange} | {Room} | {Teacher} | {CourseSection}";
         }
     }
 }

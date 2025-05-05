@@ -55,7 +55,7 @@
             this.cmbTeachers = new ReaLTaiizor.Controls.HopeComboBox();
             this.airButton3 = new ReaLTaiizor.Controls.AirButton();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblConflictStatus = new System.Windows.Forms.Label();
             this.btnClear = new ReaLTaiizor.Controls.AirButton();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -63,6 +63,7 @@
             this.cmbRooms = new ReaLTaiizor.Controls.HopeComboBox();
             this.btnSave = new ReaLTaiizor.Controls.AirButton();
             this.dgvEvents = new System.Windows.Forms.DataGridView();
+            this.btnToggleConflicts = new ReaLTaiizor.Controls.AirButton();
             this.airForm1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -115,6 +116,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.btnToggleConflicts);
             this.panel1.Controls.Add(this.flpDays);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label9);
@@ -132,7 +134,7 @@
             this.panel1.Controls.Add(this.cmbTeachers);
             this.panel1.Controls.Add(this.airButton3);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.lblConflictStatus);
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
@@ -507,16 +509,18 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Time Out";
             // 
-            // label4
+            // lblConflictStatus
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial", 10F);
-            this.label4.Location = new System.Drawing.Point(507, 134);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 16);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Time In";
+            this.lblConflictStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblConflictStatus.AutoSize = true;
+            this.lblConflictStatus.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.lblConflictStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblConflictStatus.Location = new System.Drawing.Point(227, 279);
+            this.lblConflictStatus.Name = "lblConflictStatus";
+            this.lblConflictStatus.Size = new System.Drawing.Size(57, 16);
+            this.lblConflictStatus.TabIndex = 10;
+            this.lblConflictStatus.Text = "Time In";
+            this.lblConflictStatus.Visible = false;
             // 
             // btnClear
             // 
@@ -606,6 +610,22 @@
             this.dgvEvents.TabIndex = 14;
             this.dgvEvents.SelectionChanged += new System.EventHandler(this.dgvEvents_SelectionChanged);
             // 
+            // btnToggleConflicts
+            // 
+            this.btnToggleConflicts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnToggleConflicts.BackColor = System.Drawing.Color.LightYellow;
+            this.btnToggleConflicts.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnToggleConflicts.Customization = "7e3t//Ly8v/r6+v/5ubm/+vr6//f39//p6en/zw8PP8UFBT/gICA/w==";
+            this.btnToggleConflicts.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnToggleConflicts.Image = null;
+            this.btnToggleConflicts.Location = new System.Drawing.Point(72, 279);
+            this.btnToggleConflicts.Name = "btnToggleConflicts";
+            this.btnToggleConflicts.NoRounding = false;
+            this.btnToggleConflicts.Size = new System.Drawing.Size(146, 28);
+            this.btnToggleConflicts.TabIndex = 36;
+            this.btnToggleConflicts.Text = "Conflicts";
+            this.btnToggleConflicts.Transparent = false;
+            // 
             // DayPopup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -640,7 +660,7 @@
         private ReaLTaiizor.Controls.HopeComboBox cmbRooms;
         private ReaLTaiizor.Controls.HopeComboBox cmbSubjects;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblConflictStatus;
         private ReaLTaiizor.Controls.AirButton btnClear;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -669,5 +689,6 @@
         private System.Windows.Forms.Label label8;
         private ReaLTaiizor.Controls.HopeComboBox cmbFrequency;
         private System.Windows.Forms.FlowLayoutPanel flpDays;
+        private ReaLTaiizor.Controls.AirButton btnToggleConflicts;
     }
 }

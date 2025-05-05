@@ -201,7 +201,7 @@
             this.btnAddSched.HoverBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(52)))), ((int)(((byte)(212)))));
             this.btnAddSched.HoverTextColor = System.Drawing.Color.White;
             this.btnAddSched.ImagePosition = ReaLTaiizor.Controls.ParrotButton.ImgPosition.Left;
-            this.btnAddSched.Location = new System.Drawing.Point(330, 7);
+            this.btnAddSched.Location = new System.Drawing.Point(330, 8);
             this.btnAddSched.Name = "btnAddSched";
             this.btnAddSched.Size = new System.Drawing.Size(80, 30);
             this.btnAddSched.SmoothingType = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
@@ -221,7 +221,7 @@
             this.btnShowAll.Font = new System.Drawing.Font("Arial", 10F);
             this.btnShowAll.HoverTextColor = System.Drawing.Color.White;
             this.btnShowAll.InfoColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(147)))), ((int)(((byte)(153)))));
-            this.btnShowAll.Location = new System.Drawing.Point(235, 7);
+            this.btnShowAll.Location = new System.Drawing.Point(235, 8);
             this.btnShowAll.Name = "btnShowAll";
             this.btnShowAll.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(51)))), ((int)(((byte)(107)))));
             this.btnShowAll.Size = new System.Drawing.Size(89, 30);
